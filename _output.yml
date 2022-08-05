@@ -25,10 +25,3 @@ bookdown::gitbook:
       instapaper: no
       vk: no
     info: true
-bookdown::pdf_book:
-  includes:
-    in_header: assets/latex/preamblebook.tex
-  template: null
-  pandoc_args: --top-level-division=chapter
-  toc_depth: 2
-  quote_footer: ["\\VA{", "}{}"]

@@ -1,0 +1,34 @@
+---
+title: "Tutorium zur Inferenzstatistik"
+author: |
+    | Maik Thalmann
+    | [maik.thalmann@gmail.com](mailto:maik.thalmann@gmail.com)
+date: |
+    | Wintersemester 2019/20
+    | Version: `r format(Sys.time(), '%d. %B, %Y')`
+output:
+    binb::metropolis:
+        toc: true
+        includes:
+            in_header: latex/preamblepres.tex
+fontsize: 10pt
+linkcolor: mygreen
+filecolor: mygreen
+urlcolor: mygreen
+lang: de
+---
+
+```{r setup, include=FALSE, purl=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy = "styler", tidy.opts = list(scope = "indention"), fig.align = 'center', fig.width = 10, fig.height = 4)
+
+# load packages
+Packages <- c("tidyverse", "gridExtra", "reshape2", "psych",
+              "stringr", "afex", "ez", "car",
+
+              # not really necessary
+              "ggthemes", "ggpubr", "scico", "janitor",
+              "magick", "sessioninfo")
+lapply(Packages, library, character.only = TRUE)
+
+theme_set(theme_grey(base_size = 16))
+```

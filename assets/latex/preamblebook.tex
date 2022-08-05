@@ -1,0 +1,24 @@
+%% for the code
+\usepackage{setspace}
+% make code-output smaller
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{baselinestretch=.4,fontsize=\small,commandchars=\\\{\}}
+%make console-output smaller:
+\makeatletter
+\def\verbatim{\small\@verbatim\frenchspacing\setstretch{0.8}\@vobeyspaces \@xverbatim}
+\makeatother
+
+%\setlength{\parskip}{0pt}
+
+\setlength{\OuterFrameSep}{0pt}
+\makeatletter
+\preto{\@verbatim}{\topsep=0pt \partopsep=0pt}
+\makeatother
+
+% change float page requirements
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{4}

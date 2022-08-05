@@ -1,0 +1,14 @@
+book_filename: "summer-school-inference"
+delete_merged_file: true
+output_dir: "docs"
+rmd_files:
+    html:
+        [
+            "index.Rmd",
+            "01-first-session.Rmd",
+        ]
+    latex:
+        [
+            "index.Rmd",
+            "01-first-session.Rmd",
+        ]

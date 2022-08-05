@@ -1,0 +1,44 @@
+\usepackage{setspace}
+
+\setsansfont{Roboto Condensed} %Fira Sans
+\setmonofont{Roboto Mono} % Hack, Ubunto Mono, Fira Mono, Source Sans Pro
+
+% make code-output smaller
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{baselinestretch=.4,fontsize=\small,commandchars=\\\{\}}
+
+%make console-output smaller:
+\makeatletter
+\def\verbatim{\footnotesize\@verbatim\frenchspacing\setstretch{0.8}\@vobeyspaces \@xverbatim}
+\makeatother
+
+\setlength{\parskip}{0pt}
+
+\setlength{\OuterFrameSep}{0pt}
+\makeatletter
+\preto{\@verbatim}{\topsep=0pt \partopsep=0pt}
+\makeatother
+
+\metroset{progressbar=frametitle}
+
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\definecolor{mygreen}{RGB}{25, 39, 142} 
+\setbeamercolor{progress bar}{fg=mygreen}
+\setbeamercolor{title separator}{fg=mygreen}
+\setbeamercolor{progress bar in head/foot}{fg=mygreen}
+\setbeamercolor{frametitle}{bg=white, fg=black}
+
+\definecolor{shadecolor}{RGB}{206, 212, 219}
+
+
+%constrain float size
+\usepackage[export]{adjustbox}
+\expandafter\patchcmd\csname Gin@ii\endcsname
+  {\setkeys {Gin}{#1}}
+  {%
+    \setkeys {Gin}
+      {max width=\textwidth,max height=\textwidth,keepaspectratio,#1}%
+  }
+  {}{}

@@ -45,7 +45,7 @@ As an aside, in case I do show code for data manipulation or plots, I will mostl
 
 If you know German (and prefer it over English resources), I have [my own website](https://mkthalmann.github.io/inferenz/) to offer you as a way of (re)gaining familiarity with R. Sessions 1 through 6 should form a quite thorough background (with some skippable material).
 
-Otherwise, I can recommend the relevant chapters in @gries2013statistics, which provide a gentle introduction to using R.
+Otherwise, I can recommend the relevant chapters in @gries2013statistics, which provide a gentle introduction to using R. If you would like to have a lok at other resources, just google around, there are plenty of introductions, both as text books (often freely available online) and as videos. Since you will not need any in-depth knowledge of R, anything that gets you to a place where you're comfortable typing and reading commands should be enough. 
 
 ### Statistics
 
@@ -91,11 +91,10 @@ To brush up on statistics, you can also read (the relevant chapters in) @gries20
 
 ## Get in touch
 
-If you have any questions about the information presented here or any other matters related to the class, please to do not hesitate to drop me a line via [email](mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20). 
+If you have any questions about the information presented here or any other matters related to the class, please do not hesitate to drop me a line via [email](mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20). 
 
 ## Session Info {-}
 
 ```{r, echo=FALSE}
 xfun::session_info(dependencies = F)
 ```
-

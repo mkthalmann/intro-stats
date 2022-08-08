@@ -3,8 +3,84 @@
 (to be populated)
 
 There will be a lot of things I cannot cover in class:
+
 - contrast coding
 - effect size
 - power analysis
 - some subtleties of when and when not to interpret null effects
-- 
+- other things
+
+
+Regression lines, where $b_0$ is the intercept and $b_1$ the slope: $$y = b_0 + b_1 + x + e$$
+
+Here, we manipulate only the intercepts of the lines, while keeping everything else constant:
+
+```{r intercepts, echo = FALSE, fig.cap = "Varying slopes."}
+eq_0 <- function(x) {
+    0 + 1 * x
+}
+eq_1 <- function(x) {
+    1 + 1 * x
+}
+eq_2 <- function(x) {
+    2 + 1 * x
+}
+base_plot <- function(eq) {
+    tibble(x = c(-7, 7)) %>%
+        ggplot(aes(x = x)) +
+        stat_function(fun = eq, color = colors[1]) +
+        coord_cartesian(ylim = c(0, 7)) +
+        geom_vline(xintercept = 0, color = "grey", lty = "dashed")
+}
+p_0 <- base_plot(eq_0)
+p_1 <- base_plot(eq_1)
+p_2 <- base_plot(eq_2)
+
+p_0 / p_1 / p_2
+```
+
+Below, I keep the intercepts constant (at $0$) and vary only the slopes:
+
+```{r slopes, echo = FALSE, fig.cap = "Varying slopes."}
+eq_0 <- function(x) {
+    0 + 0 * x
+}
+eq_1 <- function(x) {
+    0 + 1 * x
+}
+eq_2 <- function(x) {
+    0 + 2 * x
+}
+base_plot <- function(eq) {
+    tibble(x = c(-7, 7)) %>%
+        ggplot(aes(x = x)) +
+        stat_function(fun = eq, color = colors[1]) +
+        coord_cartesian(ylim = c(0, 7)) +
+        geom_vline(xintercept = 0, color = "grey", lty = "dashed")
+}
+p_0 <- base_plot(eq_0)
+p_1 <- base_plot(eq_1)
+p_2 <- base_plot(eq_2)
+
+p_0 / p_1 / p_2
+```
+
+
+And here I vary the errors. In the first plot, $x$ predicts $y$ perfectly, in the second, there is some noise.
+
+```{r errors, echo = FALSE, message = FALSE, fig.cap = "Varying error terms."}
+set.seed(1234)
+base_plot <- function(error) {
+    x <- rnorm(50)
+    y <- 5 + 3 * x + error
+    tibble(x = x, y = y) %>%
+        ggplot(aes(x = x, y = y)) +
+        geom_smooth(method = "lm", se = FALSE, color = colors[1]) +
+        geom_point(size = 3)
+}
+
+p_0 <- base_plot(rep(0, 50))
+p_1 <- base_plot(rnorm(50))
+
+p_0 / p_1
+```

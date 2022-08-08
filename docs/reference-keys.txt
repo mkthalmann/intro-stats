@@ -1,3 +1,6 @@
+fig:intercepts
+fig:slopes
+fig:errors
 welcome
 prerequisites
 r

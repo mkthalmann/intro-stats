@@ -6,7 +6,7 @@ author: |
 date: "September 2022"
 knit: "bookdown::render_book"
 bibliography: ../bibliography/bibliographyuni.bib
-csl: natural-language-semantics.csl
+csl: assets/natural-language-semantics.csl
 link-citations: yes
 colorlinks: yes
 fontsize: 11pt
@@ -16,7 +16,26 @@ github-repo: "mkthalmann"
 ---
 
 ```{r setup, include=FALSE, purl=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE, tidy = "styler", tidy.opts = list(scope = "tokens", indent_by = 2), fig.align = 'center', fig.asp = 0.7, fig.width = 6, out.width = '75%', fig.path = "figs/")
+knitr::opts_chunk$set(
+    echo = TRUE,
+    warning = FALSE,
+    cache = TRUE,
+    dpi = 300,
+    dev = "jpeg",
+    tidy = "styler",
+    tidy.opts = list(
+        scope = "tokens",
+        indent_by = 2
+    ),
+    fig.align = "center",
+    fig.fullwidth = TRUE,
+    out.width = "100%",
+    fig.path = "figs/"
+)
+library(here)
+library(patchwork)
+library(tidyverse)
+source(here("assets", "scripts", "theme.R"))
 ```
 
 
@@ -32,7 +51,7 @@ Because our schedule is quite tight and the relevant material quite expansive, I
 
 ### R
 
-As you might have guessed, our technical analysis tool will be [R](https://www.r-project.org). Because an introduction to R would be a class in and of itself, it would be beneficial for all attendees of the class to at least have some basic knowledge -- which includes having R and the editor of your choosing installed before the first session of the course. Here is is step-by-step [installation guide](https://rstudio-education.github.io/hopr/starting.html). The relevant skills include:
+As you might have guessed, our technical analysis tool will be [R](https://www.r-project.org). Because an introduction to R would be a class in and of itself, it would be beneficial for all attendees of the class to at least have some basic knowledge -- which includes having R and the editor of your choosing installed before the first session of the course. Here is a step-by-step [installation guide](https://rstudio-education.github.io/hopr/starting.html). The relevant skills include:
 
 - What is an R script?
 - How do I create and execute one?
@@ -47,7 +66,7 @@ As an aside, in case I do show code for data manipulation or plots, I will mostl
 
 If you know German (and prefer it over English resources), I have [my own website](https://mkthalmann.github.io/inferenz/) to offer you as a way of (re)gaining familiarity with R. Sessions 1 through 6 should form a quite thorough background (with some skippable material).
 
-Otherwise, I can recommend the relevant chapters in @gries2013statistics, which provide a gentle introduction to using R. If you would like to have a lok at other resources, just google around, there are plenty of introductions, both as text books (often freely available online) and as videos. Since you will not need any in-depth knowledge of R, anything that gets you to a place where you're comfortable typing and reading commands should be enough. 
+Otherwise, I can recommend the relevant chapters in @gries2013statistics or @winter2020statistics, which provide a gentle introduction to using R. If you would like to have a look at other resources, just google around, there are plenty of introductions, both as text books (often freely available online) and as videos. Since you will not need any in-depth knowledge of R, anything that gets you to a place where you're comfortable typing and reading commands should be enough. 
 
 ### Statistics
 
@@ -56,7 +75,7 @@ As announced in the program for the class, I will, again for reasons of time, ha
 - What do the following terms mean: Mean, median, variance, and standard deviation?
 - What is the $t$-test? What does the output of the `t.test` command in R mean -- see below?
 
-```{r}
+```{r t_test}
 # load the tidyverse
 library(tidyverse)
 # subset the data to only have two colors
@@ -73,12 +92,12 @@ t.test(diamond_sub$price ~ diamond_sub$color, paired = FALSE)
 - In which scenarios is the $t$-test applicable and when is it not (scale levels, assumptions of the $t$-test, etc.)? What is the effect of setting the `paired` argument in the R command of `t.test` to `TRUE`?
 - What is the $\chi^2$ test? Why does it find so much use in corpus linguistics compared to the $t$-test? What does the output below mean?
 
-```{r}
+```{r chisq}
 # get the frequencies for both diamond colors in the data set
 (color_frequencies <- diamond_sub %>%
     group_by(color) %>%
     summarise(frequency = n())
- )
+)
 
 # perform the chi^2 test
 color_frequencies %>%
@@ -89,7 +108,7 @@ color_frequencies %>%
 
 - What are proper and improper interpretations of a $p$-value? What is statistical significance?
 
-To brush up on statistics, you can also read (the relevant chapters in) @gries2013statistics Alternatively, I recommend @vasishth2010foundations up to (and including) chapter 3 and @field2012discovering (chapters 1 through 3 as well).
+To brush up on statistics, you can also read (the relevant chapters in) @gries2013statistics Alternatively, I recommend @vasishth2010foundations up to (and including) chapter 3 and @field2012discovering (chapters 1 through 3 as well). As a last recommendation, you can also have a look at @winter2020statistics.
 
 ## Get in touch
 
@@ -97,6 +116,6 @@ If you have any questions about the information presented here or any other matt
 
 ## Session Info {-}
 
-```{r, echo=FALSE}
-xfun::session_info(dependencies = F)
+```{r session, echo=FALSE}
+xfun::session_info(dependencies = FALSE)
 ```

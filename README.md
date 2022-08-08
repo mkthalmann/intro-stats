@@ -8,4 +8,4 @@ The material was created using R Markdown.
 
 ## Feedback
 
-If you have any comments or suggestions, please feel free to send me an [e-mail](mailto:maik.thalmann@gmail.com?subject=[GitHub]%20Inference).
+If you have any comments or suggestions, please feel free to send me an [e-mail](mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20).

@@ -9,13 +9,5 @@
 *.out
 .DS_Store
 .Rproj.user
-.aux
-.fdb_latexmk
-.fls
-.log
-.out
-_book
-_bookdown_files
-inference.Rmd
-figs
 assets/scripts/theme.R
+summer-school-inference_cache

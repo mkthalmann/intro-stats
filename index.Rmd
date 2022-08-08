@@ -18,10 +18,8 @@ github-repo: "mkthalmann"
 ```{r setup, include=FALSE, purl=FALSE}
 knitr::opts_chunk$set(
     echo = TRUE,
-    warning = FALSE,
     cache = TRUE,
     dpi = 300,
-    dev = "jpeg",
     tidy = "styler",
     tidy.opts = list(
         scope = "tokens",

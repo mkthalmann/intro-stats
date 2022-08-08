@@ -1,8 +1,10 @@
-# Course Materials: Inferenzstatistik
+# Course Materials: Introduction to Statistics
 
-These are course materials for a class I taught at a summer school at the University of Göttingen in 2022, dealing mainly with an introduction to R and inferential statistics.
+These are course materials for a class I will teach at the [CAnDA equinox school](https://spw.uni-goettingen.de/stud/school22/) at the University of Göttingen in 2022, dealing mainly with an introduction to R and inferential statistics.
 
-Material was created using R Markdown. 
+The finished website is accessible [here](https://mkthalmann.github.io/intro-stats/).
+
+The material was created using R Markdown. 
 
 ## Feedback
 

@@ -37,13 +37,13 @@ As you might have guessed, our technical analysis tool will be [R](https://www.r
 - What is an R script?
 - How do I create and execute one?
 - Which program should I use for my R environment, i.e., for editing R scripts, viewing data and plots, and for running statistical analyses. The popular choice here is undoubtedly [RStudio](https://www.rstudio.com), but you may also use [Visual Studio Code](https://code.visualstudio.com) and [set it up for R](https://code.visualstudio.com/docs/languages/r) if you're more comfortable with that.
-- How do I load my data (csv, xlsx, txt file) into R?
+- How do I load my data (.csv, .xlsx, .txt file) into R?
 - How do I use external packages to expand on the capabilities of base R?
 - What are factors and integers and how do I switch between them in R?
-- What is the ˋ$ˋ operator in R?
+- What is the `$` operator in R?
 - How do I manipulate a data frame (add new columns, change existing columns, etc.)?
 
-As an aside, in case I do show code for data manipulation or plots, I will mostly rely on the packages in the so-called [tidyverse](https://www.tidyverse.org), a collection of R packages. While I do not consider familiarity with all of these packages essential, they are important (and often a time saver) indepedently of this class if you want to use R for your own data analysis or data visualization projects. The packages I will most heavily rely on are [dplyr](https://dplyr.tidyverse.org) for data wrangling and [ggplot2](https://ggplot2.tidyverse.org) for visualization purposes.
+As an aside, in case I do show code for data manipulation or plots, I will mostly rely on the packages in the so-called [tidyverse](https://www.tidyverse.org), a collection of R packages. While I do not consider familiarity with all of these packages essential, they are important (and often a time saver) independently of this class if you want to use R for your own data analysis or data visualization projects. The packages I will most heavily rely on are [dplyr](https://dplyr.tidyverse.org) for data wrangling and [ggplot2](https://ggplot2.tidyverse.org) for visualization purposes.
 
 If you know German (and prefer it over English resources), I have [my own website](https://mkthalmann.github.io/inferenz/) to offer you as a way of (re)gaining familiarity with R. Sessions 1 through 6 should form a quite thorough background (with some skippable material).
 

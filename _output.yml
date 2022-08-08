@@ -8,7 +8,7 @@ bookdown::gitbook:
         <li><a href="./">CAnDA Equinox School School: Introduction to Statistics</a></li>
       after: |
         <li><a href="mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20" target="blank">maik.thalmann@gmail.com</a></li>
-    download: ["pdf"]
+    download: []
     search:
       engine: lunr
       options: null

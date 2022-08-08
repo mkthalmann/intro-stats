@@ -32,7 +32,7 @@ Because our schedule is quite tight and the relevant material quite expansive, I
 
 ### R
 
-As you might have guessed, our technical analysis tool will be [R](https://www.r-project.org). Because an introduction to R would be a class in and of itself, it would be beneficial for all attendees of the class to at least have some basic knowledge. This includes:
+As you might have guessed, our technical analysis tool will be [R](https://www.r-project.org). Because an introduction to R would be a class in and of itself, it would be beneficial for all attendees of the class to at least have some basic knowledge -- which includes having R and the editor of your choosing installed before the first session of the course. Here is is step-by-step [installation guide](https://rstudio-education.github.io/hopr/starting.html). The relevant skills include:
 
 - What is an R script?
 - How do I create and execute one?
@@ -40,6 +40,8 @@ As you might have guessed, our technical analysis tool will be [R](https://www.r
 - How do I load my data (csv, xlsx, txt file) into R?
 - How do I use external packages to expand on the capabilities of base R?
 - What are factors and integers and how do I switch between them in R?
+- What is the ˋ$ˋ operator in R?
+- How do I manipulate a data frame (add new columns, change existing columns, etc.)?
 
 As an aside, in case I do show code for data manipulation or plots, I will mostly rely on the packages in the so-called [tidyverse](https://www.tidyverse.org), a collection of R packages. While I do not consider familiarity with all of these packages essential, they are important (and often a time saver) indepedently of this class if you want to use R for your own data analysis or data visualization projects. The packages I will most heavily rely on are [dplyr](https://dplyr.tidyverse.org) for data wrangling and [ggplot2](https://ggplot2.tidyverse.org) for visualization purposes.
 

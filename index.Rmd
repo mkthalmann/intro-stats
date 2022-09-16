@@ -31,9 +31,20 @@ knitr::opts_chunk$set(
     fig.path = "figs/"
 )
 library(here)
+library(parallel)
+library(afex)
+library(emmeans)
 library(patchwork)
+library(broom)
 library(tidyverse)
 source(here("assets", "scripts", "theme.R"))
+
+# hooks
+knitr::knit_hooks$set(error = function(x, options) { 
+  paste(c('\n\n:::{style="color:Crimson; background-color: SeaShell;"}',
+        gsub('^## Error', '**Error**', x),
+        ':::'), collapse = '\n')
+})
 ```
 
 
@@ -55,10 +66,11 @@ As you might have guessed, our technical analysis tool will be [R](https://www.r
 - How do I create and execute one?
 - Which program should I use for my R environment, i.e., for editing R scripts, viewing data and plots, and for running statistical analyses. The popular choice here is undoubtedly [RStudio](https://www.rstudio.com), but you may also use [Visual Studio Code](https://code.visualstudio.com) and [set it up for R](https://code.visualstudio.com/docs/languages/r) if you're more comfortable with that.
 - How do I load my data (.csv, .xlsx, .txt file) into R?
-- How do I use external packages to expand on the capabilities of base R?
+- How do I use external packages to expand on the capabilities of base R? (That is, how do I install the packages, and how do I load them in my current R session?)
 - What are factors and integers and how do I switch between them in R?
 - What is the `$` operator in R?
 - How do I manipulate a data frame (add new columns, change existing columns, etc.)?
+- How do I write my own functions in R? For example a function that takes a numerical argument and returns its square.
 
 As an aside, in case I do show code for data manipulation or plots, I will mostly rely on the packages in the so-called [tidyverse](https://www.tidyverse.org), a collection of R packages. While I do not consider familiarity with all of these packages essential, they are important (and often a time saver) independently of this class if you want to use R for your own data analysis or data visualization projects. The packages I will most heavily rely on are [dplyr](https://dplyr.tidyverse.org) for data wrangling and [ggplot2](https://ggplot2.tidyverse.org) for visualization purposes.
 
@@ -71,7 +83,7 @@ Otherwise, I can recommend the relevant chapters in @gries2013statistics or @win
 As announced in the program for the class, I will, again for reasons of time, have to ask you to know your way around two widely used statistical tests and some basic notions of inferential statistics, detailed below. I am, of course, happy to answer questions during class and the practice sessions, but if you're not as confident with the topics below, I would advise to do some prepatory reading to get the most out of the class (and the one in the second week of the summer school).
 
 - What do the following terms mean: Mean, median, variance, and standard deviation?
-- What is the $t$-test? What does the output of the `t.test` command in R mean -- see below?
+- What is the $t$-test? What does the output of the `t.test()` command in R mean -- see below?
 
 ```{r t_test}
 # load the tidyverse

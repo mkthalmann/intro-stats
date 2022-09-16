@@ -6,9 +6,17 @@ rmd_files:
         [
             "index.Rmd",
             "01-first-session.Rmd",
+            "02-anova-by-hand.Rmd",
+            "03-regression.Rmd",
+            "04-linear-mixed-models.Rmd",
+            "05-loose-ends.Rmd"
         ]
     latex:
         [
             "index.Rmd",
             "01-first-session.Rmd",
+            "02-anova-by-hand.Rmd",
+            "03-regression.Rmd",
+            "04-linear-mixed-models.Rmd",
+            "05-loose-ends.Rmd"
         ]

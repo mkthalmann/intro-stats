@@ -1,0 +1,296 @@
+# Linear Mixed Models
+
+## Previously ...
+
+In the last days, we talked about linear models in various instances, like the $t$-test, the linear model, and the ANOVA.
+
+For the more complex experimental data that we looked at, we found out that the $t$-test just doesn't cut it.
+
+Then, we also saw there are variance components that are unsystematic from the perspective of our experiment, but which are nonetheless systematic per se.
+
+We saw two cases of these repeated measures with the ANOVA: one related to participants (when a factor is within participants) and one related to items (when a manipulation occurs within items).
+
+With the ANOVA, it was not possible to have a single model that captured both sources of repeated measures at the same time.
+
+Today, we will have a look at a class of models that can do this.
+
+These are called (linear) mixed models.
+
+In the context of these models, these sources of variance are called **random effects**, because they are related to non-experimental variables.
+
+Let's first develop an intuition what these models do with the random effects before we dive in deeper.
+
+For familiarity purposes, we will use the data from @thalmann2022presupposition again.
+
+```{r pspdataagainagain, warning=FALSE,message=FALSE}
+d_psp <- read_csv(here("assets", "data", "psp-data.csv")) %>%
+    filter(trigger_cat != "appo", stage != "Children") %>%
+    select(id, itemid, trigger_cat, issue, judgment)
+d_psp <- d_psp %>%
+    mutate(trigger_cat_d = if_else(trigger_cat == "hard", 0, 1))
+head(d_psp)
+```
+
+
+## Before we go on, let's talk about pooling
+
+```{r complpool}
+# complete pooling
+d_psp %>%
+    lm(judgment ~ 1, data = .) %>%
+    tidy()
+```
+
+```{r nopool}
+# no pooling
+d_psp %>%
+    mutate(id = factor(as.numeric(factor(id)))) %>%
+    lm(judgment ~ id - 1, data = .) %>%
+    tidy() %>%
+    mutate(p.value = scales::pvalue(p.value))
+```
+
+<div class="alert alert-info"> **Question:** Why are neither of these models ideal?
+</div>
+
+You can think of linear mixed models as the happy medium between these two approaches.
+
+While we will not talk about the underlying machinery, we will try to get an intuition about what is happening.
+
+## Random Effects
+
+Using `lme4` [@bates2015lme4], we will fit four models and visualize the outputs to see what the different random effects do.
+
+I will fit four different models below. The predictors (or **fixed effects**, as they are often called) are the same for all of them, in that the include main effects for at-issueness and trigger type, as well as their interaction.
+
+The only difference will be so-called random effects structure. This allows us to account for a number of systematic variance that is like not due to our experimental manipulations.
+
+Again, this includes by-participant variation (some may be tired or simply do not like our sentences), but a portion of it will also be indirectly related to our predictors.
+
+It is not hard to imagine that some speakers will react more or less strongly to an experimental manipulation than others. If you've ever asked more than one person for judgments on a minimal pair, you'll know what I'm talking about.
+
+Note first that it is not possible to fit a linear mixed model without random effects (i.e., a model that looks similar to the ones we used with the `lm()` call, just with the call `lmer()`):
+
+```{r lm4elmmsnorandom, error = 0}
+# load the required package
+library(lme4)
+
+# fit the model (should fail)
+psp_lmm_id <- lmer(judgment ~ issue * trigger_cat, data = d_psp, REML = FALSE)
+```
+
+
+Let's go through the four models that do include various specifications of the random effects step by step:
+
+- the first one just has by-participant random intercepts. That is, the lines that the model estimates from the data are allowed the start at different heights. But the slopes must be the same between all of them.
+- in the second one, we will have random intercepts and also random slopes for the trigger type manipulation. This is to account for the fact that some people may like hard or soft presupposition triggers better than others.
+- in the third one, we have random intercepts and random intercepts for at-issueness. Again, some people might be more or less tolerant with this difference.
+- In the fourth model, we have random intercepts and random slopes for both trigger type and at-issueness, this is done using the `+` to combine the two.
+- in the final models, we additionally have random slopes for the interaction between the two predictors (as indicated by using the `*`.
+
+```{r lm4elmms}
+psp_lmm_id <- lmer(judgment ~ issue * trigger_cat + (1|id), data = d_psp, REML = FALSE)
+psp_lmm_trigger <- lmer(judgment ~ issue * trigger_cat + (trigger_cat|id), data = d_psp, REML = FALSE)
+psp_lmm_issue <- lmer(judgment ~ issue * trigger_cat + (issue|id), data = d_psp, REML = FALSE)
+psp_lmm_both <- lmer(judgment ~ issue * trigger_cat + (issue+trigger_cat|id), data = d_psp, REML = FALSE)
+psp_lmm_int <- lmer(judgment ~ issue * trigger_cat + (issue*trigger_cat|id), data = d_psp, REML = FALSE)
+```
+
+For now, the results of the different models are unimportant. The main point here is to understand what the different random effects structures do with the data.
+
+What we want to know is thus this: How do the fitted lines differ between the models?
+
+Let's write a function so that we do not have to repeat the code for the plots over and over again. (To make everything a little bit prettier, I'll also change the colors)
+
+```{r lmerpltfunction}
+colfunc <- colorRampPalette(c(colors[2], colors[1]))
+base_plot <- function(fitted,title) {
+    d_psp %>%
+    ggplot() +
+    facet_wrap(~ issue) +
+    geom_line(data = d_psp, aes(x = trigger_cat_d, y = fitted, group = id, color = id), alpha = .5) +
+    guides(color = "none") +
+    scale_color_manual(values = colfunc(length(unique(d_psp$id)))) +
+    labs(
+        x = "Trigger Type",
+        y = "Judgments",
+        title = title
+    ) +
+    scale_x_continuous(breaks = c(0, 1))
+}
+```
+
+Recall what our normal models look like: The lines should actually not be fully opaque, but the are all the same, so they overlap. What our standard (and in this case wrong) model does is to disregard the participant information.
+
+```{r standardlmpsp}
+psp_lm <- lm(judgment ~ issue * trigger_cat, data = d_psp)
+d_psp$standard_lm <- predict(psp_lm)
+base_plot(d_psp$standard_lm, "Standard Regression")
+```
+
+Note that even though this model is wrong because it will wrongly estimate the standard errors (and thus our $p$-values will be off), the coefficients should all be correctly estimated. 
+
+Now let's turn to the mixed models.
+
+To add the fitted values to the data frame, we can use the `predict()` function:
+
+```{r addtodf}
+d_psp$model_id_fitted <- predict(psp_lmm_id)
+d_psp$model_trigger_fitted <- predict(psp_lmm_trigger)
+d_psp$model_issue_fitted <- predict(psp_lmm_issue)
+d_psp$model_both_fitted <- predict(psp_lmm_both)
+d_psp$model_int_fitted <- predict(psp_lmm_int)
+
+head(d_psp)
+```
+
+Now, let's get to the plots. Below is the visualization for the random intercept (by participants) only model. As we expected, there is a line for each of the participants, because they are all slightly different from each other. This allows us to account for quite a bit of variance already that in our wrong model above would have looked like unsystematic noise.
+
+```{r intonly}
+base_plot(d_psp$model_id_fitted, "Random participant intercepts only")
+```
+
+```{r triggerslopes}
+base_plot(d_psp$model_trigger_fitted, "Random participant intercepts and Trigger random slopes")
+```
+
+```{r issueslopes}
+base_plot(d_psp$model_issue_fitted, "Random participant intercepts and Issueness random slopes")
+```
+
+```{r triggerissueslopes}
+base_plot(d_psp$model_both_fitted, "Random participant intercepts and Trigger + Issueness random slopes")
+```
+
+```{r triggerissueint}
+base_plot(d_psp$model_int_fitted, "Random participant intercepts and Trigger * Issueness random slopes")
+```
+
+
+### Let's have a bit more of a detailed look
+
+To get a sense of what is going on, let's look at a super simple model again:
+
+```{r simplemodel}
+mod <- lmer(judgment ~ issue + (1 | id), data = d_psp)
+```
+
+Here's the estimated model for each person. Notice that here the slopes are the same for everybody:
+
+```{r coef}
+coef(mod)
+```
+
+Just the fixed effects:
+
+```{r fixef}
+fixef(mod)
+```
+
+Just the random effects, i.e., how much the intercept was shifted up or down for each person:
+
+```{r ranef}
+ranef(mod)
+```
+
+
+### Model output comparisons
+
+```{r}
+summary(psp_lmm_id)
+cat("####\n\n")
+summary(psp_lmm_trigger)
+cat("####\n\n")
+summary(psp_lmm_issue)
+cat("####\n\n")
+summary(psp_lmm_both)
+cat("####\n\n")
+summary(psp_lmm_int)
+```
+
+## What do I do about my $p$-values?
+
+There is quite a bit of controversy about how to get p-values from linear mixed models.
+
+The approach that I will present here is the (as far as I know) most consersative one.
+
+This works as follows: We compare several models of different complexity and see whether the more restrictive model (i.e., the one with one less estimation to do) and the one that includes our factor of interest differ from each other with respect to how much variance they explain.
+
+If there is one such difference, we can be pretty sure that that factor is significant. If not, then there is no effect.
+
+Let's go through this step by step. First, we need all the models. In terms of random effects structure, let's use the most complex one:
+
+And also, let's finally use all of the data:
+
+```{r dpspfull, warning=FALSE, message=FALSE}
+d_psp <- read_csv(here("assets", "data", "psp-data.csv"))
+head(d_psp)
+```
+
+
+```{r psplmms}
+psp_0 <- lmer(
+    judgment ~ 1 + (issue + trigger_cat | id) +
+        (issue |
+             itemid),
+    data = d_psp,
+    REML = FALSE,
+    control = lmerControl(optCtrl = list(maxfun = 1e6), optimizer = "bobyqa")
+)
+
+psp_1a <- lmer(
+    judgment ~ issue + (issue + trigger_cat | id) +
+        (issue |
+             itemid),
+    data = d_psp,
+    REML = FALSE,
+    control = lmerControl(optCtrl = list(maxfun = 1e6), optimizer = "bobyqa")
+)
+
+psp_1b <- lmer(
+    judgment ~ trigger_cat + (issue + trigger_cat | id) +
+        (issue |
+             itemid),
+    data = d_psp,
+    REML = FALSE,
+    control = lmerControl(optCtrl = list(maxfun = 1e6), optimizer = "bobyqa")
+)
+
+psp_1c <- lmer(
+    judgment ~ stage + (issue + trigger_cat | id) +
+        (issue |
+             itemid),
+    data = d_psp,
+    REML = FALSE,
+    control = lmerControl(optCtrl = list(maxfun = 1e6), optimizer = "bobyqa")
+)
+```
+
+And now let's compare them. To do this, we use the `anova()` command:
+
+```{r pspmodelcomp}
+anova(psp_0, psp_1a)
+anova(psp_0, psp_1b)
+anova(psp_0, psp_1c)
+```
+
+But that's a lot of work, I hear you say. Is there a better way? Yes, the `afex` has a function that will do all of the work for you:
+
+```{r psplmmafex}
+library(afex)
+psp_lmm <- mixed(
+    judgment ~ stage * issue * trigger_cat + (issue + trigger_cat | id) +
+        (issue | itemid),
+    data = d_psp,
+    method = "LRT",
+    expand_re = TRUE,
+    REML = FALSE,
+    check_contrasts = TRUE,
+    control = lmerControl(optCtrl = list(maxfun = 1e6), optimizer = "bobyqa")
+)
+summary(psp_lmm)
+anova(psp_lmm)
+```
+
+
+

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Loose ends | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</title>
+  <meta name="description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Loose ends | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="github-repo" content="mkthalmann" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Loose ends | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  
+  <meta name="twitter:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="5-linear-mixed-models.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">CAnDA Equinox School School: Introduction to Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>1.1.1</b> R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#statistics"><i class="fa fa-check"></i><b>1.1.2</b> Statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#get-in-touch"><i class="fa fa-check"></i><b>1.2</b> Get in touch</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#session-info"><i class="fa fa-check"></i>Session Info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html"><i class="fa fa-check"></i><b>2</b> Concepts and Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-general-points-about-the-class"><i class="fa fa-check"></i><b>2.1</b> Some general points about the class</a></li>
+<li class="chapter" data-level="2.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#on-inferential-statistics"><i class="fa fa-check"></i><b>2.2</b> On inferential statistics</a></li>
+<li class="chapter" data-level="2.3" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#a-note-on-frequentism"><i class="fa fa-check"></i><b>2.3</b> A note on frequentism</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>2.3.1</b> Measures of Central Tendency</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-dispersion"><i class="fa fa-check"></i><b>2.3.2</b> Measures of Dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#hypotheses"><i class="fa fa-check"></i><b>2.4</b> Hypotheses</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#null-hypothesis"><i class="fa fa-check"></i><b>2.4.1</b> Null Hypothesis</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#alternative-hypothesis"><i class="fa fa-check"></i><b>2.4.2</b> Alternative hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>2.5</b> Type I and Type II errors</a></li>
+<li class="chapter" data-level="2.6" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-terms"><i class="fa fa-check"></i><b>2.6</b> Some terms</a></li>
+<li class="chapter" data-level="2.7" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#the-t-test"><i class="fa fa-check"></i><b>2.7</b> The <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="2.8" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#wrap-up"><i class="fa fa-check"></i><b>2.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-anova.html"><a href="3-anova.html"><i class="fa fa-check"></i><b>3</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3-anova.html"><a href="3-anova.html#yesterday"><i class="fa fa-check"></i><b>3.1</b> Yesterday</a></li>
+<li class="chapter" data-level="3.2" data-path="3-anova.html"><a href="3-anova.html#how-to-get-to-rome"><i class="fa fa-check"></i><b>3.2</b> How to get to Rome</a></li>
+<li class="chapter" data-level="3.3" data-path="3-anova.html"><a href="3-anova.html#repeated-measures"><i class="fa fa-check"></i><b>3.3</b> Repeated Measures</a></li>
+<li class="chapter" data-level="3.4" data-path="3-anova.html"><a href="3-anova.html#two-way-anova"><i class="fa fa-check"></i><b>3.4</b> Two-Way ANOVA</a></li>
+<li class="chapter" data-level="3.5" data-path="3-anova.html"><a href="3-anova.html#more-repeated-measures"><i class="fa fa-check"></i><b>3.5</b> More repeated measures</a></li>
+<li class="chapter" data-level="3.6" data-path="3-anova.html"><a href="3-anova.html#anova-by-hand"><i class="fa fa-check"></i><b>3.6</b> ANOVA by hand</a></li>
+<li class="chapter" data-level="3.7" data-path="3-anova.html"><a href="3-anova.html#interpreting-an-anova"><i class="fa fa-check"></i><b>3.7</b> Interpreting an ANOVA</a></li>
+<li class="chapter" data-level="3.8" data-path="3-anova.html"><a href="3-anova.html#wrap-up-1"><i class="fa fa-check"></i><b>3.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-regression.html"><a href="4-regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4-regression.html"><a href="4-regression.html#models-and-regression-lines"><i class="fa fa-check"></i><b>4.1</b> Models and regression lines</a></li>
+<li class="chapter" data-level="4.2" data-path="4-regression.html"><a href="4-regression.html#varying-intercepts-slopes-and-errors"><i class="fa fa-check"></i><b>4.2</b> Varying intercepts, slopes, and errors</a></li>
+<li class="chapter" data-level="4.3" data-path="4-regression.html"><a href="4-regression.html#regression-in-r"><i class="fa fa-check"></i><b>4.3</b> Regression in R</a></li>
+<li class="chapter" data-level="4.4" data-path="4-regression.html"><a href="4-regression.html#multiple-regression"><i class="fa fa-check"></i><b>4.4</b> Multiple Regression</a></li>
+<li class="chapter" data-level="4.5" data-path="4-regression.html"><a href="4-regression.html#centering-and-standardization"><i class="fa fa-check"></i><b>4.5</b> Centering and Standardization</a></li>
+<li class="chapter" data-level="4.6" data-path="4-regression.html"><a href="4-regression.html#interpreting-interactions"><i class="fa fa-check"></i><b>4.6</b> Interpreting interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html"><i class="fa fa-check"></i><b>5</b> Linear Mixed Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#previously"><i class="fa fa-check"></i><b>5.1</b> Previously …</a></li>
+<li class="chapter" data-level="5.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#before-we-go-on-lets-talk-about-pooling"><i class="fa fa-check"></i><b>5.2</b> Before we go on, let’s talk about pooling</a></li>
+<li class="chapter" data-level="5.3" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#random-effects"><i class="fa fa-check"></i><b>5.3</b> Random Effects</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#lets-have-a-bit-more-of-a-detailed-look"><i class="fa fa-check"></i><b>5.3.1</b> Let’s have a bit more of a detailed look</a></li>
+<li class="chapter" data-level="5.3.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#model-output-comparisons"><i class="fa fa-check"></i><b>5.3.2</b> Model output comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#what-do-i-do-about-my-p-values"><i class="fa fa-check"></i><b>5.4</b> What do I do about my <span class="math inline">\(p\)</span>-values?</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="6-loose-ends.html"><a href="6-loose-ends.html"><i class="fa fa-check"></i><b>6</b> Loose ends</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#long-computation-times"><i class="fa fa-check"></i><b>6.1</b> Long computation times</a></li>
+<li class="chapter" data-level="6.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#convergence-issues"><i class="fa fa-check"></i><b>6.2</b> Convergence Issues</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#optimizers"><i class="fa fa-check"></i><b>6.2.1</b> Optimizers</a></li>
+<li class="chapter" data-level="6.2.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reducing-the-random-effects-structure"><i class="fa fa-check"></i><b>6.2.2</b> Reducing the random effects structure</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="6-loose-ends.html"><a href="6-loose-ends.html#investigating-interactions-and-pairwise-comparisons"><i class="fa fa-check"></i><b>6.3</b> Investigating interactions and pairwise comparisons</a></li>
+<li class="chapter" data-level="6.4" data-path="6-loose-ends.html"><a href="6-loose-ends.html#not-recommended-all-pairwise-comparisons"><i class="fa fa-check"></i><b>6.4</b> Not recommended: all pairwise comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="6-loose-ends.html"><a href="6-loose-ends.html#more-emmeans-interactions"><i class="fa fa-check"></i><b>6.5</b> More emmeans: Interactions</a></li>
+<li class="chapter" data-level="6.6" data-path="6-loose-ends.html"><a href="6-loose-ends.html#ordinal-data"><i class="fa fa-check"></i><b>6.6</b> Ordinal data</a></li>
+<li class="chapter" data-level="6.7" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reporting"><i class="fa fa-check"></i><b>6.7</b> Reporting</a></li>
+<li class="chapter" data-level="6.8" data-path="6-loose-ends.html"><a href="6-loose-ends.html#open-questions"><i class="fa fa-check"></i><b>6.8</b> Open questions</a></li>
+<li class="chapter" data-level="6.9" data-path="6-loose-ends.html"><a href="6-loose-ends.html#fin"><i class="fa fa-check"></i><b>6.9</b> Fin!</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20" target="blank">maik.thalmann@gmail.com</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="loose-ends" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Loose ends<a href="6-loose-ends.html#loose-ends" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="long-computation-times" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Long computation times<a href="6-loose-ends.html#long-computation-times" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>With complex LMMs and with the likelihood ratio method for obtaining <span class="math inline">\(p\)</span>-values, it often takes quite a while to get your results.</p>
+<p>It simply takes time to fit all of the models.</p>
+<p>However, this is a good situation for using parallel processing. With this approach, your computer, which likely has several cores in the CPU, will use all of the available cores, instead of just using 1.</p>
+<p>For example, my computer I am preparing this script on has 4 cores. Ideally, using parallel processing you might get your results four times as fast.</p>
+<p>Just remember to stop the cluster after you’re done.</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="6-loose-ends.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb197-2"><a href="6-loose-ends.html#cb197-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb197-3"><a href="6-loose-ends.html#cb197-3" aria-hidden="true" tabindex="-1"></a><span class="co"># enable parallel processing</span></span>
+<span id="cb197-4"><a href="6-loose-ends.html#cb197-4" aria-hidden="true" tabindex="-1"></a>(nc <span class="ot">&lt;-</span> <span class="fu">detectCores</span>())</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="6-loose-ends.html#cb199-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="fu">rep</span>(<span class="st">&quot;localhost&quot;</span>, nc))</span>
+<span id="cb199-2"><a href="6-loose-ends.html#cb199-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb199-3"><a href="6-loose-ends.html#cb199-3" aria-hidden="true" tabindex="-1"></a>afex_lmm <span class="ot">&lt;-</span> <span class="fu">mixed</span>(</span>
+<span id="cb199-4"><a href="6-loose-ends.html#cb199-4" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">*</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb199-5"><a href="6-loose-ends.html#cb199-5" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span> itemid),</span>
+<span id="cb199-6"><a href="6-loose-ends.html#cb199-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb199-7"><a href="6-loose-ends.html#cb199-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;LRT&quot;</span>,</span>
+<span id="cb199-8"><a href="6-loose-ends.html#cb199-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">expand_re =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb199-9"><a href="6-loose-ends.html#cb199-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb199-10"><a href="6-loose-ends.html#cb199-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">check_contrasts =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb199-11"><a href="6-loose-ends.html#cb199-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">lmerControl</span>(<span class="at">optCtrl =</span> <span class="fu">list</span>(<span class="at">maxfun =</span> <span class="fl">1e6</span>), <span class="at">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>),</span>
+<span id="cb199-12"><a href="6-loose-ends.html#cb199-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cl =</span> cl</span>
+<span id="cb199-13"><a href="6-loose-ends.html#cb199-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Contrasts set to contr.sum for the following variables: stage, issue, trigger_cat, id, itemid</code></pre>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="6-loose-ends.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span></code></pre></div>
+</div>
+<div id="convergence-issues" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Convergence Issues<a href="6-loose-ends.html#convergence-issues" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It is unfortunately quite common to run into convergence issues, which means that that <code>lm4e</code>, which <code>afex::mixed()</code> calls under the hood, could not estimate the the values from your data.</p>
+<p>Here’s an example (where I just use a portion of the data):</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="6-loose-ends.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
+<span id="cb202-2"><a href="6-loose-ends.html#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="co"># sample a fourth of the data</span></span>
+<span id="cb202-3"><a href="6-loose-ends.html#cb202-3" aria-hidden="true" tabindex="-1"></a>d_psp_short <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(d_psp, <span class="fu">length</span>(d_psp<span class="sc">$</span>id) <span class="sc">/</span> <span class="dv">4</span>)</span>
+<span id="cb202-4"><a href="6-loose-ends.html#cb202-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb202-5"><a href="6-loose-ends.html#cb202-5" aria-hidden="true" tabindex="-1"></a><span class="co"># does not converge and is singular</span></span>
+<span id="cb202-6"><a href="6-loose-ends.html#cb202-6" aria-hidden="true" tabindex="-1"></a>afex_lmm_fails <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb202-7"><a href="6-loose-ends.html#cb202-7" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">*</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">*</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb202-8"><a href="6-loose-ends.html#cb202-8" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">+</span> stage <span class="sc">|</span> itemid),</span>
+<span id="cb202-9"><a href="6-loose-ends.html#cb202-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp_short,</span>
+<span id="cb202-10"><a href="6-loose-ends.html#cb202-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<pre><code>## Warning: Model failed to converge with 1 negative eigenvalue: -6.9e-03</code></pre>
+<p>Sometimes, the only way out of this is to increase the amount of observations.</p>
+<p>Luckily, sometimes other approaches work.</p>
+<div id="optimizers" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Optimizers<a href="6-loose-ends.html#optimizers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To estimate the random intercepts and slopes, an optimizer function is used. <code>afex</code> lists the following:</p>
+<pre><code>## [1] &quot;bobyqa&quot;      &quot;Nelder_Mead&quot; &quot;optimx&quot;      &quot;nloptwrap&quot;   &quot;nmkbw&quot;</code></pre>
+<p>Sometimes, a different optimizer can help with convergence issues, but it is quite cumbersome to go through all of them together. <code>afex</code> includes the <code>all_fit</code> option for this reason (as well as a separate function, which I ignore here).</p>
+<p>Let’s see what happens here:</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="6-loose-ends.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="co"># needs to be loaded explicitly to give us access to two more optimizing algorithms</span></span>
+<span id="cb206-2"><a href="6-loose-ends.html#cb206-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(optimx)</span>
+<span id="cb206-3"><a href="6-loose-ends.html#cb206-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-4"><a href="6-loose-ends.html#cb206-4" aria-hidden="true" tabindex="-1"></a><span class="co"># re-enable the cluster</span></span>
+<span id="cb206-5"><a href="6-loose-ends.html#cb206-5" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb206-6"><a href="6-loose-ends.html#cb206-6" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="fu">rep</span>(<span class="st">&quot;localhost&quot;</span>, nc))</span>
+<span id="cb206-7"><a href="6-loose-ends.html#cb206-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-8"><a href="6-loose-ends.html#cb206-8" aria-hidden="true" tabindex="-1"></a>psp_lmm_all <span class="ot">&lt;-</span> <span class="fu">mixed</span>(</span>
+<span id="cb206-9"><a href="6-loose-ends.html#cb206-9" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">*</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb206-10"><a href="6-loose-ends.html#cb206-10" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span> itemid),</span>
+<span id="cb206-11"><a href="6-loose-ends.html#cb206-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb206-12"><a href="6-loose-ends.html#cb206-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;LRT&quot;</span>,</span>
+<span id="cb206-13"><a href="6-loose-ends.html#cb206-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">expand_re =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb206-14"><a href="6-loose-ends.html#cb206-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb206-15"><a href="6-loose-ends.html#cb206-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">check_contrasts =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb206-16"><a href="6-loose-ends.html#cb206-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">all_fit =</span> <span class="cn">TRUE</span>, <span class="co"># this is new!</span></span>
+<span id="cb206-17"><a href="6-loose-ends.html#cb206-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cl =</span> cl</span>
+<span id="cb206-18"><a href="6-loose-ends.html#cb206-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Contrasts set to contr.sum for the following variables: stage, issue, trigger_cat, id, itemid</code></pre>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="6-loose-ends.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb208-2"><a href="6-loose-ends.html#cb208-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb208-3"><a href="6-loose-ends.html#cb208-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check the best optimizer</span></span>
+<span id="cb208-4"><a href="6-loose-ends.html#cb208-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(psp_lmm_all, <span class="st">&quot;all_fit_selected&quot;</span>)</span></code></pre></div>
+<pre><code>##              full_model                   stage                   issue             trigger_cat             stage:issue 
+##                &quot;bobyqa&quot;                &quot;bobyqa&quot;                &quot;bobyqa&quot;                &quot;bobyqa&quot;                &quot;bobyqa&quot; 
+##       stage:trigger_cat       issue:trigger_cat stage:issue:trigger_cat 
+##                &quot;bobyqa&quot;                &quot;bobyqa&quot;                &quot;bobyqa&quot;</code></pre>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="6-loose-ends.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(psp_lmm_all, <span class="st">&quot;all_fit_logLik&quot;</span>)</span></code></pre></div>
+<pre><code>##                               full_model      stage      issue trigger_cat stage.issue stage.trigger_cat
+## default                       -2474.9399 -2477.9716 -2509.4648  -2486.0985  -2503.7681        -2482.5162
+## bobyqa.                       -2474.9399 -2474.9912 -2509.4648  -2486.0985  -2503.7681        -2482.5162
+## Nelder_Mead.                  -2550.6556 -2547.9595 -2570.1160  -2545.2419  -2558.0766        -2538.1925
+## optimx.nlminb                 -2474.9399 -2477.9716 -2509.4648  -2486.0985  -2503.7681        -2482.5162
+## optimx.L-BFGS-B               -2474.9399 -2474.9912 -2509.4648  -2489.6244  -2507.0101        -2489.0689
+## nloptwrap.NLOPT_LN_NELDERMEAD -2474.9399 -2477.9716 -2509.4648  -2486.0985  -2503.7681        -2482.5162
+## nloptwrap.NLOPT_LN_BOBYQA     -2474.9399 -2477.9716 -2509.4648  -2486.0985  -2503.7681        -2482.5162
+## nmkbw.                                NA         NA         NA          NA          NA                NA
+##                               issue.trigger_cat stage.issue.trigger_cat
+## default                              -2491.7329              -2495.0190
+## bobyqa.                              -2491.7329              -2492.2334
+## Nelder_Mead.                         -2553.4337              -2569.2829
+## optimx.nlminb                        -2491.7329              -2495.0190
+## optimx.L-BFGS-B                      -2491.7329              -2492.2334
+## nloptwrap.NLOPT_LN_NELDERMEAD        -2491.7329              -2495.0190
+## nloptwrap.NLOPT_LN_BOBYQA            -2491.7329              -2495.0190
+## nmkbw.                                       NA                      NA</code></pre>
+<p>And here we can check for convergence:</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="6-loose-ends.html#cb212-1" aria-hidden="true" tabindex="-1"></a>psp_lmm_all_ok <span class="ot">&lt;-</span> psp_lmm_all[<span class="fu">sapply</span>(psp_lmm_all, is, <span class="st">&quot;merMod&quot;</span>)]</span>
+<span id="cb212-2"><a href="6-loose-ends.html#cb212-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(psp_lmm_all_ok, <span class="cf">function</span>(x) x<span class="sc">@</span>optinfo<span class="sc">$</span>conv<span class="sc">$</span>lme4<span class="sc">$</span>messages)</span></code></pre></div>
+<pre><code>## $full_model
+## NULL</code></pre>
+<p>For more details on this approach, you can have a look at the lovely tutorial here: <a href="https://joshua-nugent.github.io/allFit/" class="uri">https://joshua-nugent.github.io/allFit/</a></p>
+</div>
+<div id="reducing-the-random-effects-structure" class="section level3 hasAnchor" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Reducing the random effects structure<a href="6-loose-ends.html#reducing-the-random-effects-structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One other option is to reduce the random effects structure. As you might have noticed, I could have fit a more complex model given the way that my data are set up.</p>
+<p>For example, I could have included by-participant random slopes that included the interaction between at-issueness and trigger type. In addition, I could have included the age group as a random slope for the items plus the interaction with at-issueness.</p>
+<p>Let’s see how this goes:</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="6-loose-ends.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="co"># re-enable the cluster</span></span>
+<span id="cb214-2"><a href="6-loose-ends.html#cb214-2" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb214-3"><a href="6-loose-ends.html#cb214-3" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="fu">rep</span>(<span class="st">&quot;localhost&quot;</span>, nc))</span>
+<span id="cb214-4"><a href="6-loose-ends.html#cb214-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb214-5"><a href="6-loose-ends.html#cb214-5" aria-hidden="true" tabindex="-1"></a>psp_lmm_all_more <span class="ot">&lt;-</span> <span class="fu">mixed</span>(</span>
+<span id="cb214-6"><a href="6-loose-ends.html#cb214-6" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">*</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">*</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb214-7"><a href="6-loose-ends.html#cb214-7" aria-hidden="true" tabindex="-1"></a>    (stage <span class="sc">*</span> issue <span class="sc">|</span> itemid),</span>
+<span id="cb214-8"><a href="6-loose-ends.html#cb214-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb214-9"><a href="6-loose-ends.html#cb214-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;LRT&quot;</span>,</span>
+<span id="cb214-10"><a href="6-loose-ends.html#cb214-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">expand_re =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb214-11"><a href="6-loose-ends.html#cb214-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb214-12"><a href="6-loose-ends.html#cb214-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">check_contrasts =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb214-13"><a href="6-loose-ends.html#cb214-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">all_fit =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb214-14"><a href="6-loose-ends.html#cb214-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cl =</span> cl</span>
+<span id="cb214-15"><a href="6-loose-ends.html#cb214-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Contrasts set to contr.sum for the following variables: stage, issue, trigger_cat, id, itemid</code></pre>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="6-loose-ends.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb216-2"><a href="6-loose-ends.html#cb216-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb216-3"><a href="6-loose-ends.html#cb216-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psp_lmm_all_more)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ stage * issue * trigger_cat + (1 + re1.issue1 + re1.trigger_cat1 +  
+##     re1.trigger_cat2 + re1.issue1_by_trigger_cat1 + re1.issue1_by_trigger_cat2 |  
+##     id) + (1 + re2.stage1 + re2.issue1 + re2.stage1_by_issue1 |      itemid)
+##    Data: data
+## Control: ctrl
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   5014.2   5252.4  -2463.1   4926.2     1618 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.54791 -0.52090  0.09529  0.58183  3.06576 
+## 
+## Random effects:
+##  Groups   Name                       Variance  Std.Dev. Corr                              
+##  id       (Intercept)                0.2892336 0.537804                                   
+##           re1.issue1                 0.0283392 0.168342  0.328                            
+##           re1.trigger_cat1           0.0311125 0.176387 -0.073 -0.075                     
+##           re1.trigger_cat2           0.0384941 0.196199 -0.133  0.564  0.189              
+##           re1.issue1_by_trigger_cat1 0.0129534 0.113813  0.072  0.257  0.675 -0.186       
+##           re1.issue1_by_trigger_cat2 0.0219820 0.148263  0.233  0.453  0.129  0.891 -0.352
+##  itemid   (Intercept)                0.0273469 0.165369                                   
+##           re2.stage1                 0.0019542 0.044206  0.003                            
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 3 rows ]
+## Number of obs: 1662, groups:  id, 56; itemid, 30
+## 
+## Fixed effects:
+##                             Estimate Std. Error        df  t value              Pr(&gt;|t|)    
+## (Intercept)                 3.503822   0.083490 67.430158  41.9671 &lt; 0.00000000000000022 ***
+## stage1                     -0.025757   0.078207 58.324547  -0.3293             0.7430731    
+## issue1                     -0.541921   0.041008 39.608389 -13.2151   0.00000000000000042 ***
+## trigger_cat1               -0.238799   0.061440 36.046547  -3.8867             0.0004185 ***
+## trigger_cat2               -0.111185   0.062935 37.828248  -1.7667             0.0853518 .  
+## stage1:issue1              -0.335417   0.037886 48.658274  -8.8533   0.00000000001037412 ***
+## stage1:trigger_cat1        -0.125717   0.045644 50.739733  -2.7543             0.0081446 ** 
+## stage1:trigger_cat2        -0.092144   0.047017 53.432857  -1.9598             0.0552428 .  
+## issue1:trigger_cat1        -0.109553   0.050163 29.788884  -2.1839             0.0369781 *  
+## issue1:trigger_cat2        -0.235881   0.052398 32.017009  -4.5017   0.00008392491146185 ***
+## stage1:issue1:trigger_cat1 -0.093858   0.045048 41.377588  -2.0835             0.0434234 *  
+## stage1:issue1:trigger_cat2 -0.121355   0.047083 43.329337  -2.5775             0.0134367 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) stage1 issue1 trgg_1 trgg_2 stg1:1 st1:_1 st1:_2 is1:_1 is1:_2 s1:1:_1
+## stage1      -0.180                                                                       
+## issue1       0.180  0.030                                                                
+## trigger_ct1 -0.028  0.005 -0.022                                                         
+## trigger_ct2 -0.045  0.012  0.146 -0.386                                                  
+## stage1:iss1  0.052  0.138 -0.344  0.002 -0.025                                           
+## stg1:trgg_1  0.006 -0.035  0.004 -0.178  0.056 -0.022                                    
+## stg1:trgg_2  0.016 -0.075 -0.035  0.056 -0.174  0.193 -0.288                             
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 4 rows ]
+## optimizer (bobyqa) convergence code: 0 (OK)
+## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<p>If you look at the very bottom of the summary, you will see that the model, while it did converge, is singular.</p>
+<p>You can get a little bit more detail about this generally by using <code>?isSingular</code>.</p>
+<p>Here’s another example with the smaller data set:</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="6-loose-ends.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="co"># converges, but singular</span></span>
+<span id="cb218-2"><a href="6-loose-ends.html#cb218-2" aria-hidden="true" tabindex="-1"></a>afex_lmm_failsnomore <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb218-3"><a href="6-loose-ends.html#cb218-3" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">*</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb218-4"><a href="6-loose-ends.html#cb218-4" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span> itemid),</span>
+<span id="cb218-5"><a href="6-loose-ends.html#cb218-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp_short</span>
+<span id="cb218-6"><a href="6-loose-ends.html#cb218-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="6-loose-ends.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(afex_lmm_failsnomore) <span class="co"># look at all the correlations that are |1| for the random effects!</span></span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ stage * issue * trigger_cat + (issue + trigger_cat |      id) + (issue | itemid)
+##    Data: d_psp_short
+## 
+## REML criterion at convergence: 1266.7
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.17805 -0.61351  0.06361  0.62023  2.46714 
+## 
+## Random effects:
+##  Groups   Name              Variance    Std.Dev.  Corr                
+##  id       (Intercept)       0.215371791 0.4640817                     
+##           issuenon-at-issue 0.000021259 0.0046107 -1.000              
+##           trigger_cathard   0.004377732 0.0661644  1.000 -1.000       
+##           trigger_catsoft   0.019594910 0.1399818  1.000 -1.000  1.000
+##  itemid   (Intercept)       0.145338001 0.3812322                     
+##           issuenon-at-issue 0.071541585 0.2674726 -1.000              
+##  Residual                   1.012501261 1.0062312                     
+## Number of obs: 415, groups:  id, 56; itemid, 30
+## 
+## Fixed effects:
+##                                                  Estimate Std. Error        df t value           Pr(&gt;|t|)    
+## (Intercept)                                       2.06151    0.21113  43.86189  9.7642 0.0000000000014346 ***
+## stageChildren                                     0.90548    0.29775 115.77287  3.0411          0.0029162 ** 
+## issuenon-at-issue                                 2.12111    0.24680  99.43875  8.5945 0.0000000000001221 ***
+## trigger_cathard                                   0.12879    0.29207  42.30048  0.4409          0.6614995    
+## trigger_catsoft                                   1.45050    0.29225  45.25846  4.9632 0.0000102757442677 ***
+## stageChildren:issuenon-at-issue                  -1.36049    0.37830 301.40893 -3.5964          0.0003769 ***
+## stageChildren:trigger_cathard                     0.38819    0.37440 315.17880  1.0368          0.3006034    
+## stageChildren:trigger_catsoft                    -0.57392    0.40621 304.29366 -1.4129          0.1587130    
+## issuenon-at-issue:trigger_cathard                 0.30971    0.35831  99.74995  0.8644          0.3894596    
+## issuenon-at-issue:trigger_catsoft                -1.23615    0.35565 100.76895 -3.4758          0.0007528 ***
+## stageChildren:issuenon-at-issue:trigger_cathard  -0.99467    0.52659 326.10431 -1.8889          0.0597950 .  
+## stageChildren:issuenon-at-issue:trigger_catsoft   0.53582    0.53992 345.53739  0.9924          0.3216974    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##                               (Intr) stgChl issn-- trggr_cth trggr_cts stC:-- stgChldrn:trggr_cth stgChldrn:trggr_cts
+## stageChldrn                   -0.488                                                                                 
+## issunn-t-ss                   -0.652  0.337                                                                          
+## trggr_cthrd                   -0.604  0.269  0.470                                                                   
+## trggr_ctsft                   -0.591  0.256  0.467  0.453                                                            
+## stgChldr:--                    0.306 -0.668 -0.588 -0.221    -0.215                                                  
+## stgChldrn:trggr_cth            0.296 -0.636 -0.268 -0.503    -0.226     0.530                                        
+## stgChldrn:trggr_cts            0.261 -0.555 -0.241 -0.208    -0.469     0.478  0.480                                 
+##                               issnn-t-ss:trggr_cth issnn-t-ss:trggr_cts stgChldrn:ssnn-t-ss:trggr_cth
+## stageChldrn                                                                                          
+## issunn-t-ss                                                                                          
+## trggr_cthrd                                                                                          
+## trggr_ctsft                                                                                          
+## stgChldr:--                                                                                          
+## stgChldrn:trggr_cth                                                                                  
+## stgChldrn:trggr_cts                                                                                  
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 4 rows ]
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<p>While this is not a convergence issue, it is one that will often come up. The general take-away from this is the same (with some qualifications): if it can be avoided, you should reduce the random effects structure.</p>
+<p>Again, with the smaller data set, this approach works:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="6-loose-ends.html#cb222-1" aria-hidden="true" tabindex="-1"></a>afex_lmm_works <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb222-2"><a href="6-loose-ends.html#cb222-2" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">*</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb222-3"><a href="6-loose-ends.html#cb222-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> itemid),</span>
+<span id="cb222-4"><a href="6-loose-ends.html#cb222-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp_short</span>
+<span id="cb222-5"><a href="6-loose-ends.html#cb222-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb222-6"><a href="6-loose-ends.html#cb222-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(afex_lmm_works)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ stage * issue * trigger_cat + (1 | id) + (1 | itemid)
+##    Data: d_psp_short
+## 
+## REML criterion at convergence: 1270.9
+## 
+## Scaled residuals: 
+##       Min        1Q    Median        3Q       Max 
+## -3.080273 -0.531239  0.058106  0.642952  2.457750 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.27846  0.52769 
+##  itemid   (Intercept) 0.06076  0.24650 
+##  Residual             1.03276  1.01625 
+## Number of obs: 415, groups:  id, 56; itemid, 30
+## 
+## Fixed effects:
+##                                                  Estimate Std. Error        df t value              Pr(&gt;|t|)    
+## (Intercept)                                       2.05319    0.19620 117.89195 10.4649 &lt; 0.00000000000000022 ***
+## stageChildren                                     0.87941    0.30087 260.35883  2.9229             0.0037729 ** 
+## issuenon-at-issue                                 2.11644    0.23693 365.85855  8.9326 &lt; 0.00000000000000022 ***
+## trigger_cathard                                   0.10036    0.26016 113.37339  0.3858             0.7003899    
+## trigger_catsoft                                   1.44762    0.26008 117.66123  5.5660          0.0000001666 ***
+## stageChildren:issuenon-at-issue                  -1.31689    0.38629 323.00333 -3.4091             0.0007343 ***
+## stageChildren:trigger_cathard                     0.42128    0.36773 374.28221  1.1456             0.2526873    
+## stageChildren:trigger_catsoft                    -0.52961    0.39808 370.01180 -1.3304             0.1841979    
+## issuenon-at-issue:trigger_cathard                 0.34551    0.34100 366.23042  1.0132             0.3116124    
+## issuenon-at-issue:trigger_catsoft                -1.22104    0.33702 362.15312 -3.6230             0.0003328 ***
+## stageChildren:issuenon-at-issue:trigger_cathard  -0.99948    0.53637 342.75470 -1.8634             0.0632594 .  
+## stageChildren:issuenon-at-issue:trigger_catsoft   0.46360    0.54645 359.20912  0.8484             0.3967970    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##                               (Intr) stgChl issn-- trggr_cth trggr_cts stC:-- stgChldrn:trggr_cth stgChldrn:trggr_cts
+## stageChldrn                   -0.554                                                                                 
+## issunn-t-ss                   -0.521  0.352                                                                          
+## trggr_cthrd                   -0.592  0.312  0.392                                                                   
+## trggr_ctsft                   -0.597  0.313  0.390  0.450                                                            
+## stgChldr:--                    0.324 -0.632 -0.631 -0.245    -0.240                                                  
+## stgChldrn:trggr_cth            0.339 -0.637 -0.288 -0.577    -0.258     0.516                                        
+## stgChldrn:trggr_cts            0.315 -0.579 -0.262 -0.238    -0.533     0.469  0.476                                 
+##                               issnn-t-ss:trggr_cth issnn-t-ss:trggr_cts stgChldrn:ssnn-t-ss:trggr_cth
+## stageChldrn                                                                                          
+## issunn-t-ss                                                                                          
+## trggr_cthrd                                                                                          
+## trggr_ctsft                                                                                          
+## stgChldr:--                                                                                          
+## stgChldrn:trggr_cth                                                                                  
+## stgChldrn:trggr_cts                                                                                  
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 4 rows ]</code></pre>
+</div>
+</div>
+<div id="investigating-interactions-and-pairwise-comparisons" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Investigating interactions and pairwise comparisons<a href="6-loose-ends.html#investigating-interactions-and-pairwise-comparisons" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Often, it is ill-advised to just stop after you have the significance data from your linear mixed model.</p>
+<p>This is often true in the presence of interactions, where the interpretation of the main effects gets much harder.</p>
+<p>In the case at hand, for example, the main effect for at-issueness is driven by the difference between hard and soft triggers in the at-issue condition.</p>
+<p>Of course, this can be inferred visually in a plot, but it is good to confirm these suspicions with follow-up tests of the statistical type as well.</p>
+<p><img src="figs/pspplotall-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Another circumstance where follow-up analyses are important concerns <em>post hoc</em> analysis e.g., for predictors with more than two levels. To refresh your memory, here is the result of the LMM:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="6-loose-ends.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(psp_lmm)</span></code></pre></div>
+<pre><code>## Mixed Model Anova Table (Type 3 tests, LRT-method)
+## 
+## Model: judgment ~ stage * issue * trigger_cat + (issue + trigger_cat | 
+## Model:     id) + (issue | itemid)
+## Data: d_psp
+## Df full model: 26
+##                         Df   Chisq Chi Df             Pr(&gt;Chisq)    
+## stage                   25  0.1026      1             0.74872743    
+## issue                   25 69.0498      1 &lt; 0.000000000000000222 ***
+## trigger_cat             24 22.3172      2   0.000014252140351343 ***
+## stage:issue             25 57.6565      1   0.000000000000031213 ***
+## stage:trigger_cat       24 15.1527      2             0.00051244 ***
+## issue:trigger_cat       24 33.5860      2   0.000000050920357821 ***
+## stage:issue:trigger_cat 24 34.5869      2   0.000000030870781952 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Remember that the factor Trigger Type has three levels: soft triggers, hard triggers, and non-restrictive relative clauses.</p>
+<div class="alert alert-info">
+<p><strong>Question:</strong> Why is this a problem again?</p>
+</div>
+<p>To remedy this, we can make use of so-called <strong>estimated marginal means</strong> and run follow-up tests. All of the necessary tools can be found in the <code>emmeans</code> package <span class="citation">(<a href="#ref-length2019emmeans" role="doc-biblioref">Lenth 2019</a>)</span>:</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="6-loose-ends.html#cb226-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code></pre></div>
+<p>Other people do this differently, and simply run a series of <span class="math inline">\(t\)</span>-tests on their original data and correct for multiple testing.</p>
+<p>We will not pursue this direction here, however. There are several (I believe good) reasons why:</p>
+<ul>
+<li>If you run <span class="math inline">\(t\)</span>-tests on only a portion of the data, you lose statistical power. Why? Because we reduce the number of observations that we take into account.</li>
+<li>We already computed a model that took into account all the data and which estimated the variances using a random effects structure we thought matched our data. Why would we want to downgrade from this by using a <span class="math inline">\(t\)</span>-test?</li>
+<li>LMMs are pretty good when the design is unbalanced or when the data are nested. The <span class="math inline">\(t\)</span>-test does not have these advantages.</li>
+</ul>
+<p>So, what will the estimated marginal means approach do for us?</p>
+<p>In effect, we will use predicted values from our linear mixed model (rather than the raw data) and compute or follow-up analyses on those.</p>
+<p>These comparisons will also be <span class="math inline">\(t\)</span>-tests, but since were using the estimates from our LMM, we get the best of both worlds.</p>
+<p>First, we need to create an object from our LMM that <code>emmeans</code> can deal will. To do this, we use the following code:</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="6-loose-ends.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="co"># post hoc tests</span></span>
+<span id="cb227-2"><a href="6-loose-ends.html#cb227-2" aria-hidden="true" tabindex="-1"></a>(ref_id <span class="ot">&lt;-</span></span>
+<span id="cb227-3"><a href="6-loose-ends.html#cb227-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">emmeans</span>(</span>
+<span id="cb227-4"><a href="6-loose-ends.html#cb227-4" aria-hidden="true" tabindex="-1"></a>    psp_lmm,</span>
+<span id="cb227-5"><a href="6-loose-ends.html#cb227-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">&quot;stage&quot;</span>, <span class="st">&quot;trigger_cat&quot;</span>, <span class="st">&quot;issue&quot;</span>),</span>
+<span id="cb227-6"><a href="6-loose-ends.html#cb227-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lmer.df =</span> <span class="st">&quot;satterthwaite&quot;</span></span>
+<span id="cb227-7"><a href="6-loose-ends.html#cb227-7" aria-hidden="true" tabindex="-1"></a>  ))</span></code></pre></div>
+<pre><code>##  stage    trigger_cat issue        emmean    SE   df lower.CL upper.CL
+##  Adults   appo        at-issue       2.03 0.149 72.6     1.74     2.33
+##  Children appo        at-issue       3.20 0.176 79.0     2.84     3.55
+##  Adults   hard        at-issue       2.04 0.155 71.0     1.73     2.34
+##  Children hard        at-issue       3.19 0.182 77.7     2.82     3.55
+##  Adults   soft        at-issue       3.73 0.157 73.0     3.41     4.04
+##  Children soft        at-issue       3.59 0.187 78.4     3.22     3.96
+##  Adults   appo        non-at-issue   4.19 0.130 70.4     3.93     4.45
+##  Children appo        non-at-issue   3.64 0.155 75.7     3.33     3.95
+##  Adults   hard        non-at-issue   4.51 0.125 70.3     4.26     4.76
+##  Children hard        non-at-issue   3.80 0.148 76.5     3.51     4.10
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 2 rows ]
+## 
+## Degrees-of-freedom method: satterthwaite 
+## Confidence level used: 0.95</code></pre>
+<p>What we see above are the estimated values for the all of the conditions, including the estimated variance and the degrees of freedom.</p>
+<p>Then, we need to type in which comparisons interest us. In this case, I compare the non-restrictive relative clauses and the hard triggers for the adults.</p>
+<p>We do this by sum-coding the comparisons (all the effects with the 0 are ignored):</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="6-loose-ends.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="co"># at-issue: NRRC v hard adults</span></span>
+<span id="cb229-2"><a href="6-loose-ends.html#cb229-2" aria-hidden="true" tabindex="-1"></a>hard_appo_at_a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span></code></pre></div>
+<p>And then we can run the <span class="math inline">\(t\)</span>-tests on this contrast (using <code>afex</code> once more).</p>
+<p>Below I also added a contrast for non-restrictive relative clauses and hard triggers for the kids for illustrative purposes:</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="6-loose-ends.html#cb230-1" aria-hidden="true" tabindex="-1"></a>hard_appo_at_c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb230-2"><a href="6-loose-ends.html#cb230-2" aria-hidden="true" tabindex="-1"></a>contrasts_lmm <span class="ot">&lt;-</span> <span class="fu">contrast</span>(ref_id,</span>
+<span id="cb230-3"><a href="6-loose-ends.html#cb230-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb230-4"><a href="6-loose-ends.html#cb230-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">hard_appo_at_a =</span> hard_appo_at_a,</span>
+<span id="cb230-5"><a href="6-loose-ends.html#cb230-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">hard_appo_at_c =</span> hard_appo_at_c</span>
+<span id="cb230-6"><a href="6-loose-ends.html#cb230-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb230-7"><a href="6-loose-ends.html#cb230-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">&quot;holm&quot;</span></span>
+<span id="cb230-8"><a href="6-loose-ends.html#cb230-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb230-9"><a href="6-loose-ends.html#cb230-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-10"><a href="6-loose-ends.html#cb230-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(contrasts_lmm)</span></code></pre></div>
+<pre><code>##  contrast       estimate    SE   df t.ratio p.value
+##  hard_appo_at_a  0.00236 0.152 45.3   0.016  1.0000
+##  hard_appo_at_c -0.00708 0.176 64.0  -0.040  1.0000
+## 
+## Degrees-of-freedom method: satterthwaite 
+## P value adjustment: holm method for 2 tests</code></pre>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="6-loose-ends.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(contrasts_lmm)</span></code></pre></div>
+<pre><code>##  contrast       estimate    SE   df lower.CL upper.CL
+##  hard_appo_at_a  0.00236 0.152 45.3   -0.351    0.355
+##  hard_appo_at_c -0.00708 0.176 64.0   -0.411    0.397
+## 
+## Degrees-of-freedom method: satterthwaite 
+## Confidence level used: 0.95 
+## Conf-level adjustment: bonferroni method for 2 estimates</code></pre>
+</div>
+<div id="not-recommended-all-pairwise-comparisons" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Not recommended: all pairwise comparisons<a href="6-loose-ends.html#not-recommended-all-pairwise-comparisons" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Above we only looked at specific contrasts, but, you might say now, why don’t we just look at all of the comparisons? After all, we are correcting for multiple tests (using <code>adjust = "holm"</code>).</p>
+<p>I recommend against testing all possible pairwise comparisons, but I include how to do it here for illustrative purposes:</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="6-loose-ends.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(ref_id, <span class="at">adjust =</span> <span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
+<pre><code>##  contrast                                                    estimate    SE    df t.ratio p.value
+##  (Adults appo at-issue) - (Children appo at-issue)           -1.16191 0.210  75.2  -5.533  &lt;.0001
+##  (Adults appo at-issue) - (Adults hard at-issue)             -0.00236 0.152  45.3  -0.016  1.0000
+##  (Adults appo at-issue) - (Children hard at-issue)           -1.15483 0.236  87.0  -4.900  0.0002
+##  (Adults appo at-issue) - (Adults soft at-issue)             -1.69496 0.164  58.6 -10.360  &lt;.0001
+##  (Adults appo at-issue) - (Children soft at-issue)           -1.55652 0.239  94.3  -6.512  &lt;.0001
+##  (Adults appo at-issue) - (Adults appo non-at-issue)         -2.16086 0.139  68.1 -15.560  &lt;.0001
+##  (Adults appo at-issue) - (Children appo non-at-issue)       -1.60567 0.207  88.2  -7.772  &lt;.0001
+##  (Adults appo at-issue) - (Adults hard non-at-issue)         -2.47475 0.145  67.4 -17.017  &lt;.0001
+##  (Adults appo at-issue) - (Children hard non-at-issue)       -1.77128 0.210 120.9  -8.437  &lt;.0001
+##  (Adults appo at-issue) - (Adults soft non-at-issue)         -2.32845 0.172  76.0 -13.563  &lt;.0001
+##  (Adults appo at-issue) - (Children soft non-at-issue)       -1.70842 0.229 131.6  -7.475  &lt;.0001
+##  (Children appo at-issue) - (Adults hard at-issue)            1.15955 0.234  87.1   4.945  0.0002
+##  (Children appo at-issue) - (Children hard at-issue)          0.00708 0.176  64.0   0.040  1.0000
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 53 rows ]
+## 
+## Degrees-of-freedom method: satterthwaite 
+## P value adjustment: holm method for 66 tests</code></pre>
+<div class="alert alert-info">
+<p><strong>Questions:</strong> Can you think of some reasons why I do not recommend this kind of analysis?</p>
+</div>
+</div>
+<div id="more-emmeans-interactions" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> More emmeans: Interactions<a href="6-loose-ends.html#more-emmeans-interactions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There is actually quite a lot that <code>emmeans</code> will let you do. One especially interesting function is illustrated here.</p>
+<p>For one, we can inspect interactions and check whether lower-order interactions are also present for each level of some factor (here: age group).</p>
+<p>Again, this is all based on the large model, so we are working with the model estimates rather than the raw data. And again we start with the matrix of effects:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="6-loose-ends.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspection of the interactions for each group separately, excluding NNRCS</span></span>
+<span id="cb236-2"><a href="6-loose-ends.html#cb236-2" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span></span>
+<span id="cb236-3"><a href="6-loose-ends.html#cb236-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">emmeans</span>(</span>
+<span id="cb236-4"><a href="6-loose-ends.html#cb236-4" aria-hidden="true" tabindex="-1"></a>    psp_lmm,</span>
+<span id="cb236-5"><a href="6-loose-ends.html#cb236-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> trigger_cat <span class="sc">*</span> issue,</span>
+<span id="cb236-6"><a href="6-loose-ends.html#cb236-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;stage&quot;</span>)</span>
+<span id="cb236-7"><a href="6-loose-ends.html#cb236-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb236-8"><a href="6-loose-ends.html#cb236-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb236-9"><a href="6-loose-ends.html#cb236-9" aria-hidden="true" tabindex="-1"></a>emm</span></code></pre></div>
+<pre><code>## stage = Adults:
+##  trigger_cat issue        emmean    SE   df lower.CL upper.CL
+##  appo        at-issue       2.03 0.153 78.2     1.73     2.34
+##  hard        at-issue       2.04 0.160 76.9     1.72     2.35
+##  soft        at-issue       3.73 0.162 78.6     3.41     4.05
+##  appo        non-at-issue   4.19 0.134 76.0     3.93     4.46
+##  hard        non-at-issue   4.51 0.128 75.4     4.25     4.76
+##  soft        non-at-issue   4.36 0.149 76.6     4.07     4.66
+## 
+## stage = Children:
+##  trigger_cat issue        emmean    SE   df lower.CL upper.CL
+##  appo        at-issue       3.20 0.181 85.2     2.83     3.56
+##  hard        at-issue       3.19 0.188 84.3     2.81     3.56
+##  soft        at-issue       3.59 0.192 84.5     3.21     3.97
+##  appo        non-at-issue   3.64 0.160 82.3     3.32     3.96
+##  hard        non-at-issue   3.80 0.153 83.1     3.50     4.11
+##  soft        non-at-issue   3.74 0.178 80.9     3.39     4.10
+## 
+## Degrees-of-freedom method: kenward-roger 
+## Confidence level used: 0.95</code></pre>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="6-loose-ends.html#cb238-1" aria-hidden="true" tabindex="-1"></a>(ints_tests <span class="ot">&lt;-</span> <span class="fu">joint_tests</span>(emm, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;stage&quot;</span>)))</span></code></pre></div>
+<pre><code>## stage = Adults:
+##  model term        df1    df2 F.ratio p.value
+##  trigger_cat         2  45.59  25.760  &lt;.0001
+##  issue               1  57.37 330.037  &lt;.0001
+##  trigger_cat:issue   2  60.88  55.077  &lt;.0001
+## 
+## stage = Children:
+##  model term        df1    df2 F.ratio p.value
+##  trigger_cat         2  60.05   1.285  0.2841
+##  issue               1  68.55  11.885  0.0010
+##  trigger_cat:issue   2 119.38   2.134  0.1228</code></pre>
+<p>Here’s another thing one could do: Because we are not super interested in the non-restrictive relative clauses (they were included as somewhat of a control), we can check what happens to the big interaction when we exclude them.</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="6-loose-ends.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspection of the three-way interaction without NRRCs</span></span>
+<span id="cb240-2"><a href="6-loose-ends.html#cb240-2" aria-hidden="true" tabindex="-1"></a>emm_threeway <span class="ot">&lt;-</span></span>
+<span id="cb240-3"><a href="6-loose-ends.html#cb240-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">emmeans</span>(</span>
+<span id="cb240-4"><a href="6-loose-ends.html#cb240-4" aria-hidden="true" tabindex="-1"></a>    psp_lmm,</span>
+<span id="cb240-5"><a href="6-loose-ends.html#cb240-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> stage<span class="sc">:</span>trigger_cat<span class="sc">:</span>issue,</span>
+<span id="cb240-6"><a href="6-loose-ends.html#cb240-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">at =</span> <span class="fu">list</span>(<span class="at">trigger_cat =</span> <span class="fu">c</span>(<span class="st">&quot;soft&quot;</span>, <span class="st">&quot;hard&quot;</span>))</span>
+<span id="cb240-7"><a href="6-loose-ends.html#cb240-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb240-8"><a href="6-loose-ends.html#cb240-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-9"><a href="6-loose-ends.html#cb240-9" aria-hidden="true" tabindex="-1"></a>(three_way <span class="ot">&lt;-</span> <span class="fu">joint_tests</span>(emm_threeway))</span></code></pre></div>
+<pre><code>##  model term              df1     df2 F.ratio p.value
+##  stage                     1   58.94   0.221  0.6403
+##  trigger_cat               1   46.30  15.706  0.0003
+##  issue                     1   45.02 105.257  &lt;.0001
+##  stage:trigger_cat         1   60.69  11.567  0.0012
+##  stage:issue               1  102.34  54.093  &lt;.0001
+##  trigger_cat:issue         1   32.54  48.972  &lt;.0001
+##  stage:trigger_cat:issue   1 1317.80  28.498  &lt;.0001</code></pre>
+</div>
+<div id="ordinal-data" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Ordinal data<a href="6-loose-ends.html#ordinal-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So far, we used linear mixed models for the analysis. However, there are actually good reasons to be cautious here.</p>
+<p>Recall that in the experiment we used a Likert-type scale with values from 1 to 5:</p>
+<center>
+<img src="assets/media/skala.png" />
+</center>
+<p>While we pretended that we can use the linear mixed models in this case by treating the ordinal data as real numbers, there are good reasons not to do this.</p>
+<p>One such reason is that real numbers tend to be equidistant from each other. For ordinal scales, it is not so clear that this is the case.</p>
+<p>(For all Germans, think about the differences between the grades in school, and especially the distance from 4 to 5.)</p>
+<p>I will not go into the details of why this is such a problem here for the LMM. For the interested people, there’s the following paper: <span class="citation">Liddell and Kruschke (<a href="#ref-liddell2018ordinal" role="doc-biblioref">2018</a>)</span>.</p>
+<p>The alternative analysis would require an ordinal (mixed) model, which can be computed in R using the <code>ordinal</code> package <span class="citation">(<a href="#ref-christensen2018ordinal" role="doc-biblioref">Christensen 2018</a>)</span> with the <code>clmm()</code> (for cumulative link mixed model) function.</p>
+</div>
+<div id="reporting" class="section level2 hasAnchor" number="6.7">
+<h2><span class="header-section-number">6.7</span> Reporting<a href="6-loose-ends.html#reporting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here’s a check list of things to report about your statistical analysis (under the assumption that you’re using a mixed model):</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />R plus version and citation</li>
+<li><input type="checkbox" disabled="" checked="" />Mention how you coded categorical variables (treatment, sum, etc.)</li>
+<li><input type="checkbox" disabled="" checked="" />Mention fixed and random effects</li>
+<li><input type="checkbox" disabled="" checked="" />Formula (<span class="math inline">\(Y \sim \ldots\)</span>)</li>
+<li><input type="checkbox" disabled="" checked="" />Table</li>
+<li><input type="checkbox" disabled="" checked="" />Packages including citation (if not base) and corresponding functions</li>
+<li><input type="checkbox" disabled="" checked="" />Plot (please mention which error bars you’re using, ideally in the <span class="math inline">\(y\)</span>-axis label)</li>
+</ul>
+<p>If you want to know how package authors want to have their packages cited, you can do the following and either copy the full citation or copy the entry for you <code>.bib</code> file (if you use some kind of reference manager):</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="6-loose-ends.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;afex&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## To cite package &#39;afex&#39; in publications use:
+## 
+##   Singmann H, Bolker B, Westfall J, Aust F, Ben-Shachar M (2022). _afex: Analysis of Factorial
+##   Experiments_. R package version 1.1-1, &lt;https://CRAN.R-project.org/package=afex&gt;.
+## 
+## A BibTeX entry for LaTeX users is
+## 
+##   @Manual{,
+##     title = {afex: Analysis of Factorial Experiments},
+##     author = {Henrik Singmann and Ben Bolker and Jake Westfall and Frederik Aust and Mattan S. Ben-Shachar},
+##     year = {2022},
+##     note = {R package version 1.1-1},
+##     url = {https://CRAN.R-project.org/package=afex},
+##   }</code></pre>
+</div>
+<div id="open-questions" class="section level2 hasAnchor" number="6.8">
+<h2><span class="header-section-number">6.8</span> Open questions<a href="6-loose-ends.html#open-questions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Anything that you’d like to ask we?</p>
+</div>
+<div id="fin" class="section level2 hasAnchor" number="6.9">
+<h2><span class="header-section-number">6.9</span> Fin!<a href="6-loose-ends.html#fin" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Thank you so much!</p>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Bates, Douglas, Martin Mächler, Ben Bolker, and Steve Walker. 2015. Fitting linear mixed-effects models using <span class="nocase">lme4</span>. <em>Journal of Statistical Software</em> 67: 1–48.
+</div>
+<div class="csl-entry">
+Chen, Yuqiu, Maik Thalmann, and Mailin Antomo. 2022. Presupposition triggers and (not-)at-issueness. <span>Insights</span> from language acquisition into the soft-hard distinction. <em>Journal of Pragmatics</em> 199: 21–46.
+</div>
+<div class="csl-entry">
+Christensen, R. H. B. 2018. <em>Ordinal – regression models for ordinal data</em>.
+</div>
+<div class="csl-entry">
+Field, Andy, Jeremy Miles, and Zoë Field. 2012. <em>Discovering statistics using <span>R</span></em>. London: Sage Publications.
+</div>
+<div class="csl-entry">
+Gries, Stefan T. 2013. <em>Statistics for linguistics with <span>R</span>: <span>A</span> practical introduction</em>. Berlin: de Gruyter.
+</div>
+<div class="csl-entry">
+Lenth, Russell V. 2019. <em><a href="https://CRAN.R-project.org/package=emmeans">Emmeans: <span>Estimated</span> marginal means, aka least-squares means</a></em>.
+</div>
+<div class="csl-entry">
+Liddell, Torrin M., and John K. Kruschke. 2018. Analyzing ordinal data with metric models: <span>What</span> could possibly go wrong? <em>Journal of Experimental Social Psychology</em> 79. Elsevier <span>BV</span>: 328–348. <a href="https://doi.org/10.1016/j.jesp.2018.08.009">https://doi.org/10.1016/j.jesp.2018.08.009</a>.
+</div>
+<div class="csl-entry">
+Sammut, Claude, and Geoffrey I. Webb, ed. 2010. <em>Encyclopedia of machine learning</em>. Boston, MA: Springer. <a href="https://doi.org/10.1007/978-0-387-30164-8">https://doi.org/10.1007/978-0-387-30164-8</a>.
+</div>
+<div class="csl-entry">
+Singmann, Henrik, Ben Bolker, Jake Westfall, and Frederik Aust. 2016. <em>Afex: <span>Analysis</span> of factorial experiments</em>.
+</div>
+<div class="csl-entry">
+Vasishth, Shravan, and Michael Broe. 2010. <em>The foundations of statistics: <span>A</span> simulation-based approach</em>. Berlin: Springer Science &amp; Business Media.
+</div>
+<div class="csl-entry">
+Winter, Bodo. 2020. <em>Statistics for linguists: <span>An</span> introduction using <span>R</span></em>. New York: Taylor &amp; Francis.
+</div>
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-christensen2018ordinal" class="csl-entry">
+Christensen, R. H. B. 2018. <em>Ordinal – regression models for ordinal data</em>.
+</div>
+<div id="ref-length2019emmeans" class="csl-entry">
+Lenth, Russell V. 2019. <em><a href="https://CRAN.R-project.org/package=emmeans">Emmeans: <span>Estimated</span> marginal means, aka least-squares means</a></em>.
+</div>
+<div id="ref-liddell2018ordinal" class="csl-entry">
+Liddell, Torrin M., and John K. Kruschke. 2018. Analyzing ordinal data with metric models: <span>What</span> could possibly go wrong? <em>Journal of Experimental Social Psychology</em> 79. Elsevier <span>BV</span>: 328–348. <a href="https://doi.org/10.1016/j.jesp.2018.08.009">https://doi.org/10.1016/j.jesp.2018.08.009</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="5-linear-mixed-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": {},
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

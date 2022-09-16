@@ -1,0 +1,393 @@
+# Loose ends
+
+## Long computation times
+
+With complex LMMs and with the likelihood ratio method for obtaining $p$-values, it often takes quite a while to get your results.
+
+It simply takes time to fit all of the models.
+
+However, this is a good situation for using parallel processing. With this approach, your computer, which likely has several cores in the CPU, will use all of the available cores, instead of just using 1.
+
+For example, my computer I am preparing this script on has 4 cores. Ideally, using parallel processing you might get your results four times as fast.
+
+Just remember to stop the cluster after you're done.
+
+```{r parallellmm}
+library(parallel)
+
+# enable parallel processing
+(nc <- detectCores())
+cl <- makeCluster(rep("localhost", nc))
+
+afex_lmm <- mixed(
+    judgment ~ stage * issue * trigger_cat + (issue + trigger_cat | id) +
+        (issue | itemid),
+    data = d_psp,
+    method = "LRT",
+    expand_re = TRUE,
+    REML = FALSE,
+    check_contrasts = TRUE,
+    control = lmerControl(optCtrl = list(maxfun = 1e6), optimizer = "bobyqa"),
+    cl = cl
+)
+
+stopCluster(cl)
+```
+
+
+## Convergence Issues 
+
+It is unfortunately quite common to run into convergence issues, which means that that `lm4e`, which `afex::mixed()` calls under the hood, could not estimate the the values from your data.
+
+Here's an example (where I just use a portion of the data):
+
+```{r shortconverge}
+set.seed(1111)
+# sample a fourth of the data
+d_psp_short <- sample_n(d_psp, length(d_psp$id) / 4)
+
+# does not converge and is singular
+afex_lmm_fails <- lmer(
+    judgment ~ stage * issue * trigger_cat + (issue * trigger_cat | id) +
+        (issue + stage| itemid),
+    data = d_psp_short,
+    )
+```
+
+
+Sometimes, the only way out of this is to increase the amount of observations.
+
+Luckily, sometimes other approaches work.
+
+### Optimizers
+
+To estimate the random intercepts and slopes, an optimizer function is used. `afex` lists the following:
+
+```{r allopts, echo=FALSE}
+c("bobyqa", "Nelder_Mead", "optimx", "nloptwrap","nmkbw")
+```
+
+Sometimes, a different optimizer can help with convergence issues, but it is quite cumbersome to go through all of them together. `afex` includes the `all_fit` option for this reason (as well as a separate function, which I ignore here).
+
+Let's see what happens here:
+
+```{r all_fit}
+# needs to be loaded explicitly to give us access to two more optimizing algorithms
+library(optimx)
+
+# re-enable the cluster
+nc <- detectCores()
+cl <- makeCluster(rep("localhost", nc))
+
+psp_lmm_all <- mixed(
+    judgment ~ stage * issue * trigger_cat + (issue + trigger_cat | id) +
+        (issue | itemid),
+    data = d_psp,
+    method = "LRT",
+    expand_re = TRUE,
+    REML = FALSE,
+    check_contrasts = TRUE,
+    all_fit = TRUE, # this is new!
+    cl = cl
+)
+
+stopCluster(cl)
+
+# check the best optimizer
+attr(psp_lmm_all, "all_fit_selected")
+attr(psp_lmm_all, "all_fit_logLik")
+```
+
+And here we can check for convergence:
+
+```{r all_fit_check}
+psp_lmm_all_ok <- psp_lmm_all[sapply(psp_lmm_all, is, "merMod")]
+lapply(psp_lmm_all_ok, function(x) x@optinfo$conv$lme4$messages)
+```
+
+For more details on this approach, you can have a look at the lovely tutorial here: https://joshua-nugent.github.io/allFit/
+
+### Reducing the random effects structure
+
+One other option is to reduce the random effects structure. As you might have noticed, I could have fit a more complex model given the way that my data are set up.
+
+For example, I could have included by-participant random slopes that included the interaction between at-issueness and trigger type. In addition, I could have included the age group as a random slope for the items plus the interaction with at-issueness.
+
+Let's see how this goes:
+
+```{r all_fit_random, warning=TRUE,message=TRUE}
+# re-enable the cluster
+nc <- detectCores()
+cl <- makeCluster(rep("localhost", nc))
+
+psp_lmm_all_more <- mixed(
+    judgment ~ stage * issue * trigger_cat + (issue * trigger_cat | id) +
+        (stage * issue | itemid),
+    data = d_psp,
+    method = "LRT",
+    expand_re = TRUE,
+    REML = FALSE,
+    check_contrasts = TRUE,
+    all_fit = TRUE,
+    cl = cl
+)
+
+stopCluster(cl)
+
+summary(psp_lmm_all_more)
+```
+
+If you look at the very bottom of the summary, you will see that the model, while it did converge, is singular. 
+
+You can get a little bit more detail about this generally by using `?isSingular`.
+
+Here's another example with the smaller data set:
+
+```{r shortsing}
+# converges, but singular
+afex_lmm_failsnomore <- lmer(
+    judgment ~ stage * issue * trigger_cat + (issue + trigger_cat | id) +
+        (issue | itemid),
+    data = d_psp_short
+)
+summary(afex_lmm_failsnomore) # look at all the correlations that are |1| for the random effects!
+```
+
+
+While this is not a convergence issue, it is one that will often come up. The general take-away from this is the same (with some qualifications): if it can be avoided, you should reduce the random effects structure.
+
+Again, with the smaller data set, this approach works:
+
+```{r shortworks}
+afex_lmm_works <- lmer(
+    judgment ~ stage * issue * trigger_cat + (1 | id) +
+        (1 | itemid),
+    data = d_psp_short
+)
+summary(afex_lmm_works)
+```
+
+
+## Investigating interactions and pairwise comparisons
+
+Often, it is ill-advised to just stop after you have the significance data from your linear mixed model. 
+
+This is often true in the presence of interactions, where the interpretation of the main effects gets much harder.
+
+In the case at hand, for example, the main effect for at-issueness is driven by the difference between hard and soft triggers in the at-issue condition. 
+
+Of course, this can be inferred visually in a plot, but it is good to confirm these suspicions with follow-up tests of the statistical type as well.
+
+```{r pspplotall, echo=FALSE}
+p <- d_psp %>%
+    ggplot(
+        aes(
+            x = trigger_cat,
+            y = judgment,
+            color = issue,
+            linetype = issue,
+            group = issue,
+            shape = issue
+        )
+    ) +
+        geom_line(
+            stat = "summary",
+            fun = mean,
+            size = 1
+        ) +
+        geom_point(
+            stat = "summary",
+            fun = mean,
+            size = 3
+        ) +
+        stat_summary(
+            fun.data = mean_se,
+            geom = "errorbar",
+            width = 0.25,
+            alpha = .5,
+            linetype = 1,
+            size = 1
+        ) +
+        facet_wrap(~ stage) +
+        labs(
+            y = "Mean Judgments \u00B1 SE",
+            x = "Trigger Type",
+            color = "At-Issueness",
+            shape = "At-Issueness",
+            linetype = "At-Issueness",
+            group = "At-Issueness"
+        ) +
+        coord_cartesian(ylim = c(1, 5)) +
+        scale_color_manual(values = colors)
+p
+```
+
+
+Another circumstance where follow-up analyses are important concerns *post hoc* analysis e.g., for predictors with more than two levels. To refresh your memory, here is the result of the LMM: 
+
+```{r psplmmagain}
+anova(psp_lmm)
+```
+
+Remember that the factor Trigger Type has three levels: soft triggers, hard triggers, and non-restrictive relative clauses.
+
+<div class="alert alert-info"> **Question:** Why is this a problem again?
+</div>
+
+To remedy this, we can make use of so-called **estimated marginal means** and run follow-up tests. All of the necessary tools can be found in the `emmeans` package [@length2019emmeans]:
+
+```{r emmeans}
+library(emmeans)
+```
+
+Other people do this differently, and simply run a series of $t$-tests on their original data and correct for multiple testing.
+
+We will not pursue this direction here, however. There are several (I believe good) reasons why:
+
+- If you run $t$-tests on only a portion of the data, you lose statistical power. Why? Because we reduce the number of observations that we take into account.
+- We already computed a model that took into account all the data and which estimated the variances using a random effects structure we thought matched our data. Why would we want to downgrade from this by using a $t$-test?
+- LMMs are pretty good when the design is unbalanced or when the data are nested. The $t$-test does not have these advantages.
+
+So, what will the estimated marginal means approach do for us?
+
+In effect, we will use predicted values from our linear mixed model (rather than the raw data) and compute or follow-up analyses on those.
+
+These comparisons will also be $t$-tests, but since were using the estimates from our LMM, we get the best of both worlds.
+
+First, we need to create an object from our LMM that `emmeans` can deal will. To do this, we use the following code:
+
+```{r posthocrefid}
+# post hoc tests
+(ref_id <-
+    emmeans(
+        psp_lmm,
+        specs = c("stage", "trigger_cat", "issue"),
+        lmer.df = "satterthwaite"
+    ))
+```
+
+What we see above are the estimated values for the all of the conditions, including the estimated variance and the degrees of freedom.
+
+Then, we need to type in which comparisons interest us. In this case, I compare the non-restrictive relative clauses and the hard triggers for the adults.
+
+We do this by sum-coding the comparisons (all the effects with the 0 are ignored):
+
+```{r posthoccomp}
+# at-issue: NRRC v hard adults
+hard_appo_at_a <- c(-1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+```
+
+And then we can run the $t$-tests on this contrast (using `afex` once more). 
+
+Below I also added a contrast for non-restrictive relative clauses and hard triggers for the kids for illustrative purposes:
+
+```{r posthoccompresults}
+hard_appo_at_c <- c(0, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0)
+contrasts_lmm <- contrast(ref_id,
+    list(
+        hard_appo_at_a = hard_appo_at_a,
+        hard_appo_at_c = hard_appo_at_c
+        ),
+    adjust = "holm"
+)
+
+summary(contrasts_lmm)
+confint(contrasts_lmm)
+```
+
+## Not recommended: all pairwise comparisons
+
+Above we only looked at specific contrasts, but, you might say now, why don't we just look at all of the comparisons? After all, we are correcting for multiple tests (using `adjust = "holm"`).
+
+I recommend against testing all possible pairwise comparisons, but I include how to do it here for illustrative purposes:
+
+```{r allpairs}
+pairs(ref_id, adjust = "holm") 
+```
+
+<div class="alert alert-info"> **Questions:** Can you think of some reasons why I do not recommend this kind of analysis?
+</div>
+
+
+## More emmeans: Interactions
+
+There is actually quite a lot that `emmeans` will let you do. One especially interesting function is illustrated here.
+
+For one, we can inspect interactions and check whether lower-order interactions are also present for each level of some factor (here: age group).
+
+Again, this is all based on the large model, so we are working with the model estimates rather than the raw data. And again we start with the matrix of effects:
+
+```{r intbystage}
+# inspection of the interactions for each group separately, excluding NNRCS
+emm <-
+    emmeans(
+        psp_lmm,
+        ~ trigger_cat * issue,
+        by = c("stage")
+    )
+
+emm
+
+(ints_tests <- joint_tests(emm, by = c("stage")))
+```
+
+Here's another thing one could do: Because we are not super interested in the non-restrictive relative clauses (they were included as somewhat of a control), we can check what happens to the big interaction when we exclude them.
+
+```{r threewayint}
+# inspection of the three-way interaction without NRRCs
+emm_threeway <-
+    emmeans(
+        psp_lmm,
+        ~ stage:trigger_cat:issue,
+        at = list(trigger_cat = c("soft", "hard"))
+    )
+
+(three_way <- joint_tests(emm_threeway))
+```
+
+## Ordinal data
+
+So far, we used linear mixed models for the analysis. However, there are actually good reasons to be cautious here.
+
+Recall that in the experiment we used a Likert-type scale with values from 1 to 5:
+
+<center>
+![](assets/media/skala.png)
+</center>
+
+While we pretended that we can use the linear mixed models in this case by treating the ordinal data as real numbers, there are good reasons not to do this. 
+
+One such reason is that real numbers tend to be equidistant from each other. For ordinal scales, it is not so clear that this is the case.
+
+(For all Germans, think about the differences between the grades in school, and especially the distance from 4 to 5.)
+
+I will not go into the details of why this is such a problem here for the LMM. For the interested people, there's the following paper: @liddell2018ordinal.
+
+The alternative analysis would require an ordinal (mixed) model, which can be computed in R using the `ordinal` package [@christensen2018ordinal] with the `clmm()` (for cumulative link mixed model) function.
+
+## Reporting
+
+Here's a check list of things to report about your statistical analysis (under the assumption that you're using a mixed model):
+
+- [x] R plus version and citation
+- [x] Mention how you coded categorical variables (treatment, sum, etc.)
+- [x] Mention fixed and random effects 
+- [x] Formula ($Y \sim \ldots$)
+- [x] Table 
+- [x] Packages including citation (if not base) and corresponding functions 
+- [x] Plot (please mention which error bars you’re using, ideally in the $y$-axis label)
+
+If you want to know how package authors want to have their packages cited, you can do the following and either copy the full citation or copy the entry for you `.bib` file (if you use some kind of reference manager):
+
+```{r citations}
+citation("afex")
+```
+
+
+## Open questions
+
+Anything that you'd like to ask we?
+
+## Fin!
+
+Thank you so much!

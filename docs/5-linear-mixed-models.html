@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Linear Mixed Models | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</title>
+  <meta name="description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Linear Mixed Models | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="github-repo" content="mkthalmann" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Linear Mixed Models | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  
+  <meta name="twitter:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="4-regression.html"/>
+<link rel="next" href="6-loose-ends.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">CAnDA Equinox School School: Introduction to Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>1.1.1</b> R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#statistics"><i class="fa fa-check"></i><b>1.1.2</b> Statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#get-in-touch"><i class="fa fa-check"></i><b>1.2</b> Get in touch</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#session-info"><i class="fa fa-check"></i>Session Info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html"><i class="fa fa-check"></i><b>2</b> Concepts and Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-general-points-about-the-class"><i class="fa fa-check"></i><b>2.1</b> Some general points about the class</a></li>
+<li class="chapter" data-level="2.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#on-inferential-statistics"><i class="fa fa-check"></i><b>2.2</b> On inferential statistics</a></li>
+<li class="chapter" data-level="2.3" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#a-note-on-frequentism"><i class="fa fa-check"></i><b>2.3</b> A note on frequentism</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>2.3.1</b> Measures of Central Tendency</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-dispersion"><i class="fa fa-check"></i><b>2.3.2</b> Measures of Dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#hypotheses"><i class="fa fa-check"></i><b>2.4</b> Hypotheses</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#null-hypothesis"><i class="fa fa-check"></i><b>2.4.1</b> Null Hypothesis</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#alternative-hypothesis"><i class="fa fa-check"></i><b>2.4.2</b> Alternative hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>2.5</b> Type I and Type II errors</a></li>
+<li class="chapter" data-level="2.6" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-terms"><i class="fa fa-check"></i><b>2.6</b> Some terms</a></li>
+<li class="chapter" data-level="2.7" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#the-t-test"><i class="fa fa-check"></i><b>2.7</b> The <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="2.8" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#wrap-up"><i class="fa fa-check"></i><b>2.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-anova.html"><a href="3-anova.html"><i class="fa fa-check"></i><b>3</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3-anova.html"><a href="3-anova.html#yesterday"><i class="fa fa-check"></i><b>3.1</b> Yesterday</a></li>
+<li class="chapter" data-level="3.2" data-path="3-anova.html"><a href="3-anova.html#how-to-get-to-rome"><i class="fa fa-check"></i><b>3.2</b> How to get to Rome</a></li>
+<li class="chapter" data-level="3.3" data-path="3-anova.html"><a href="3-anova.html#repeated-measures"><i class="fa fa-check"></i><b>3.3</b> Repeated Measures</a></li>
+<li class="chapter" data-level="3.4" data-path="3-anova.html"><a href="3-anova.html#two-way-anova"><i class="fa fa-check"></i><b>3.4</b> Two-Way ANOVA</a></li>
+<li class="chapter" data-level="3.5" data-path="3-anova.html"><a href="3-anova.html#more-repeated-measures"><i class="fa fa-check"></i><b>3.5</b> More repeated measures</a></li>
+<li class="chapter" data-level="3.6" data-path="3-anova.html"><a href="3-anova.html#anova-by-hand"><i class="fa fa-check"></i><b>3.6</b> ANOVA by hand</a></li>
+<li class="chapter" data-level="3.7" data-path="3-anova.html"><a href="3-anova.html#interpreting-an-anova"><i class="fa fa-check"></i><b>3.7</b> Interpreting an ANOVA</a></li>
+<li class="chapter" data-level="3.8" data-path="3-anova.html"><a href="3-anova.html#wrap-up-1"><i class="fa fa-check"></i><b>3.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-regression.html"><a href="4-regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4-regression.html"><a href="4-regression.html#models-and-regression-lines"><i class="fa fa-check"></i><b>4.1</b> Models and regression lines</a></li>
+<li class="chapter" data-level="4.2" data-path="4-regression.html"><a href="4-regression.html#varying-intercepts-slopes-and-errors"><i class="fa fa-check"></i><b>4.2</b> Varying intercepts, slopes, and errors</a></li>
+<li class="chapter" data-level="4.3" data-path="4-regression.html"><a href="4-regression.html#regression-in-r"><i class="fa fa-check"></i><b>4.3</b> Regression in R</a></li>
+<li class="chapter" data-level="4.4" data-path="4-regression.html"><a href="4-regression.html#multiple-regression"><i class="fa fa-check"></i><b>4.4</b> Multiple Regression</a></li>
+<li class="chapter" data-level="4.5" data-path="4-regression.html"><a href="4-regression.html#centering-and-standardization"><i class="fa fa-check"></i><b>4.5</b> Centering and Standardization</a></li>
+<li class="chapter" data-level="4.6" data-path="4-regression.html"><a href="4-regression.html#interpreting-interactions"><i class="fa fa-check"></i><b>4.6</b> Interpreting interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html"><i class="fa fa-check"></i><b>5</b> Linear Mixed Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#previously"><i class="fa fa-check"></i><b>5.1</b> Previously …</a></li>
+<li class="chapter" data-level="5.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#before-we-go-on-lets-talk-about-pooling"><i class="fa fa-check"></i><b>5.2</b> Before we go on, let’s talk about pooling</a></li>
+<li class="chapter" data-level="5.3" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#random-effects"><i class="fa fa-check"></i><b>5.3</b> Random Effects</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#lets-have-a-bit-more-of-a-detailed-look"><i class="fa fa-check"></i><b>5.3.1</b> Let’s have a bit more of a detailed look</a></li>
+<li class="chapter" data-level="5.3.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#model-output-comparisons"><i class="fa fa-check"></i><b>5.3.2</b> Model output comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#what-do-i-do-about-my-p-values"><i class="fa fa-check"></i><b>5.4</b> What do I do about my <span class="math inline">\(p\)</span>-values?</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="6-loose-ends.html"><a href="6-loose-ends.html"><i class="fa fa-check"></i><b>6</b> Loose ends</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#long-computation-times"><i class="fa fa-check"></i><b>6.1</b> Long computation times</a></li>
+<li class="chapter" data-level="6.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#convergence-issues"><i class="fa fa-check"></i><b>6.2</b> Convergence Issues</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#optimizers"><i class="fa fa-check"></i><b>6.2.1</b> Optimizers</a></li>
+<li class="chapter" data-level="6.2.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reducing-the-random-effects-structure"><i class="fa fa-check"></i><b>6.2.2</b> Reducing the random effects structure</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="6-loose-ends.html"><a href="6-loose-ends.html#investigating-interactions-and-pairwise-comparisons"><i class="fa fa-check"></i><b>6.3</b> Investigating interactions and pairwise comparisons</a></li>
+<li class="chapter" data-level="6.4" data-path="6-loose-ends.html"><a href="6-loose-ends.html#not-recommended-all-pairwise-comparisons"><i class="fa fa-check"></i><b>6.4</b> Not recommended: all pairwise comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="6-loose-ends.html"><a href="6-loose-ends.html#more-emmeans-interactions"><i class="fa fa-check"></i><b>6.5</b> More emmeans: Interactions</a></li>
+<li class="chapter" data-level="6.6" data-path="6-loose-ends.html"><a href="6-loose-ends.html#ordinal-data"><i class="fa fa-check"></i><b>6.6</b> Ordinal data</a></li>
+<li class="chapter" data-level="6.7" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reporting"><i class="fa fa-check"></i><b>6.7</b> Reporting</a></li>
+<li class="chapter" data-level="6.8" data-path="6-loose-ends.html"><a href="6-loose-ends.html#open-questions"><i class="fa fa-check"></i><b>6.8</b> Open questions</a></li>
+<li class="chapter" data-level="6.9" data-path="6-loose-ends.html"><a href="6-loose-ends.html#fin"><i class="fa fa-check"></i><b>6.9</b> Fin!</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20" target="blank">maik.thalmann@gmail.com</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="linear-mixed-models" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Linear Mixed Models<a href="5-linear-mixed-models.html#linear-mixed-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="previously" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Previously …<a href="5-linear-mixed-models.html#previously" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the last days, we talked about linear models in various instances, like the <span class="math inline">\(t\)</span>-test, the linear model, and the ANOVA.</p>
+<p>For the more complex experimental data that we looked at, we found out that the <span class="math inline">\(t\)</span>-test just doesn’t cut it.</p>
+<p>Then, we also saw there are variance components that are unsystematic from the perspective of our experiment, but which are nonetheless systematic per se.</p>
+<p>We saw two cases of these repeated measures with the ANOVA: one related to participants (when a factor is within participants) and one related to items (when a manipulation occurs within items).</p>
+<p>With the ANOVA, it was not possible to have a single model that captured both sources of repeated measures at the same time.</p>
+<p>Today, we will have a look at a class of models that can do this.</p>
+<p>These are called (linear) mixed models.</p>
+<p>In the context of these models, these sources of variance are called <strong>random effects</strong>, because they are related to non-experimental variables.</p>
+<p>Let’s first develop an intuition what these models do with the random effects before we dive in deeper.</p>
+<p>For familiarity purposes, we will use the data from <span class="citation">Chen et al. (<a href="#ref-thalmann2022presupposition" role="doc-biblioref">2022</a>)</span> again.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="5-linear-mixed-models.html#cb139-1" aria-hidden="true" tabindex="-1"></a>d_psp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">&quot;assets&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;psp-data.csv&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb139-2"><a href="5-linear-mixed-models.html#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trigger_cat <span class="sc">!=</span> <span class="st">&quot;appo&quot;</span>, stage <span class="sc">!=</span> <span class="st">&quot;Children&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb139-3"><a href="5-linear-mixed-models.html#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, itemid, trigger_cat, issue, judgment)</span>
+<span id="cb139-4"><a href="5-linear-mixed-models.html#cb139-4" aria-hidden="true" tabindex="-1"></a>d_psp <span class="ot">&lt;-</span> d_psp <span class="sc">%&gt;%</span></span>
+<span id="cb139-5"><a href="5-linear-mixed-models.html#cb139-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trigger_cat_d =</span> <span class="fu">if_else</span>(trigger_cat <span class="sc">==</span> <span class="st">&quot;hard&quot;</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb139-6"><a href="5-linear-mixed-models.html#cb139-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d_psp)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   id                         itemid     trigger_cat issue        judgment trigger_cat_d
+##   &lt;chr&gt;                      &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;
+## 1 auncqkpvl6b3rp0d3g833vmuh6 gewinnen2  soft        at-issue            5             1
+## 2 auncqkpvl6b3rp0d3g833vmuh6 schaffen1  soft        at-issue            1             1
+## 3 auncqkpvl6b3rp0d3g833vmuh6 auch3      hard        at-issue            1             0
+## 4 auncqkpvl6b3rp0d3g833vmuh6 entdecken1 soft        at-issue            5             1
+## 5 auncqkpvl6b3rp0d3g833vmuh6 schaffen3  soft        at-issue            1             1
+## 6 auncqkpvl6b3rp0d3g833vmuh6 cleft3     hard        non-at-issue        5             0</code></pre>
+</div>
+<div id="before-we-go-on-lets-talk-about-pooling" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Before we go on, let’s talk about pooling<a href="5-linear-mixed-models.html#before-we-go-on-lets-talk-about-pooling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="5-linear-mixed-models.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co"># complete pooling</span></span>
+<span id="cb141-2"><a href="5-linear-mixed-models.html#cb141-2" aria-hidden="true" tabindex="-1"></a>d_psp <span class="sc">%&gt;%</span></span>
+<span id="cb141-3"><a href="5-linear-mixed-models.html#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(judgment <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb141-4"><a href="5-linear-mixed-models.html#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 5
+##   term        estimate std.error statistic   p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)     3.65    0.0563      64.8 2.02e-287</code></pre>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="5-linear-mixed-models.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no pooling</span></span>
+<span id="cb143-2"><a href="5-linear-mixed-models.html#cb143-2" aria-hidden="true" tabindex="-1"></a>d_psp <span class="sc">%&gt;%</span></span>
+<span id="cb143-3"><a href="5-linear-mixed-models.html#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">factor</span>(<span class="fu">as.numeric</span>(<span class="fu">factor</span>(id)))) <span class="sc">%&gt;%</span></span>
+<span id="cb143-4"><a href="5-linear-mixed-models.html#cb143-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(judgment <span class="sc">~</span> id <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb143-5"><a href="5-linear-mixed-models.html#cb143-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb143-6"><a href="5-linear-mixed-models.html#cb143-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p.value =</span> scales<span class="sc">::</span><span class="fu">pvalue</span>(p.value))</span></code></pre></div>
+<pre><code>## # A tibble: 33 × 5
+##    term  estimate std.error statistic p.value
+##    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+##  1 id1       3.9      0.314      12.4 &lt;0.001 
+##  2 id2       3.55     0.314      11.3 &lt;0.001 
+##  3 id3       3.75     0.314      11.9 &lt;0.001 
+##  4 id4       3.4      0.314      10.8 &lt;0.001 
+##  5 id5       3.45     0.314      11.0 &lt;0.001 
+##  6 id6       3.65     0.314      11.6 &lt;0.001 
+##  7 id7       3.35     0.314      10.7 &lt;0.001 
+##  8 id8       3.95     0.314      12.6 &lt;0.001 
+##  9 id9       3.68     0.323      11.4 &lt;0.001 
+## 10 id10      3.9      0.314      12.4 &lt;0.001 
+## # … with 23 more rows</code></pre>
+<div class="alert alert-info">
+<p><strong>Question:</strong> Why are neither of these models ideal?</p>
+</div>
+<p>You can think of linear mixed models as the happy medium between these two approaches.</p>
+<p>While we will not talk about the underlying machinery, we will try to get an intuition about what is happening.</p>
+</div>
+<div id="random-effects" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Random Effects<a href="5-linear-mixed-models.html#random-effects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Using <code>lme4</code> <span class="citation">(<a href="#ref-bates2015lme4" role="doc-biblioref">Bates et al. 2015</a>)</span>, we will fit four models and visualize the outputs to see what the different random effects do.</p>
+<p>I will fit four different models below. The predictors (or <strong>fixed effects</strong>, as they are often called) are the same for all of them, in that the include main effects for at-issueness and trigger type, as well as their interaction.</p>
+<p>The only difference will be so-called random effects structure. This allows us to account for a number of systematic variance that is like not due to our experimental manipulations.</p>
+<p>Again, this includes by-participant variation (some may be tired or simply do not like our sentences), but a portion of it will also be indirectly related to our predictors.</p>
+<p>It is not hard to imagine that some speakers will react more or less strongly to an experimental manipulation than others. If you’ve ever asked more than one person for judgments on a minimal pair, you’ll know what I’m talking about.</p>
+<p>Note first that it is not possible to fit a linear mixed model without random effects (i.e., a model that looks similar to the ones we used with the <code>lm()</code> call, just with the call <code>lmer()</code>):</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="5-linear-mixed-models.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the required package</span></span>
+<span id="cb145-2"><a href="5-linear-mixed-models.html#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb145-3"><a href="5-linear-mixed-models.html#cb145-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb145-4"><a href="5-linear-mixed-models.html#cb145-4" aria-hidden="true" tabindex="-1"></a><span class="co"># fit the model (should fail)</span></span>
+<span id="cb145-5"><a href="5-linear-mixed-models.html#cb145-5" aria-hidden="true" tabindex="-1"></a>psp_lmm_id <span class="ot">&lt;-</span> <span class="fu">lmer</span>(judgment <span class="sc">~</span> issue <span class="sc">*</span> trigger_cat, <span class="at">data =</span> d_psp, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div style="color:Crimson; background-color: SeaShell;">
+<p><strong>Error</strong>: No random effects terms specified in formula</p>
+</div>
+<p>Let’s go through the four models that do include various specifications of the random effects step by step:</p>
+<ul>
+<li>the first one just has by-participant random intercepts. That is, the lines that the model estimates from the data are allowed the start at different heights. But the slopes must be the same between all of them.</li>
+<li>in the second one, we will have random intercepts and also random slopes for the trigger type manipulation. This is to account for the fact that some people may like hard or soft presupposition triggers better than others.</li>
+<li>in the third one, we have random intercepts and random intercepts for at-issueness. Again, some people might be more or less tolerant with this difference.</li>
+<li>In the fourth model, we have random intercepts and random slopes for both trigger type and at-issueness, this is done using the <code>+</code> to combine the two.</li>
+<li>in the final models, we additionally have random slopes for the interaction between the two predictors (as indicated by using the <code>*</code>.</li>
+</ul>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="5-linear-mixed-models.html#cb146-1" aria-hidden="true" tabindex="-1"></a>psp_lmm_id <span class="ot">&lt;-</span> <span class="fu">lmer</span>(judgment <span class="sc">~</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> d_psp, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb146-2"><a href="5-linear-mixed-models.html#cb146-2" aria-hidden="true" tabindex="-1"></a>psp_lmm_trigger <span class="ot">&lt;-</span> <span class="fu">lmer</span>(judgment <span class="sc">~</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (trigger_cat <span class="sc">|</span> id), <span class="at">data =</span> d_psp, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb146-3"><a href="5-linear-mixed-models.html#cb146-3" aria-hidden="true" tabindex="-1"></a>psp_lmm_issue <span class="ot">&lt;-</span> <span class="fu">lmer</span>(judgment <span class="sc">~</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">|</span> id), <span class="at">data =</span> d_psp, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb146-4"><a href="5-linear-mixed-models.html#cb146-4" aria-hidden="true" tabindex="-1"></a>psp_lmm_both <span class="ot">&lt;-</span> <span class="fu">lmer</span>(judgment <span class="sc">~</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id), <span class="at">data =</span> d_psp, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb146-5"><a href="5-linear-mixed-models.html#cb146-5" aria-hidden="true" tabindex="-1"></a>psp_lmm_int <span class="ot">&lt;-</span> <span class="fu">lmer</span>(judgment <span class="sc">~</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">*</span> trigger_cat <span class="sc">|</span> id), <span class="at">data =</span> d_psp, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<p>For now, the results of the different models are unimportant. The main point here is to understand what the different random effects structures do with the data.</p>
+<p>What we want to know is thus this: How do the fitted lines differ between the models?</p>
+<p>Let’s write a function so that we do not have to repeat the code for the plots over and over again. (To make everything a little bit prettier, I’ll also change the colors)</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="5-linear-mixed-models.html#cb148-1" aria-hidden="true" tabindex="-1"></a>colfunc <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(colors[<span class="dv">2</span>], colors[<span class="dv">1</span>]))</span>
+<span id="cb148-2"><a href="5-linear-mixed-models.html#cb148-2" aria-hidden="true" tabindex="-1"></a>base_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(fitted, title) {</span>
+<span id="cb148-3"><a href="5-linear-mixed-models.html#cb148-3" aria-hidden="true" tabindex="-1"></a>  d_psp <span class="sc">%&gt;%</span></span>
+<span id="cb148-4"><a href="5-linear-mixed-models.html#cb148-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb148-5"><a href="5-linear-mixed-models.html#cb148-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span></span>
+<span id="cb148-6"><a href="5-linear-mixed-models.html#cb148-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> d_psp, <span class="fu">aes</span>(<span class="at">x =</span> trigger_cat_d, <span class="at">y =</span> fitted, <span class="at">group =</span> id, <span class="at">color =</span> id), <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb148-7"><a href="5-linear-mixed-models.html#cb148-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb148-8"><a href="5-linear-mixed-models.html#cb148-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">colfunc</span>(<span class="fu">length</span>(<span class="fu">unique</span>(d_psp<span class="sc">$</span>id)))) <span class="sc">+</span></span>
+<span id="cb148-9"><a href="5-linear-mixed-models.html#cb148-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb148-10"><a href="5-linear-mixed-models.html#cb148-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">&quot;Trigger Type&quot;</span>,</span>
+<span id="cb148-11"><a href="5-linear-mixed-models.html#cb148-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;Judgments&quot;</span>,</span>
+<span id="cb148-12"><a href="5-linear-mixed-models.html#cb148-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> title</span>
+<span id="cb148-13"><a href="5-linear-mixed-models.html#cb148-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb148-14"><a href="5-linear-mixed-models.html#cb148-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb148-15"><a href="5-linear-mixed-models.html#cb148-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Recall what our normal models look like: The lines should actually not be fully opaque, but the are all the same, so they overlap. What our standard (and in this case wrong) model does is to disregard the participant information.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="5-linear-mixed-models.html#cb149-1" aria-hidden="true" tabindex="-1"></a>psp_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(judgment <span class="sc">~</span> issue <span class="sc">*</span> trigger_cat, <span class="at">data =</span> d_psp)</span>
+<span id="cb149-2"><a href="5-linear-mixed-models.html#cb149-2" aria-hidden="true" tabindex="-1"></a>d_psp<span class="sc">$</span>standard_lm <span class="ot">&lt;-</span> <span class="fu">predict</span>(psp_lm)</span>
+<span id="cb149-3"><a href="5-linear-mixed-models.html#cb149-3" aria-hidden="true" tabindex="-1"></a><span class="fu">base_plot</span>(d_psp<span class="sc">$</span>standard_lm, <span class="st">&quot;Standard Regression&quot;</span>)</span></code></pre></div>
+<p><img src="figs/standardlmpsp-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Note that even though this model is wrong because it will wrongly estimate the standard errors (and thus our <span class="math inline">\(p\)</span>-values will be off), the coefficients should all be correctly estimated.</p>
+<p>Now let’s turn to the mixed models.</p>
+<p>To add the fitted values to the data frame, we can use the <code>predict()</code> function:</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="5-linear-mixed-models.html#cb150-1" aria-hidden="true" tabindex="-1"></a>d_psp<span class="sc">$</span>model_id_fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(psp_lmm_id)</span>
+<span id="cb150-2"><a href="5-linear-mixed-models.html#cb150-2" aria-hidden="true" tabindex="-1"></a>d_psp<span class="sc">$</span>model_trigger_fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(psp_lmm_trigger)</span>
+<span id="cb150-3"><a href="5-linear-mixed-models.html#cb150-3" aria-hidden="true" tabindex="-1"></a>d_psp<span class="sc">$</span>model_issue_fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(psp_lmm_issue)</span>
+<span id="cb150-4"><a href="5-linear-mixed-models.html#cb150-4" aria-hidden="true" tabindex="-1"></a>d_psp<span class="sc">$</span>model_both_fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(psp_lmm_both)</span>
+<span id="cb150-5"><a href="5-linear-mixed-models.html#cb150-5" aria-hidden="true" tabindex="-1"></a>d_psp<span class="sc">$</span>model_int_fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(psp_lmm_int)</span>
+<span id="cb150-6"><a href="5-linear-mixed-models.html#cb150-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb150-7"><a href="5-linear-mixed-models.html#cb150-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d_psp)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 12
+##   id                         itemid     trigger_cat issue        judgment trigger_cat_d standard_lm model_id_fitted
+##   &lt;chr&gt;                      &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;       &lt;dbl&gt;           &lt;dbl&gt;
+## 1 auncqkpvl6b3rp0d3g833vmuh6 gewinnen2  soft        at-issue            5             1        3.73            3.69
+## 2 auncqkpvl6b3rp0d3g833vmuh6 schaffen1  soft        at-issue            1             1        3.73            3.69
+## 3 auncqkpvl6b3rp0d3g833vmuh6 auch3      hard        at-issue            1             0        2.00            1.96
+## 4 auncqkpvl6b3rp0d3g833vmuh6 entdecken1 soft        at-issue            5             1        3.73            3.69
+## 5 auncqkpvl6b3rp0d3g833vmuh6 schaffen3  soft        at-issue            1             1        3.73            3.69
+## 6 auncqkpvl6b3rp0d3g833vmuh6 cleft3     hard        non-at-issue        5             0        4.51            4.48
+##   model_trigger_fitted model_issue_fitted model_both_fitted model_int_fitted
+##                  &lt;dbl&gt;              &lt;dbl&gt;             &lt;dbl&gt;            &lt;dbl&gt;
+## 1                 3.82               3.48              3.65             3.73
+## 2                 3.82               3.48              3.65             3.73
+## 3                 1.88               1.75              1.51             1.39
+## 4                 3.82               3.48              3.65             3.73
+## 5                 3.82               3.48              3.65             3.73
+## 6                 4.39               4.70              4.52             4.63</code></pre>
+<p>Now, let’s get to the plots. Below is the visualization for the random intercept (by participants) only model. As we expected, there is a line for each of the participants, because they are all slightly different from each other. This allows us to account for quite a bit of variance already that in our wrong model above would have looked like unsystematic noise.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="5-linear-mixed-models.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">base_plot</span>(d_psp<span class="sc">$</span>model_id_fitted, <span class="st">&quot;Random participant intercepts only&quot;</span>)</span></code></pre></div>
+<p><img src="figs/intonly-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="5-linear-mixed-models.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">base_plot</span>(d_psp<span class="sc">$</span>model_trigger_fitted, <span class="st">&quot;Random participant intercepts and Trigger random slopes&quot;</span>)</span></code></pre></div>
+<p><img src="figs/triggerslopes-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="5-linear-mixed-models.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">base_plot</span>(d_psp<span class="sc">$</span>model_issue_fitted, <span class="st">&quot;Random participant intercepts and Issueness random slopes&quot;</span>)</span></code></pre></div>
+<p><img src="figs/issueslopes-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="5-linear-mixed-models.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">base_plot</span>(d_psp<span class="sc">$</span>model_both_fitted, <span class="st">&quot;Random participant intercepts and Trigger + Issueness random slopes&quot;</span>)</span></code></pre></div>
+<p><img src="figs/triggerissueslopes-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="5-linear-mixed-models.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">base_plot</span>(d_psp<span class="sc">$</span>model_int_fitted, <span class="st">&quot;Random participant intercepts and Trigger * Issueness random slopes&quot;</span>)</span></code></pre></div>
+<p><img src="figs/triggerissueint-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="lets-have-a-bit-more-of-a-detailed-look" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Let’s have a bit more of a detailed look<a href="5-linear-mixed-models.html#lets-have-a-bit-more-of-a-detailed-look" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To get a sense of what is going on, let’s look at a super simple model again:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="5-linear-mixed-models.html#cb157-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(judgment <span class="sc">~</span> issue <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> d_psp)</span></code></pre></div>
+<p>Here’s the estimated model for each person. Notice that here the slopes are the same for everybody:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="5-linear-mixed-models.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(mod)</span></code></pre></div>
+<pre><code>## $id
+##                            (Intercept) issuenon-at-issue
+## 2698jqo2b9fbpm7k69oo82c8j5   3.0318409         1.5751218
+## 3gkj6ts9s53vtfhk8v1r4d07r1   2.7952214         1.5751218
+## 44vjsg96djepi7rsqs9oken6m3   2.9304325         1.5751218
+## 4lvielgqtqtdssufsntp22ktr3   2.6938130         1.5751218
+## 54blvd1463nfcof4tainpg6q21   2.7276158         1.5751218
+## 6hk2ug38419qrom7vcr9jqui64   2.8628269         1.5751218
+## 7o47umnslij8c5ggm50k4ofg75   2.6600102         1.5751218
+## 8p2a9d7h7hm9031occ2uiuvpo7   3.0656437         1.5751218
+## 8v3ac1g6ciqibvqu16me22agn4   2.9131341         1.5751218
+## atf56fhfc894vb2cvl7el4ibc0   3.0318409         1.5751218
+## auncqkpvl6b3rp0d3g833vmuh6   2.8290242         1.5751218
+## c9cuhu3a777bt4j39kum6kp3v6   3.0758502         1.5751218
+## cni0v3n4u08lanbc41lvb91nl4   2.8966297         1.5751218
+## cr1c4eo2mcvntbj4d7e88o6u96   2.7614186         1.5751218
+## ebaji4itu78e23odap7indjt82   2.8290242         1.5751218
+## eegen1ic28r6uoh3kr4rkalil1   2.6938130         1.5751218
+## ftj7hf1ff73reu9t948dea7lc5   3.3698688         1.5751218
+## iha5atv6engbc4g28sriiki7h3   3.4374744         1.5751218
+## ikko382of1dkgpdjc5tuhicni0   3.0994465         1.5751218
+## lgob6021gj4v1qgeloa75ubo06   2.8966297         1.5751218
+## mkf458e7ms0o4fmfi9ueet0il0   2.6600102         1.5751218
+## ocbq4ok768sfqi7krh97qiekg3   3.4036716         1.5751218
+## ovsei19p9v0hlt1u2eva9mnl82   3.0994465         1.5751218
+## p87dj0rkahhluvbrgn5485bsl4   2.2205739         1.5751218
+## pgrg7dm45mkd6r00m6iec0nl62   2.7276158         1.5751218
+## q9hue6iu5q78a62r3l26563101   1.9839544         1.5751218
+## qia3n8stdcdbrgpq6pgrfhuhf4   3.1670520         1.5751218
+## rbe3eovtakfqc6bi6hbk7vdv15   2.7276158         1.5751218
+## svbr1nj2bfklg6fohe8ofvb3r5   2.6262074         1.5751218
+## tf1e0cg09vglistu7suqprqla3   2.9304325         1.5751218
+## tn5s5k5495gs8as4bsfkikq8v7   2.4233907         1.5751218
+## u51sl2l9h8i37g94h1i5hrolf1   2.7614186         1.5751218
+## vbhdv8atm0j8ojg4tr3brde127   3.1670520         1.5751218
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;coef.mer&quot;</code></pre>
+<p>Just the fixed effects:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="5-linear-mixed-models.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(mod)</span></code></pre></div>
+<pre><code>##       (Intercept) issuenon-at-issue 
+##         2.8636364         1.5751218</code></pre>
+<p>Just the random effects, i.e., how much the intercept was shifted up or down for each person:</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="5-linear-mixed-models.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(mod)</span></code></pre></div>
+<pre><code>## $id
+##                               (Intercept)
+## 2698jqo2b9fbpm7k69oo82c8j5  0.16820452644
+## 3gkj6ts9s53vtfhk8v1r4d07r1 -0.06841500311
+## 44vjsg96djepi7rsqs9oken6m3  0.06679615663
+## 4lvielgqtqtdssufsntp22ktr3 -0.16982337291
+## 54blvd1463nfcof4tainpg6q21 -0.13602058298
+## 6hk2ug38419qrom7vcr9jqui64 -0.00080942324
+## 7o47umnslij8c5ggm50k4ofg75 -0.20362616285
+## 8p2a9d7h7hm9031occ2uiuvpo7  0.20200731637
+## 8v3ac1g6ciqibvqu16me22agn4  0.04949778043
+## atf56fhfc894vb2cvl7el4ibc0  0.16820452644
+## auncqkpvl6b3rp0d3g833vmuh6 -0.03461221317
+## c9cuhu3a777bt4j39kum6kp3v6  0.21221386946
+## cni0v3n4u08lanbc41lvb91nl4  0.03299336670
+## cr1c4eo2mcvntbj4d7e88o6u96 -0.10221779304
+## ebaji4itu78e23odap7indjt82 -0.03461221317
+## eegen1ic28r6uoh3kr4rkalil1 -0.16982337291
+## ftj7hf1ff73reu9t948dea7lc5  0.50623242579
+## iha5atv6engbc4g28sriiki7h3  0.57383800566
+## ikko382of1dkgpdjc5tuhicni0  0.23581010631
+## lgob6021gj4v1qgeloa75ubo06  0.03299336670
+## mkf458e7ms0o4fmfi9ueet0il0 -0.20362616285
+## ocbq4ok768sfqi7krh97qiekg3  0.54003521573
+## ovsei19p9v0hlt1u2eva9mnl82  0.23581010631
+## p87dj0rkahhluvbrgn5485bsl4 -0.64306243201
+## pgrg7dm45mkd6r00m6iec0nl62 -0.13602058298
+## q9hue6iu5q78a62r3l26563101 -0.87968196155
+## qia3n8stdcdbrgpq6pgrfhuhf4  0.30341568618
+## rbe3eovtakfqc6bi6hbk7vdv15 -0.13602058298
+## svbr1nj2bfklg6fohe8ofvb3r5 -0.23742895278
+## tf1e0cg09vglistu7suqprqla3  0.06679615663
+## tn5s5k5495gs8as4bsfkikq8v7 -0.44024569239
+## u51sl2l9h8i37g94h1i5hrolf1 -0.10221779304
+## vbhdv8atm0j8ojg4tr3brde127  0.30341568618
+## 
+## with conditional variances for &quot;id&quot;</code></pre>
+</div>
+<div id="model-output-comparisons" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Model output comparisons<a href="5-linear-mixed-models.html#model-output-comparisons" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="5-linear-mixed-models.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psp_lmm_id)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ issue * trigger_cat + (1 | id)
+##    Data: d_psp
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1874.6   1901.6   -931.3   1862.6      651 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.57054 -0.55493  0.14589  0.62245  3.15696 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.15236  0.39034 
+##  Residual             0.92704  0.96283 
+## Number of obs: 657, groups:  id, 33
+## 
+## Fixed effects:
+##                                    Estimate Std. Error        df t value              Pr(&gt;|t|)    
+## (Intercept)                         2.00000    0.10117  92.85760  19.768 &lt; 0.00000000000000022 ***
+## issuenon-at-issue                   2.51579    0.10653 624.29187  23.617 &lt; 0.00000000000000022 ***
+## trigger_catsoft                     1.72727    0.10600 624.04609  16.294 &lt; 0.00000000000000022 ***
+## issuenon-at-issue:trigger_catsoft  -1.87942    0.15028 624.16968 -12.506 &lt; 0.00000000000000022 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) issn-- trggr_
+## issunn-t-ss -0.521              
+## trggr_ctsft -0.524  0.498       
+## issnn-t-s:_  0.370 -0.709 -0.705</code></pre>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="5-linear-mixed-models.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;####</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## ####</code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="5-linear-mixed-models.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psp_lmm_trigger)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ issue * trigger_cat + (trigger_cat | id)
+##    Data: d_psp
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1858.7   1894.6   -921.3   1842.7      649 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.59485 -0.52061  0.07376  0.60074  3.17697 
+## 
+## Random effects:
+##  Groups   Name            Variance Std.Dev. Corr  
+##  id       (Intercept)     0.12616  0.35519        
+##           trigger_catsoft 0.24922  0.49922  -0.185
+##  Residual                 0.86123  0.92803        
+## Number of obs: 657, groups:  id, 33
+## 
+## Fixed effects:
+##                                     Estimate Std. Error         df t value              Pr(&gt;|t|)    
+## (Intercept)                         2.000000   0.095093  64.333533  21.032 &lt; 0.00000000000000022 ***
+## issuenon-at-issue                   2.515429   0.102690 592.123435  24.495 &lt; 0.00000000000000022 ***
+## trigger_catsoft                     1.727273   0.134131  64.858071  12.877 &lt; 0.00000000000000022 ***
+## issuenon-at-issue:trigger_catsoft  -1.879065   0.144860 591.648471 -12.972 &lt; 0.00000000000000022 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) issn-- trggr_
+## issunn-t-ss -0.535              
+## trggr_ctsft -0.487  0.379       
+## issnn-t-s:_  0.379 -0.709 -0.537</code></pre>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="5-linear-mixed-models.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;####</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## ####</code></pre>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="5-linear-mixed-models.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psp_lmm_issue)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ issue * trigger_cat + (issue | id)
+##    Data: d_psp
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1875.3   1911.2   -929.6   1859.3      649 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.52991 -0.56302  0.13638  0.55042  3.20614 
+## 
+## Random effects:
+##  Groups   Name              Variance Std.Dev. Corr  
+##  id       (Intercept)       0.173402 0.41642        
+##           issuenon-at-issue 0.097873 0.31285  -0.339
+##  Residual                   0.901238 0.94934        
+## Number of obs: 657, groups:  id, 33
+## 
+## Fixed effects:
+##                                    Estimate Std. Error        df t value              Pr(&gt;|t|)    
+## (Intercept)                         2.00000    0.10352  59.04491  19.320 &lt; 0.00000000000000022 ***
+## issuenon-at-issue                   2.51616    0.11833  88.69901  21.264 &lt; 0.00000000000000022 ***
+## trigger_catsoft                     1.72727    0.10452 591.18494  16.526 &lt; 0.00000000000000022 ***
+## issuenon-at-issue:trigger_catsoft  -1.87980    0.14819 591.64714 -12.685 &lt; 0.00000000000000022 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) issn-- trggr_
+## issunn-t-ss -0.555              
+## trggr_ctsft -0.505  0.442       
+## issnn-t-s:_  0.356 -0.629 -0.705</code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="5-linear-mixed-models.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;####</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## ####</code></pre>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="5-linear-mixed-models.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psp_lmm_both)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ issue * trigger_cat + (issue + trigger_cat | id)
+##    Data: d_psp
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1856.7   1906.1   -917.4   1834.7      646 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.68352 -0.56292  0.12466  0.54356  3.21611 
+## 
+## Random effects:
+##  Groups   Name              Variance Std.Dev. Corr         
+##  id       (Intercept)       0.20226  0.44973               
+##           issuenon-at-issue 0.11195  0.33459  -0.672       
+##           trigger_catsoft   0.25540  0.50537  -0.377  0.588
+##  Residual                   0.82998  0.91103               
+## Number of obs: 657, groups:  id, 33
+## 
+## Fixed effects:
+##                                    Estimate Std. Error        df t value              Pr(&gt;|t|)    
+## (Intercept)                         2.00000    0.10564  41.86307  18.933 &lt; 0.00000000000000022 ***
+## issuenon-at-issue                   2.51532    0.11642  83.47478  21.605 &lt; 0.00000000000000022 ***
+## trigger_catsoft                     1.72727    0.13342  63.51753  12.947 &lt; 0.00000000000000022 ***
+## issuenon-at-issue:trigger_catsoft  -1.87895    0.14220 559.23378 -13.213 &lt; 0.00000000000000022 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) issn-- trggr_
+## issunn-t-ss -0.658              
+## trggr_ctsft -0.541  0.518       
+## issnn-t-s:_  0.335 -0.614 -0.530</code></pre>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="5-linear-mixed-models.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;####</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## ####</code></pre>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="5-linear-mixed-models.html#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psp_lmm_int)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ issue * trigger_cat + (issue * trigger_cat | id)
+##    Data: d_psp
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1851.5   1918.8   -910.8   1821.5      642 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.83343 -0.49357  0.14374  0.56197  3.33018 
+## 
+## Random effects:
+##  Groups   Name                              Variance Std.Dev. Corr                
+##  id       (Intercept)                       0.32132  0.56685                      
+##           issuenon-at-issue                 0.29742  0.54537  -0.837              
+##           trigger_catsoft                   0.67379  0.82085  -0.657  0.858       
+##           issuenon-at-issue:trigger_catsoft 0.40649  0.63757   0.759 -0.802 -0.959
+##  Residual                                   0.79588  0.89212                      
+## Number of obs: 657, groups:  id, 33
+## 
+## Fixed effects:
+##                                   Estimate Std. Error       df  t value              Pr(&gt;|t|)    
+## (Intercept)                        2.00000    0.12067 33.03049  16.5746 &lt; 0.00000000000000022 ***
+## issuenon-at-issue                  2.51525    0.13694 37.00472  18.3669 &lt; 0.00000000000000022 ***
+## trigger_catsoft                    1.72727    0.17339 33.03066   9.9617    0.0000000000176434 ***
+## issuenon-at-issue:trigger_catsoft -1.87888    0.17806 40.51940 -10.5519    0.0000000000003424 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) issn-- trggr_
+## issunn-t-ss -0.766              
+## trggr_ctsft -0.673  0.693       
+## issnn-t-s:_  0.611 -0.746 -0.805
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+</div>
+</div>
+<div id="what-do-i-do-about-my-p-values" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> What do I do about my <span class="math inline">\(p\)</span>-values?<a href="5-linear-mixed-models.html#what-do-i-do-about-my-p-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There is quite a bit of controversy about how to get p-values from linear mixed models.</p>
+<p>The approach that I will present here is the (as far as I know) most consersative one.</p>
+<p>This works as follows: We compare several models of different complexity and see whether the more restrictive model (i.e., the one with one less estimation to do) and the one that includes our factor of interest differ from each other with respect to how much variance they explain.</p>
+<p>If there is one such difference, we can be pretty sure that that factor is significant. If not, then there is no effect.</p>
+<p>Let’s go through this step by step. First, we need all the models. In terms of random effects structure, let’s use the most complex one:</p>
+<p>And also, let’s finally use all of the data:</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="5-linear-mixed-models.html#cb182-1" aria-hidden="true" tabindex="-1"></a>d_psp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">&quot;assets&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;psp-data.csv&quot;</span>))</span>
+<span id="cb182-2"><a href="5-linear-mixed-models.html#cb182-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d_psp)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 16
+##   id                               gender   age months age_months_dec stage    median_group   item          itemid   
+##   &lt;chr&gt;                            &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;         &lt;chr&gt;    
+## 1 3536fed0235c7b34a33ddf06fb91b390 w          5      1            5.1 Children Older Children schaffen4_at  schaffen4
+## 2 3536fed0235c7b34a33ddf06fb91b390 w          5      1            5.1 Children Older Children schaffen1_non schaffen1
+## 3 3536fed0235c7b34a33ddf06fb91b390 w          5      1            5.1 Children Older Children cleft2_non    cleft2   
+## 4 3536fed0235c7b34a33ddf06fb91b390 w          5      1            5.1 Children Older Children appRel3_non   appRel3  
+## 5 3536fed0235c7b34a33ddf06fb91b390 w          5      1            5.1 Children Older Children appRel9_non   appRel9  
+## 6 3536fed0235c7b34a33ddf06fb91b390 w          5      1            5.1 Children Older Children gewinnen2_non gewinnen2
+##   trigger  trigger_cat issue        judgment question_type  presentation_order presentation_cat
+##   &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;                       &lt;dbl&gt; &lt;chr&gt;           
+## 1 schaffen soft        at-issue            5 wh-Question                     1 1st half        
+## 2 schaffen soft        non-at-issue        5 wh-Question                     2 1st half        
+## 3 cleft    hard        non-at-issue        5 wh-Question                     3 1st half        
+## 4 appRel   appo        non-at-issue        5 wh-Question                     4 1st half        
+## 5 appRel   appo        non-at-issue        4 wh-Question                     5 1st half        
+## 6 gewinnen soft        non-at-issue        4 Polar Question                  6 1st half</code></pre>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="5-linear-mixed-models.html#cb184-1" aria-hidden="true" tabindex="-1"></a>psp_0 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb184-2"><a href="5-linear-mixed-models.html#cb184-2" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb184-3"><a href="5-linear-mixed-models.html#cb184-3" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span></span>
+<span id="cb184-4"><a href="5-linear-mixed-models.html#cb184-4" aria-hidden="true" tabindex="-1"></a>      itemid),</span>
+<span id="cb184-5"><a href="5-linear-mixed-models.html#cb184-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb184-6"><a href="5-linear-mixed-models.html#cb184-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb184-7"><a href="5-linear-mixed-models.html#cb184-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">lmerControl</span>(<span class="at">optCtrl =</span> <span class="fu">list</span>(<span class="at">maxfun =</span> <span class="fl">1e6</span>), <span class="at">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</span>
+<span id="cb184-8"><a href="5-linear-mixed-models.html#cb184-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb184-9"><a href="5-linear-mixed-models.html#cb184-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-10"><a href="5-linear-mixed-models.html#cb184-10" aria-hidden="true" tabindex="-1"></a>psp_1a <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb184-11"><a href="5-linear-mixed-models.html#cb184-11" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> issue <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb184-12"><a href="5-linear-mixed-models.html#cb184-12" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span></span>
+<span id="cb184-13"><a href="5-linear-mixed-models.html#cb184-13" aria-hidden="true" tabindex="-1"></a>      itemid),</span>
+<span id="cb184-14"><a href="5-linear-mixed-models.html#cb184-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb184-15"><a href="5-linear-mixed-models.html#cb184-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb184-16"><a href="5-linear-mixed-models.html#cb184-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">lmerControl</span>(<span class="at">optCtrl =</span> <span class="fu">list</span>(<span class="at">maxfun =</span> <span class="fl">1e6</span>), <span class="at">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</span>
+<span id="cb184-17"><a href="5-linear-mixed-models.html#cb184-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb184-18"><a href="5-linear-mixed-models.html#cb184-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-19"><a href="5-linear-mixed-models.html#cb184-19" aria-hidden="true" tabindex="-1"></a>psp_1b <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb184-20"><a href="5-linear-mixed-models.html#cb184-20" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb184-21"><a href="5-linear-mixed-models.html#cb184-21" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span></span>
+<span id="cb184-22"><a href="5-linear-mixed-models.html#cb184-22" aria-hidden="true" tabindex="-1"></a>      itemid),</span>
+<span id="cb184-23"><a href="5-linear-mixed-models.html#cb184-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb184-24"><a href="5-linear-mixed-models.html#cb184-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb184-25"><a href="5-linear-mixed-models.html#cb184-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">lmerControl</span>(<span class="at">optCtrl =</span> <span class="fu">list</span>(<span class="at">maxfun =</span> <span class="fl">1e6</span>), <span class="at">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</span>
+<span id="cb184-26"><a href="5-linear-mixed-models.html#cb184-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb184-27"><a href="5-linear-mixed-models.html#cb184-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-28"><a href="5-linear-mixed-models.html#cb184-28" aria-hidden="true" tabindex="-1"></a>psp_1c <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb184-29"><a href="5-linear-mixed-models.html#cb184-29" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb184-30"><a href="5-linear-mixed-models.html#cb184-30" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span></span>
+<span id="cb184-31"><a href="5-linear-mixed-models.html#cb184-31" aria-hidden="true" tabindex="-1"></a>      itemid),</span>
+<span id="cb184-32"><a href="5-linear-mixed-models.html#cb184-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb184-33"><a href="5-linear-mixed-models.html#cb184-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb184-34"><a href="5-linear-mixed-models.html#cb184-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">lmerControl</span>(<span class="at">optCtrl =</span> <span class="fu">list</span>(<span class="at">maxfun =</span> <span class="fl">1e6</span>), <span class="at">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</span>
+<span id="cb184-35"><a href="5-linear-mixed-models.html#cb184-35" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>And now let’s compare them. To do this, we use the <code>anova()</code> command:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="5-linear-mixed-models.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(psp_0, psp_1a)</span></code></pre></div>
+<pre><code>## Data: d_psp
+## Models:
+## psp_0: judgment ~ 1 + (issue + trigger_cat | id) + (issue | itemid)
+## psp_1a: judgment ~ issue + (issue + trigger_cat | id) + (issue | itemid)
+##        npar     AIC     BIC   logLik deviance   Chisq Df      Pr(&gt;Chisq)    
+## psp_0    15 5162.58 5243.81 -2566.29  5132.58                               
+## psp_1a   16 5128.91 5215.56 -2548.45  5096.91 35.6719  1 0.0000000023351 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="5-linear-mixed-models.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(psp_0, psp_1b)</span></code></pre></div>
+<pre><code>## Data: d_psp
+## Models:
+## psp_0: judgment ~ 1 + (issue + trigger_cat | id) + (issue | itemid)
+## psp_1b: judgment ~ trigger_cat + (issue + trigger_cat | id) + (issue | itemid)
+##        npar     AIC     BIC   logLik deviance   Chisq Df Pr(&gt;Chisq)  
+## psp_0    15 5162.58 5243.81 -2566.29  5132.58                        
+## psp_1b   17 5158.68 5250.75 -2562.34  5124.68 7.89444  2   0.019308 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="5-linear-mixed-models.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(psp_0, psp_1c)</span></code></pre></div>
+<pre><code>## Data: d_psp
+## Models:
+## psp_0: judgment ~ 1 + (issue + trigger_cat | id) + (issue | itemid)
+## psp_1c: judgment ~ stage + (issue + trigger_cat | id) + (issue | itemid)
+##        npar     AIC     BIC   logLik deviance   Chisq Df Pr(&gt;Chisq)
+## psp_0    15 5162.58 5243.81 -2566.29  5132.58                      
+## psp_1c   16 5163.66 5250.31 -2565.83  5131.66 0.92021  1    0.33742</code></pre>
+<p>But that’s a lot of work, I hear you say. Is there a better way? Yes, the <code>afex</code> has a function that will do all of the work for you:</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="5-linear-mixed-models.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb191-2"><a href="5-linear-mixed-models.html#cb191-2" aria-hidden="true" tabindex="-1"></a>psp_lmm <span class="ot">&lt;-</span> <span class="fu">mixed</span>(</span>
+<span id="cb191-3"><a href="5-linear-mixed-models.html#cb191-3" aria-hidden="true" tabindex="-1"></a>  judgment <span class="sc">~</span> stage <span class="sc">*</span> issue <span class="sc">*</span> trigger_cat <span class="sc">+</span> (issue <span class="sc">+</span> trigger_cat <span class="sc">|</span> id) <span class="sc">+</span></span>
+<span id="cb191-4"><a href="5-linear-mixed-models.html#cb191-4" aria-hidden="true" tabindex="-1"></a>    (issue <span class="sc">|</span> itemid),</span>
+<span id="cb191-5"><a href="5-linear-mixed-models.html#cb191-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb191-6"><a href="5-linear-mixed-models.html#cb191-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;LRT&quot;</span>,</span>
+<span id="cb191-7"><a href="5-linear-mixed-models.html#cb191-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">expand_re =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb191-8"><a href="5-linear-mixed-models.html#cb191-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">REML =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb191-9"><a href="5-linear-mixed-models.html#cb191-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">check_contrasts =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb191-10"><a href="5-linear-mixed-models.html#cb191-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">lmerControl</span>(<span class="at">optCtrl =</span> <span class="fu">list</span>(<span class="at">maxfun =</span> <span class="fl">1e6</span>), <span class="at">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</span>
+<span id="cb191-11"><a href="5-linear-mixed-models.html#cb191-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## Contrasts set to contr.sum for the following variables: stage, issue, trigger_cat, id, itemid</code></pre>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="5-linear-mixed-models.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psp_lmm)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ stage * issue * trigger_cat + (1 + re1.issue1 + re1.trigger_cat1 +  
+##     re1.trigger_cat2 | id) + (1 + re2.issue1 | itemid)
+##    Data: data
+## Control: lmerControl(optCtrl = list(maxfun = 1000000), optimizer = &quot;bobyqa&quot;)
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   5001.9   5142.7  -2474.9   4949.9     1636 
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.32629 -0.53953  0.07995  0.60519  3.07369 
+## 
+## Random effects:
+##  Groups   Name             Variance  Std.Dev. Corr                
+##  id       (Intercept)      0.2877350 0.536409                     
+##           re1.issue1       0.0265034 0.162799  0.343              
+##           re1.trigger_cat1 0.0241334 0.155349 -0.081 -0.139       
+##           re1.trigger_cat2 0.0314903 0.177455 -0.145  0.669  0.396
+##  itemid   (Intercept)      0.0273183 0.165282                     
+##           re2.issue1       0.0098093 0.099042 0.304               
+##  Residual                  0.9957573 0.997876                     
+## Number of obs: 1662, groups:  id, 56; itemid, 30
+## 
+## Fixed effects:
+##                               Estimate  Std. Error          df  t value              Pr(&gt;|t|)    
+## (Intercept)                   3.501566    0.082965   66.375092  42.2052 &lt; 0.00000000000000022 ***
+## stage1                       -0.024771    0.077262   56.540660  -0.3206             0.7496905    
+## issue1                       -0.539905    0.038623   39.454706 -13.9787 &lt; 0.00000000000000022 ***
+## trigger_cat1                 -0.236224    0.059691   33.443798  -3.9575             0.0003733 ***
+## trigger_cat2                 -0.117529    0.061341   35.248683  -1.9160             0.0635043 .  
+## stage1:issue1                -0.337886    0.034321   59.862353  -9.8449   0.00000000000003945 ***
+## stage1:trigger_cat1          -0.126910    0.041823   57.809204  -3.0345             0.0036072 ** 
+## stage1:trigger_cat2          -0.087479    0.043458   58.251925  -2.0129             0.0487513 *  
+## issue1:trigger_cat1          -0.111251    0.044405   30.756521  -2.5054             0.0177418 *  
+## issue1:trigger_cat2          -0.232307    0.044934   29.937929  -5.1700   0.00001449595699166 ***
+## stage1:issue1:trigger_cat1   -0.091389    0.036723 1310.246456  -2.4886             0.0129475 *  
+## stage1:issue1:trigger_cat2   -0.126099    0.036727 1326.319222  -3.4334             0.0006144 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) stage1 issue1 trgg_1 trgg_2 stg1:1 st1:_1 st1:_2 is1:_1 is1:_2 s1:1:_1
+## stage1      -0.171                                                                       
+## issue1       0.232 -0.037                                                                
+## trigger_ct1 -0.030  0.006 -0.035                                                         
+## trigger_ct2 -0.042  0.009  0.164 -0.378                                                  
+## stage1:iss1 -0.038  0.213 -0.192  0.005 -0.030                                           
+## stg1:trgg_1  0.008 -0.040  0.009 -0.144  0.040 -0.044                                    
+## stg1:trgg_2  0.012 -0.076 -0.041  0.039 -0.147  0.237 -0.245                             
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 4 rows ]</code></pre>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="5-linear-mixed-models.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(psp_lmm)</span></code></pre></div>
+<pre><code>## Mixed Model Anova Table (Type 3 tests, LRT-method)
+## 
+## Model: judgment ~ stage * issue * trigger_cat + (issue + trigger_cat | 
+## Model:     id) + (issue | itemid)
+## Data: d_psp
+## Df full model: 26
+##                         Df   Chisq Chi Df             Pr(&gt;Chisq)    
+## stage                   25  0.1026      1             0.74872743    
+## issue                   25 69.0498      1 &lt; 0.000000000000000222 ***
+## trigger_cat             24 22.3172      2   0.000014252140351343 ***
+## stage:issue             25 57.6565      1   0.000000000000031213 ***
+## stage:trigger_cat       24 15.1527      2             0.00051244 ***
+## issue:trigger_cat       24 33.5860      2   0.000000050920357821 ***
+## stage:issue:trigger_cat 24 34.5869      2   0.000000030870781952 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bates2015lme4" class="csl-entry">
+Bates, Douglas, Martin Mächler, Ben Bolker, and Steve Walker. 2015. Fitting linear mixed-effects models using <span class="nocase">lme4</span>. <em>Journal of Statistical Software</em> 67: 1–48.
+</div>
+<div id="ref-thalmann2022presupposition" class="csl-entry">
+Chen, Yuqiu, Maik Thalmann, and Mailin Antomo. 2022. Presupposition triggers and (not-)at-issueness. <span>Insights</span> from language acquisition into the soft-hard distinction. <em>Journal of Pragmatics</em> 199: 21–46.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="4-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="6-loose-ends.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": {},
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

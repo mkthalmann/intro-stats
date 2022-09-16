@@ -1,0 +1,69 @@
+# Waste basket
+
+## Repeated measures and the independence assumption
+
+Two events $A$ and $B$ are independent if the occurrence (or absence) of neither is unaffected by
+the occurrence (or absence) of the other. That is, the following must hold:
+
+$$P(A \mid B) = P(A) \text{ and } P(B \mid A) = P(B) $$
+
+A shorter (by in my view less intuitive) formulation is this:
+
+$$P(A \cap B) = P(A)P(B)$$
+
+
+## Contrast coding and interactions
+
+NOTE: Contrast coding only applies when categorical predictors are used. With continuous predictors, this is not needed.
+
+sum-coding has important advantages when interactions are present
+
+To check the contrasts that R assigns to a factor, use the `contrasts` command. To change the contrast coding, we can do something like this:
+
+```{r contrasts}
+x <- factor(c("A", "B"))
+# check the contrasts
+contrasts(x)
+
+# change to sum-conding
+contrasts(x) <- contr.sum(2)
+contrasts(x)
+
+# go back to treatment coding
+contrasts(x) <- contr.treatment(2)
+contrasts(x)
+```
+
+(There are other ways of changing this. Most packages offer a contrast coding argument in the relevant call to the regression function. But this one is much more explicit.)
+
+## Effect size
+
+```{r effsize}
+library(effsize)
+diamonds_sub %>%
+    cohen.d(price ~ color, data = .)
+```
+
+$$d = \frac{\bar{x}_1-\bar{x}_2}{s}$$
+
+```{r p_effsize}
+diamonds_sub %>%
+    ggplot(aes(x = price, fill = color, color = color)) +
+    geom_density(alpha = .5)
+```
+
+## Power calculations for mixed models
+
+While we can often estimate a studies power a priori for simple tests, for mixed models this is not so easy. One way to do with is via simulations. 
+
+The `simr` package might be used to do this.
+
+## What random effects should I specify?
+
+Approaches differ. 
+
+Some people argue for parsimonious models: @matuschek2017type.
+
+Others prefer the most maximal random effects structure: @barr2013randomeffects.
+
+The most common way in the field currently seems to be the second one, but I am not so sure this is right.

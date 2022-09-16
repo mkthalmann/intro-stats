@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 ANOVA | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</title>
+  <meta name="description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 ANOVA | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="github-repo" content="mkthalmann" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 ANOVA | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  
+  <meta name="twitter:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="2-concepts-and-background.html"/>
+<link rel="next" href="4-regression.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">CAnDA Equinox School School: Introduction to Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>1.1.1</b> R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#statistics"><i class="fa fa-check"></i><b>1.1.2</b> Statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#get-in-touch"><i class="fa fa-check"></i><b>1.2</b> Get in touch</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#session-info"><i class="fa fa-check"></i>Session Info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html"><i class="fa fa-check"></i><b>2</b> Concepts and Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-general-points-about-the-class"><i class="fa fa-check"></i><b>2.1</b> Some general points about the class</a></li>
+<li class="chapter" data-level="2.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#on-inferential-statistics"><i class="fa fa-check"></i><b>2.2</b> On inferential statistics</a></li>
+<li class="chapter" data-level="2.3" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#a-note-on-frequentism"><i class="fa fa-check"></i><b>2.3</b> A note on frequentism</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>2.3.1</b> Measures of Central Tendency</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-dispersion"><i class="fa fa-check"></i><b>2.3.2</b> Measures of Dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#hypotheses"><i class="fa fa-check"></i><b>2.4</b> Hypotheses</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#null-hypothesis"><i class="fa fa-check"></i><b>2.4.1</b> Null Hypothesis</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#alternative-hypothesis"><i class="fa fa-check"></i><b>2.4.2</b> Alternative hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>2.5</b> Type I and Type II errors</a></li>
+<li class="chapter" data-level="2.6" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-terms"><i class="fa fa-check"></i><b>2.6</b> Some terms</a></li>
+<li class="chapter" data-level="2.7" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#the-t-test"><i class="fa fa-check"></i><b>2.7</b> The <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="2.8" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#wrap-up"><i class="fa fa-check"></i><b>2.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-anova.html"><a href="3-anova.html"><i class="fa fa-check"></i><b>3</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3-anova.html"><a href="3-anova.html#yesterday"><i class="fa fa-check"></i><b>3.1</b> Yesterday</a></li>
+<li class="chapter" data-level="3.2" data-path="3-anova.html"><a href="3-anova.html#how-to-get-to-rome"><i class="fa fa-check"></i><b>3.2</b> How to get to Rome</a></li>
+<li class="chapter" data-level="3.3" data-path="3-anova.html"><a href="3-anova.html#repeated-measures"><i class="fa fa-check"></i><b>3.3</b> Repeated Measures</a></li>
+<li class="chapter" data-level="3.4" data-path="3-anova.html"><a href="3-anova.html#two-way-anova"><i class="fa fa-check"></i><b>3.4</b> Two-Way ANOVA</a></li>
+<li class="chapter" data-level="3.5" data-path="3-anova.html"><a href="3-anova.html#more-repeated-measures"><i class="fa fa-check"></i><b>3.5</b> More repeated measures</a></li>
+<li class="chapter" data-level="3.6" data-path="3-anova.html"><a href="3-anova.html#anova-by-hand"><i class="fa fa-check"></i><b>3.6</b> ANOVA by hand</a></li>
+<li class="chapter" data-level="3.7" data-path="3-anova.html"><a href="3-anova.html#interpreting-an-anova"><i class="fa fa-check"></i><b>3.7</b> Interpreting an ANOVA</a></li>
+<li class="chapter" data-level="3.8" data-path="3-anova.html"><a href="3-anova.html#wrap-up-1"><i class="fa fa-check"></i><b>3.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-regression.html"><a href="4-regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4-regression.html"><a href="4-regression.html#models-and-regression-lines"><i class="fa fa-check"></i><b>4.1</b> Models and regression lines</a></li>
+<li class="chapter" data-level="4.2" data-path="4-regression.html"><a href="4-regression.html#varying-intercepts-slopes-and-errors"><i class="fa fa-check"></i><b>4.2</b> Varying intercepts, slopes, and errors</a></li>
+<li class="chapter" data-level="4.3" data-path="4-regression.html"><a href="4-regression.html#regression-in-r"><i class="fa fa-check"></i><b>4.3</b> Regression in R</a></li>
+<li class="chapter" data-level="4.4" data-path="4-regression.html"><a href="4-regression.html#multiple-regression"><i class="fa fa-check"></i><b>4.4</b> Multiple Regression</a></li>
+<li class="chapter" data-level="4.5" data-path="4-regression.html"><a href="4-regression.html#centering-and-standardization"><i class="fa fa-check"></i><b>4.5</b> Centering and Standardization</a></li>
+<li class="chapter" data-level="4.6" data-path="4-regression.html"><a href="4-regression.html#interpreting-interactions"><i class="fa fa-check"></i><b>4.6</b> Interpreting interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html"><i class="fa fa-check"></i><b>5</b> Linear Mixed Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#previously"><i class="fa fa-check"></i><b>5.1</b> Previously …</a></li>
+<li class="chapter" data-level="5.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#before-we-go-on-lets-talk-about-pooling"><i class="fa fa-check"></i><b>5.2</b> Before we go on, let’s talk about pooling</a></li>
+<li class="chapter" data-level="5.3" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#random-effects"><i class="fa fa-check"></i><b>5.3</b> Random Effects</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#lets-have-a-bit-more-of-a-detailed-look"><i class="fa fa-check"></i><b>5.3.1</b> Let’s have a bit more of a detailed look</a></li>
+<li class="chapter" data-level="5.3.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#model-output-comparisons"><i class="fa fa-check"></i><b>5.3.2</b> Model output comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#what-do-i-do-about-my-p-values"><i class="fa fa-check"></i><b>5.4</b> What do I do about my <span class="math inline">\(p\)</span>-values?</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="6-loose-ends.html"><a href="6-loose-ends.html"><i class="fa fa-check"></i><b>6</b> Loose ends</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#long-computation-times"><i class="fa fa-check"></i><b>6.1</b> Long computation times</a></li>
+<li class="chapter" data-level="6.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#convergence-issues"><i class="fa fa-check"></i><b>6.2</b> Convergence Issues</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#optimizers"><i class="fa fa-check"></i><b>6.2.1</b> Optimizers</a></li>
+<li class="chapter" data-level="6.2.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reducing-the-random-effects-structure"><i class="fa fa-check"></i><b>6.2.2</b> Reducing the random effects structure</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="6-loose-ends.html"><a href="6-loose-ends.html#investigating-interactions-and-pairwise-comparisons"><i class="fa fa-check"></i><b>6.3</b> Investigating interactions and pairwise comparisons</a></li>
+<li class="chapter" data-level="6.4" data-path="6-loose-ends.html"><a href="6-loose-ends.html#not-recommended-all-pairwise-comparisons"><i class="fa fa-check"></i><b>6.4</b> Not recommended: all pairwise comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="6-loose-ends.html"><a href="6-loose-ends.html#more-emmeans-interactions"><i class="fa fa-check"></i><b>6.5</b> More emmeans: Interactions</a></li>
+<li class="chapter" data-level="6.6" data-path="6-loose-ends.html"><a href="6-loose-ends.html#ordinal-data"><i class="fa fa-check"></i><b>6.6</b> Ordinal data</a></li>
+<li class="chapter" data-level="6.7" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reporting"><i class="fa fa-check"></i><b>6.7</b> Reporting</a></li>
+<li class="chapter" data-level="6.8" data-path="6-loose-ends.html"><a href="6-loose-ends.html#open-questions"><i class="fa fa-check"></i><b>6.8</b> Open questions</a></li>
+<li class="chapter" data-level="6.9" data-path="6-loose-ends.html"><a href="6-loose-ends.html#fin"><i class="fa fa-check"></i><b>6.9</b> Fin!</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20" target="blank">maik.thalmann@gmail.com</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="anova" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> ANOVA<a href="3-anova.html#anova" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="yesterday" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Yesterday<a href="3-anova.html#yesterday" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So, yesterday we talked about various things:</p>
+<ul>
+<li>measures of central tendency and of dispersion</li>
+<li>null hypotheses and alternative hypotheses</li>
+<li>a short review of the <span class="math inline">\(t\)</span> test</li>
+</ul>
+<p>Today’s plan is to introduce cases where we have more than independent variable—situations where we have more than one main effect.</p>
+<p>In these cases, our <span class="math inline">\(t\)</span>-test does not work:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="3-anova.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(lung_cap <span class="sc">~</span> smoker <span class="sc">+</span> age, <span class="at">data =</span> lungs)</span></code></pre></div>
+<div style="color:Crimson; background-color: SeaShell;">
+<p><strong>Error</strong> in t.test.formula(lung_cap ~ smoker + age, data = lungs): ‘formula’ missing or incorrect</p>
+</div>
+<div class="alert alert-info">
+<p><strong>Question:</strong> Can you think of a reason why we cannot just several <span class="math inline">\(t\)</span>-tests here? There are at least two:</p>
+<ul>
+<li>one has to do with the kind of data we have here and</li>
+<li>one has to do with a concept from yesterday: power.</li>
+</ul>
+</div>
+<p>This means that we need to talk about more sophisticated tests that let us draw an inference on the basis of multiple factors.</p>
+<p>We will also talked about a very central topic in the analysis of (psycho)linguistic data: repeated measures.</p>
+<p>In contrast to the lung capacity data we saw yesterday where every person had the lung capacity measured once, in linguistics we will often give participants multiple items of the same condition. This means that we have several data points per person per experimental condition.</p>
+<p>And one of our goal for today will be to integrate this design feature into our statistical toolbox.</p>
+</div>
+<div id="how-to-get-to-rome" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> How to get to Rome<a href="3-anova.html#how-to-get-to-rome" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before we do so, let me briefly say something about equivalence. Yesterday, we used a very specific function, namely <code>t.test()</code>, to derive our statistical result. However, especially at this simple level where we’re only dealing with a single independent variable, a lot of tests will give us the same result.</p>
+<p>Before we move on to the illustration, let me introduce a new data set. This is from an experiment I did with two colleagues of mine: Yuqui Chen and Mailin Antomo <span class="citation">(<a href="#ref-thalmann2022presupposition" role="doc-biblioref">Chen et al. 2022</a>)</span>.</p>
+<p>Here are two sample items. People saw all items (several hard and soft triggers), but only one condition per item, either the assertion was at-issue or the presupposition.</p>
+<ul>
+<li><p><strong>Soft trigger</strong> <em>win</em></p>
+<p>The panda, the duck, and the frog are having a drawing competition. All like the duck’s drawing the most. The duck receives a crown as a prize. The clown did not pay attention again and asks:</p>
+<ol style="list-style-type: lower-alpha">
+<li><strong>Assertion at-issue</strong>:
+“Did the duck do the best at the competition?”</li>
+<li><strong>Presupposition at-issue</strong>:
+“Did the duck participate in the competition?”</li>
+</ol>
+<p>Little Peter responds, “The duck won the competition.”</p></li>
+<li><p><strong>Hard trigger</strong> <em>again</em></p>
+<p>The panda is a member of a soccer club. Recently, he has been playing very well and scored many goals in the past weeks. Yesterday there was a football game and he scored a goal. The clown did not pay attention again and asks:</p>
+<ol style="list-style-type: lower-alpha">
+<li><strong>Assertion at-issue</strong>:
+“Did the panda score a goal yesterday?”</li>
+<li><strong>Presupposition at-issue</strong>:
+“Did the panda score a goal for the first time yesterday?”</li>
+</ol>
+<p>Little Peter responds, “The panda scored a goal again yesterday.”</p></li>
+</ul>
+<center>
+<div class="figure">
+<img src="assets/media/psp.jpg" alt="" />
+<p class="caption">A sample of our image material for the “win” item.</p>
+</div>
+</center>
+<center>
+<div class="figure">
+<img src="assets/media/skala.png" alt="" />
+<p class="caption">The (unfortunately very ugly) Likert-type scale from 1 (unacceptable) to 5 (acceptable)</p>
+</div>
+</center>
+<p>We will only work with a smaller set of data here. As you can see in the code below, I am excluding the children, and one level of the trigger type independent variable (namely non-restrictive relative clauses). And there is some other stuff in the columns that I am dropping here, but this level of complexity should be enough for now.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="3-anova.html#cb44-1" aria-hidden="true" tabindex="-1"></a>d_psp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">&quot;assets&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;psp-data.csv&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="3-anova.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trigger_cat <span class="sc">!=</span> <span class="st">&quot;appo&quot;</span>, stage <span class="sc">!=</span> <span class="st">&quot;Children&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="3-anova.html#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, itemid, trigger_cat, issue, judgment)</span>
+<span id="cb44-4"><a href="3-anova.html#cb44-4" aria-hidden="true" tabindex="-1"></a>d_psp</span></code></pre></div>
+<pre><code>## # A tibble: 657 × 5
+##    id                         itemid     trigger_cat issue        judgment
+##    &lt;chr&gt;                      &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;
+##  1 auncqkpvl6b3rp0d3g833vmuh6 gewinnen2  soft        at-issue            5
+##  2 auncqkpvl6b3rp0d3g833vmuh6 schaffen1  soft        at-issue            1
+##  3 auncqkpvl6b3rp0d3g833vmuh6 auch3      hard        at-issue            1
+##  4 auncqkpvl6b3rp0d3g833vmuh6 entdecken1 soft        at-issue            5
+##  5 auncqkpvl6b3rp0d3g833vmuh6 schaffen3  soft        at-issue            1
+##  6 auncqkpvl6b3rp0d3g833vmuh6 cleft3     hard        non-at-issue        5
+##  7 auncqkpvl6b3rp0d3g833vmuh6 wieder1    hard        non-at-issue        5
+##  8 auncqkpvl6b3rp0d3g833vmuh6 auch2      hard        non-at-issue        5
+##  9 auncqkpvl6b3rp0d3g833vmuh6 auch1      hard        at-issue            1
+## 10 auncqkpvl6b3rp0d3g833vmuh6 entdecken2 soft        non-at-issue        5
+## # … with 647 more rows</code></pre>
+<p>Here’s a plot of the data:</p>
+<p><img src="figs/pspplot-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Now, here’s the <code>lm()</code> call that gives us the difference betweem the two trigger types (remember that this is equivalent to the <span class="math inline">\(t\)</span> test):</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="3-anova.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(judgment <span class="sc">~</span> trigger_cat, <span class="at">data =</span> d_psp))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = judgment ~ trigger_cat, data = d_psp)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -3.045455 -1.244648 -0.045455  0.954545  1.755352 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value              Pr(&gt;|t|)    
+## (Intercept)     3.244648   0.076661 42.3246 &lt; 0.00000000000000022 ***
+## trigger_catsoft 0.800806   0.108168  7.4033    0.0000000000004096 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.3863 on 655 degrees of freedom
+## Multiple R-squared:  0.077217,   Adjusted R-squared:  0.075808 
+## F-statistic: 54.809 on 1 and 655 DF,  p-value: 0.00000000000040959</code></pre>
+<p>And here’s one more equivalent command (though you do not see the <span class="math inline">\(t\)</span> value below, if you look at the results above, you will see the <span class="math inline">\(F\)</span> value at the very bottom and that the <span class="math inline">\(p\)</span>-values are the same):</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="3-anova.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(judgment <span class="sc">~</span> trigger_cat, <span class="at">data =</span> d_psp))</span></code></pre></div>
+<pre><code>##              Df  Sum Sq Mean Sq F value             Pr(&gt;F)    
+## trigger_cat   1  105.33 105.330  54.809 0.0000000000004096 ***
+## Residuals   655 1258.75   1.922                               
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>So, in this simple case, the following three commands produce identical results: <code>t.test()</code>, <code>lm()</code>, <code>aov()</code>.</p>
+<p>But what is this <code>aov()</code> command exactly? It stands for the test people commonly call ANOVA (ANalysis Of VAriance). For a long while it was the standard test in linguistics (and related disciplines).</p>
+<p>For us, it is important to understand it as an extension of the <span class="math inline">\(t\)</span>-test: The two models are exactly identical in the simple case with one predictor—for the ANOVA, this is often called one-way ANOVA.</p>
+<p>In fact, the same computation we already did for the <span class="math inline">\(t\)</span>-test will show up again with the ANOVA, only the names for the parts will be different.</p>
+<p>Importantly, the ANOVA, but not the <span class="math inline">\(t\)</span>-test, handles more complex analytical situations as well, namely ones where we want to include several independent variables. And of course, in these situations the equivalence breaks down.</p>
+<p>What about the <code>lm()</code>? LM is short for linear model, i.e., a type of analysis that works by fitting a line by minimizing the distance of the actual observations to the line. Again, this line fitting procedure is equivalent to the ANOVA and the <span class="math inline">\(t\)</span>-test in this case.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="3-anova.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb50-2"><a href="3-anova.html#cb50-2" aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb50-3"><a href="3-anova.html#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">15</span>, <span class="at">mean =</span> <span class="dv">2</span>),</span>
+<span id="cb50-4"><a href="3-anova.html#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">15</span>, <span class="at">mean =</span> <span class="dv">3</span>),</span>
+<span id="cb50-5"><a href="3-anova.html#cb50-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-6"><a href="3-anova.html#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(a, b), <span class="at">names_to =</span> <span class="st">&quot;cond&quot;</span>)</span>
+<span id="cb50-7"><a href="3-anova.html#cb50-7" aria-hidden="true" tabindex="-1"></a>sim</span></code></pre></div>
+<pre><code>## # A tibble: 30 × 2
+##    cond   value
+##    &lt;chr&gt;  &lt;dbl&gt;
+##  1 a      0.793
+##  2 b      2.89 
+##  3 a      2.28 
+##  4 b      2.49 
+##  5 a      3.08 
+##  6 b      2.09 
+##  7 a     -0.346
+##  8 b      2.16 
+##  9 a      2.43 
+## 10 b      5.42 
+## # … with 20 more rows</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="3-anova.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(value <span class="sc">~</span> cond, <span class="at">data =</span> sim, <span class="at">var.eqal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  value by cond
+## t = -3.22713, df = 27.9739, p-value = 0.0031812
+## alternative hypothesis: true difference in means between group a and group b is not equal to 0
+## 95 percent confidence interval:
+##  -1.76840555 -0.39508234
+## sample estimates:
+## mean in group a mean in group b 
+##        1.662703        2.744447</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="3-anova.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(value <span class="sc">~</span> cond, <span class="at">data =</span> sim))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = value ~ cond, data = sim)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.00840 -0.57440 -0.21824  0.56148  2.67139 
+## 
+## Coefficients:
+##             Estimate Std. Error t value     Pr(&gt;|t|)    
+## (Intercept)  1.66270    0.23702  7.0149 0.0000001251 ***
+## condb        1.08174    0.33520  3.2271     0.003179 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.91799 on 28 degrees of freedom
+## Multiple R-squared:  0.27111,    Adjusted R-squared:  0.24507 
+## F-statistic: 10.414 on 1 and 28 DF,  p-value: 0.0031789</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="3-anova.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(value <span class="sc">~</span> cond, <span class="at">data =</span> sim))</span></code></pre></div>
+<pre><code>##             Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+## cond         1  8.7763  8.7763  10.414 0.003179 **
+## Residuals   28 23.5959  0.8427                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Notice here that <span class="math inline">\(t^2 = F: 3.2271^2 = 10.414\)</span>. And notice that the coefficient for the slope of <code>cond</code> is the same as the mean difference we find for the <span class="math inline">\(t\)</span>-test:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="3-anova.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(value <span class="sc">~</span> cond, <span class="at">data =</span> sim) <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="3-anova.html#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb58-3"><a href="3-anova.html#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 3
+##   estimate estimate1 estimate2
+##      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1    -1.08      1.66      2.74</code></pre>
+<p>What is important to remember is this: All of the tests we have discussed so far share a common core, and are actually mathematically identical in the simple case.</p>
+<p>With this in mind, let’s abandon the simple case and move on to repeated measures.</p>
+</div>
+<div id="repeated-measures" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Repeated Measures<a href="3-anova.html#repeated-measures" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As I hinted at at the outset, we ignored a very systematic part of the variance in the model above: repeated measures. This is the situation where we have multiple data points from the same person (each person judged different items in the same condition).</p>
+<p>While this type of systematic variance is not necessarily due to our experimental manipulations (more on that a little later when we talk about random slopes), it would be bad to ignore it because it may be a confound in our data. That is, a source of systematic variation in our data that has nothing to do with our experiment.</p>
+<p>To see this, let’s look at some of the participants in our experiment:</p>
+<p><img src="figs/pspid-1.png" width="100%" style="display: block; margin: auto;" />
+As we can see, though all participants show the overall effect, they differ from each other in quite significant ways. This individual variation is something we would like to account for in our statistics.</p>
+<p>For the <code>aov</code> function call, it is relatively easy to add repeated measures, simply add the grouping variable (the people) and the factors whose different levels were tested with each of them (trigger type) as an <code>Error()</code> term in your model.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="3-anova.html#cb60-1" aria-hidden="true" tabindex="-1"></a>anova_psp <span class="ot">&lt;-</span> <span class="fu">aov</span>(judgment <span class="sc">~</span> trigger_cat <span class="sc">+</span> <span class="fu">Error</span>(id <span class="sc">/</span> (trigger_cat)), <span class="at">data =</span> d_psp)</span>
+<span id="cb60-2"><a href="3-anova.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_psp)</span></code></pre></div>
+<pre><code>## 
+## Error: id
+##             Df  Sum Sq Mean Sq F value Pr(&gt;F)
+## trigger_cat  1   1.041  1.0408  0.2506 0.6202
+## Residuals   31 128.752  4.1533               
+## 
+## Error: id:trigger_cat
+##             Df  Sum Sq Mean Sq F value        Pr(&gt;F)    
+## trigger_cat  1 104.954 104.954   48.21 0.00000007297 ***
+## Residuals   32  69.665   2.177                          
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Error: Within
+##            Df Sum Sq Mean Sq F value Pr(&gt;F)
+## Residuals 591 1059.7   1.793</code></pre>
+<p>We could report this like this:</p>
+<blockquote>
+<p>The predicted main effect of TRIGGER TYPE was significant, <span class="math inline">\(F(1,31) = 48.21, p &lt; .001\)</span>.</p>
+</blockquote>
+<p>A lot of people find the following ANOVA command from the <code>afex</code> package <span class="citation">(<a href="#ref-singmann2016afex" role="doc-biblioref">Singmann et al. 2016</a>)</span> a little bit easier to use, so I am including it here.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="3-anova.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb62-2"><a href="3-anova.html#cb62-2" aria-hidden="true" tabindex="-1"></a>afex_psp <span class="ot">&lt;-</span> <span class="fu">aov_ez</span>(</span>
+<span id="cb62-3"><a href="3-anova.html#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;id&quot;</span>,</span>
+<span id="cb62-4"><a href="3-anova.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;judgment&quot;</span>,</span>
+<span id="cb62-5"><a href="3-anova.html#cb62-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">within =</span> <span class="st">&quot;trigger_cat&quot;</span>,</span>
+<span id="cb62-6"><a href="3-anova.html#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_psp,</span>
+<span id="cb62-7"><a href="3-anova.html#cb62-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">print.formula =</span> <span class="cn">TRUE</span></span>
+<span id="cb62-8"><a href="3-anova.html#cb62-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-9"><a href="3-anova.html#cb62-9" aria-hidden="true" tabindex="-1"></a>afex_psp</span></code></pre></div>
+<pre><code>## Anova Table (Type 3 tests)
+## 
+## Response: judgment
+##        Effect    df  MSE         F  ges p.value
+## 1 trigger_cat 1, 32 0.22 48.54 *** .347   &lt;.001
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>So, what we’ve done so far:</p>
+<p>We moved from the</p>
+</div>
+<div id="two-way-anova" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Two-Way ANOVA<a href="3-anova.html#two-way-anova" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s look at the plot for the presupposition data again:</p>
+<p><img src="figs/pspplot2-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>From the plot (and the original experiment) is set up, you can see that there seems to be another factor at play: at-issueness.</p>
+<p>In the critical items, the clowns question either targeted the foregrounded (at-issue) portion of the critical utterance or the backgrounded, presupposed material.</p>
+<p>As you can see, this factor seems to be quite important because it drives a quite severe judgment asymmetry for the hard triggers: When the presupposition of a hard trigger is used to answer a question, infelicity ensues. For the soft triggers, this is much less pronounced.</p>
+<p>In what is to come, we will incorporate two factors into our model. As we saw before, the <span class="math inline">\(t\)</span>-test is no longer applicable in these cases, so we will work with the ANOVA for now.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="3-anova.html#cb64-1" aria-hidden="true" tabindex="-1"></a>psp_two <span class="ot">&lt;-</span> <span class="fu">aov_car</span>(judgment <span class="sc">~</span> trigger_cat <span class="sc">+</span> issue <span class="sc">+</span> <span class="fu">Error</span>(id <span class="sc">/</span> (trigger_cat <span class="sc">+</span> issue)), <span class="at">data =</span> d_psp)</span></code></pre></div>
+<pre><code>## Warning: More than one observation per design cell, aggregating data using `fun_aggregate = mean`.
+## To turn off this warning, pass `fun_aggregate = mean` explicitly.</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="3-anova.html#cb66-1" aria-hidden="true" tabindex="-1"></a>psp_two</span></code></pre></div>
+<pre><code>## Anova Table (Type 3 tests)
+## 
+## Response: judgment
+##              Effect    df  MSE          F  ges p.value
+## 1       trigger_cat 1, 32 0.43  47.05 *** .263   &lt;.001
+## 2             issue 1, 32 0.29 286.14 *** .589   &lt;.001
+## 3 trigger_cat:issue 1, 32 0.25 117.52 *** .337   &lt;.001
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;+&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The first two lines in the table are our main effects, which say that the trigger type and at-issueness manipulations lead to significantly different judgments.</p>
+<div class="alert alert-info">
+<p><strong>Question:</strong> But what about the third line?</p>
+</div>
+<p>The third line is a so-called interaction. Recall that main effects describe significant differences. Interactions are probably best conceptualized as differences between differences.</p>
+<p>As we saw in the plot, the at-issueness factor seems to affect hard presupposition triggers more strongly than soft ones. In a sense, we need to look at the settings of both manipulations in order to predict the judgments that participants are likely to make.</p>
+<p>Note that this also affects our main effect for issueness. Before we simply that there is a significant difference between the two levels of this factor. However, with both the plot and the significant interaction under our belt, we now that we should be a little more careful: While there is something going on with at-issueness, the main effect is mainly driven by the hard presupposition triggers, with the soft triggers, the effect is almost negligible.</p>
+<p>In the plots below, we have some more interactions:</p>
+<ul>
+<li><em>Above</em>: main effect possibilities without interactions</li>
+<li><em>below</em>: including interactions – main effects determined by means, interactions by slopes.</li>
+<li><em>Ltr/ttb</em>: no main effect, main effect for <span class="math inline">\(x\)</span> factor, split factor main effect, main effects for both, no main effect but interaction, <span class="math inline">\(x\)</span> factor effect plus interaction, split factor effect plus interaction, two main effects plus interaction.</li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:interactions2"></span>
+<img src="figs/interactions2-1.png" alt="Interactions" width="100%" />
+<p class="caption">
+Figure 3.1: Interactions
+</p>
+</div>
+</div>
+<div id="more-repeated-measures" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> More repeated measures<a href="3-anova.html#more-repeated-measures" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="alert alert-info">
+<p><strong>Question:</strong> Is there another repeated measures source in our data? Have a look again and see if you can spot one.</p>
+<pre><code>## # A tibble: 657 × 5
+##    id                         itemid     trigger_cat issue        judgment
+##    &lt;chr&gt;                      &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;
+##  1 auncqkpvl6b3rp0d3g833vmuh6 gewinnen2  soft        at-issue            5
+##  2 auncqkpvl6b3rp0d3g833vmuh6 schaffen1  soft        at-issue            1
+##  3 auncqkpvl6b3rp0d3g833vmuh6 auch3      hard        at-issue            1
+##  4 auncqkpvl6b3rp0d3g833vmuh6 entdecken1 soft        at-issue            5
+##  5 auncqkpvl6b3rp0d3g833vmuh6 schaffen3  soft        at-issue            1
+##  6 auncqkpvl6b3rp0d3g833vmuh6 cleft3     hard        non-at-issue        5
+##  7 auncqkpvl6b3rp0d3g833vmuh6 wieder1    hard        non-at-issue        5
+##  8 auncqkpvl6b3rp0d3g833vmuh6 auch2      hard        non-at-issue        5
+##  9 auncqkpvl6b3rp0d3g833vmuh6 auch1      hard        at-issue            1
+## 10 auncqkpvl6b3rp0d3g833vmuh6 entdecken2 soft        non-at-issue        5
+## # … with 647 more rows</code></pre>
+</div>
+<p>Yes, we also have several items for each condition. But how do we deal with this in the context of our ANOVA? We cannot, unfortunately, have both a by-subject ANOVA and a by-items ANOVA at the same time.</p>
+<p>So, what people do in these cases is to compute two ANOVAs and report both – often, the by-participants ANOVA is reported as <span class="math inline">\(F_1\)</span>, and the by-items ANOVA as <span class="math inline">\(F_2\)</span>. This then means that for each effect, you would need both of the ANOVAs to yield a significant result.</p>
+</div>
+<div id="anova-by-hand" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> ANOVA by hand<a href="3-anova.html#anova-by-hand" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In my own first encounter with statistics, I had to do an ANOVA by hand. While at the time I thought it was a little grueling, in the end I thought it was one of the most important excercises.</p>
+<p>So, I apologize in advance.</p>
+<p>This is the data we will be working with:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="3-anova.html#cb69-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb69-2"><a href="3-anova.html#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">student =</span> <span class="fu">c</span>(<span class="st">&quot;Raphael&quot;</span>, <span class="st">&quot;Nicolaus&quot;</span>, <span class="st">&quot;Balthasar&quot;</span>, <span class="st">&quot;Claudia&quot;</span>, <span class="st">&quot;Heike&quot;</span>, <span class="st">&quot;Marion&quot;</span>),</span>
+<span id="cb69-3"><a href="3-anova.html#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">time1 =</span> <span class="fu">c</span>(<span class="fl">14.3</span>, <span class="fl">16.2</span>, <span class="fl">17.2</span>, <span class="fl">12.8</span>, <span class="fl">14.9</span>, <span class="fl">11.1</span>),</span>
+<span id="cb69-4"><a href="3-anova.html#cb69-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">time2 =</span> <span class="fu">c</span>(<span class="fl">19.2</span>, <span class="fl">15.9</span>, <span class="fl">17.2</span>, <span class="fl">20.3</span>, <span class="fl">25.3</span>, <span class="fl">12.1</span>),</span>
+<span id="cb69-5"><a href="3-anova.html#cb69-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">time3 =</span> <span class="fu">c</span>(<span class="fl">27.3</span>, <span class="fl">33.5</span>, <span class="fl">42.9</span>, <span class="fl">33.2</span>, <span class="fl">58.3</span>, <span class="fl">39.1</span>)</span>
+<span id="cb69-6"><a href="3-anova.html#cb69-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb69-7"><a href="3-anova.html#cb69-7" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   student   time1 time2 time3
+##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Raphael    14.3  19.2  27.3
+## 2 Nicolaus   16.2  15.9  33.5
+## 3 Balthasar  17.2  17.2  42.9
+## 4 Claudia    12.8  20.3  33.2
+## 5 Heike      14.9  25.3  58.3
+## 6 Marion     11.1  12.1  39.1</code></pre>
+<p>As you might know, it often desirable to have the data in what is called the long format (as opposed to the wide one we have up there). Here is a way to achieve that:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="3-anova.html#cb71-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb71-2"><a href="3-anova.html#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb71-3"><a href="3-anova.html#cb71-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(time1, time2, time3),</span>
+<span id="cb71-4"><a href="3-anova.html#cb71-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;when&quot;</span>,</span>
+<span id="cb71-5"><a href="3-anova.html#cb71-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;time&quot;</span></span>
+<span id="cb71-6"><a href="3-anova.html#cb71-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb71-7"><a href="3-anova.html#cb71-7" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>## # A tibble: 18 × 3
+##    student   when   time
+##    &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt;
+##  1 Raphael   time1  14.3
+##  2 Raphael   time2  19.2
+##  3 Raphael   time3  27.3
+##  4 Nicolaus  time1  16.2
+##  5 Nicolaus  time2  15.9
+##  6 Nicolaus  time3  33.5
+##  7 Balthasar time1  17.2
+##  8 Balthasar time2  17.2
+##  9 Balthasar time3  42.9
+## 10 Claudia   time1  12.8
+## 11 Claudia   time2  20.3
+## 12 Claudia   time3  33.2
+## 13 Heike     time1  14.9
+## 14 Heike     time2  25.3
+## 15 Heike     time3  58.3
+## 16 Marion    time1  11.1
+## 17 Marion    time2  12.1
+## 18 Marion    time3  39.1</code></pre>
+<p>With the way the data is structured above, we see the repeated measures much more clearly: For each participant, we have several rows, each of which contain one observation.</p>
+<p>Before we jump into things, here’s a plot:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:aovplot"></span>
+<img src="figs/aovplot-1.png" alt="top: overall times, bottom: individual times." width="100%" />
+<p class="caption">
+Figure 3.2: top: overall times, bottom: individual times.
+</p>
+</div>
+<p>In general, the ANOVA is just like the <span class="math inline">\(t\)</span>-test in that we divide the systematic variance by the unsystematic variance. You already know that the statistic that underlies the ANOVA is the <span class="math inline">\(F\)</span> value:</p>
+<p><span class="math display">\[F = \frac{MS_{model}}{MS_{error}}\]</span>
+And the general intuition is this: We can divide the variance in a data set into these two portions in the equation above:</p>
+<p><span class="math display">\[s^2_{total} = s^2_{model} + s^2_{error}\]</span>
+As the first step, we want the total sum of squares, where <span class="math inline">\(i\)</span> is the index of the factor levels and <span class="math inline">\(y_{im}\)</span> is the single observation of one participant under a certain factor level:</p>
+<p><span class="math display">\[QS_{total} = \sum\limits_{i}\sum\limits_{m} (y_{im} - \bar{x})^2\]</span></p>
+<p>Now, we want the variance that the factors contribute to the total variance. <span class="math inline">\(i\)</span> is again the index for the factor levels and <span class="math inline">\(n\)</span> is the number of observations for that factor level:</p>
+<p><span class="math display">\[QS_{model} = \sum\limits_{i} n \cdot (\bar{x}_i - \bar{x})^2\]</span></p>
+<p>Next step: We need the source of random variation, which is represented by the difference of the single observations from the group mean (<span class="math inline">\(y_{mi}\)</span> is the value of the participant <span class="math inline">\(m\)</span> measured at factor level <span class="math inline">\(i\)</span>:</p>
+<p><span class="math display">\[QS_{error} = \sum\limits_{i}\sum\limits_{m} (y_{im} - \bar{x}_i)^2\]</span>
+As with the <span class="math inline">\(t\)</span>-test, we also need the degrees of freedom, where <span class="math inline">\(N\)</span> is the total number of observations, <span class="math inline">\(p\)</span> is the number of factor levels:</p>
+<p><span class="math display">\[df_{QS_{total}} = N - 1\]</span>
+<span class="math display">\[df_{QS_{model}} = p - 1\]</span>
+<span class="math display">\[df_{QS_{error}} = N - p\]</span></p>
+<p>For the final step, we need to account for the fact the we used more observations for the <span class="math inline">\(QS_{error}\)</span> (18) than we did for the <span class="math inline">\(QS_{model}\)</span> (3), so we need to normalize the sums of squares by dividing them by the corresponding degrees of freedom, which gives us the mean squares:</p>
+<p><span class="math display">\[MS_{error} = \frac{QS_{error}}{df_{error}}\]</span></p>
+<p><span class="math display">\[MS_{model} = \frac{QS_{model}}{df_{model}}\]</span>
+And then we have everything to do the final computation:</p>
+<p><span class="math display">\[F = \frac{MS_{model}}{MS_{error}}\]</span></p>
+<p>Now, we need the grand mean and the condition means for each time point:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="3-anova.html#cb73-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a href="3-anova.html#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb73-3"><a href="3-anova.html#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">grand_mean =</span> <span class="fu">mean</span>(time),</span>
+<span id="cb73-4"><a href="3-anova.html#cb73-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_run1 =</span> <span class="fu">mean</span>(d<span class="sc">$</span>time[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time1&quot;</span>]),</span>
+<span id="cb73-5"><a href="3-anova.html#cb73-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_run2 =</span> <span class="fu">mean</span>(d<span class="sc">$</span>time[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time2&quot;</span>]),</span>
+<span id="cb73-6"><a href="3-anova.html#cb73-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_run3 =</span> <span class="fu">mean</span>(d<span class="sc">$</span>time[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time3&quot;</span>])</span>
+<span id="cb73-7"><a href="3-anova.html#cb73-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb73-8"><a href="3-anova.html#cb73-8" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>## # A tibble: 18 × 7
+##    student   when   time grand_mean mean_run1 mean_run2 mean_run3
+##    &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Raphael   time1  14.3       23.9      14.4      18.3      39.0
+##  2 Raphael   time2  19.2       23.9      14.4      18.3      39.0
+##  3 Raphael   time3  27.3       23.9      14.4      18.3      39.0
+##  4 Nicolaus  time1  16.2       23.9      14.4      18.3      39.0
+##  5 Nicolaus  time2  15.9       23.9      14.4      18.3      39.0
+##  6 Nicolaus  time3  33.5       23.9      14.4      18.3      39.0
+##  7 Balthasar time1  17.2       23.9      14.4      18.3      39.0
+##  8 Balthasar time2  17.2       23.9      14.4      18.3      39.0
+##  9 Balthasar time3  42.9       23.9      14.4      18.3      39.0
+## 10 Claudia   time1  12.8       23.9      14.4      18.3      39.0
+## 11 Claudia   time2  20.3       23.9      14.4      18.3      39.0
+## 12 Claudia   time3  33.2       23.9      14.4      18.3      39.0
+## 13 Heike     time1  14.9       23.9      14.4      18.3      39.0
+## 14 Heike     time2  25.3       23.9      14.4      18.3      39.0
+## 15 Heike     time3  58.3       23.9      14.4      18.3      39.0
+## 16 Marion    time1  11.1       23.9      14.4      18.3      39.0
+## 17 Marion    time2  12.1       23.9      14.4      18.3      39.0
+## 18 Marion    time3  39.1       23.9      14.4      18.3      39.0</code></pre>
+<p>Next steps: We want the square sum of errors for the entire model. Lets do this step by step:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="3-anova.html#cb75-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb75-2"><a href="3-anova.html#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb75-3"><a href="3-anova.html#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">grand_mean_diff =</span> (time <span class="sc">-</span> grand_mean)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb75-4"><a href="3-anova.html#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_sq_total =</span> <span class="fu">sum</span>(grand_mean_diff),</span>
+<span id="cb75-5"><a href="3-anova.html#cb75-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb75-6"><a href="3-anova.html#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb75-7"><a href="3-anova.html#cb75-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># differences for each factor level</span></span>
+<span id="cb75-8"><a href="3-anova.html#cb75-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># grand mean differences</span></span>
+<span id="cb75-9"><a href="3-anova.html#cb75-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_time1 =</span> mean_run1 <span class="sc">-</span> grand_mean,</span>
+<span id="cb75-10"><a href="3-anova.html#cb75-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_time2 =</span> mean_run2 <span class="sc">-</span> grand_mean,</span>
+<span id="cb75-11"><a href="3-anova.html#cb75-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">diff_time3 =</span> mean_run3 <span class="sc">-</span> grand_mean,</span>
+<span id="cb75-12"><a href="3-anova.html#cb75-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># square the differences and multiply by n</span></span>
+<span id="cb75-13"><a href="3-anova.html#cb75-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Diff_time1 =</span> (diff_time1<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="dv">6</span>,</span>
+<span id="cb75-14"><a href="3-anova.html#cb75-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Diff_time2 =</span> (diff_time2<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="dv">6</span>,</span>
+<span id="cb75-15"><a href="3-anova.html#cb75-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Diff_time3 =</span> (diff_time3<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="dv">6</span>,</span>
+<span id="cb75-16"><a href="3-anova.html#cb75-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and add them all up</span></span>
+<span id="cb75-17"><a href="3-anova.html#cb75-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">sum_sq_model =</span> Diff_time1 <span class="sc">+</span> Diff_time2 <span class="sc">+</span> Diff_time3</span>
+<span id="cb75-18"><a href="3-anova.html#cb75-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb75-19"><a href="3-anova.html#cb75-19" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>## # A tibble: 18 × 16
+##    student   when   time grand_mean mean_run1 mean_run2 mean_run3 grand_mean_diff sum_sq_total diff_time1 diff_time2
+##    &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Raphael   time1  14.3       23.9      14.4      18.3      39.0           92.8         2815.      -9.52       -5.6
+##  2 Raphael   time2  19.2       23.9      14.4      18.3      39.0           22.4         2815.      -9.52       -5.6
+##  3 Raphael   time3  27.3       23.9      14.4      18.3      39.0           11.3         2815.      -9.52       -5.6
+##  4 Nicolaus  time1  16.2       23.9      14.4      18.3      39.0           59.8         2815.      -9.52       -5.6
+##  5 Nicolaus  time2  15.9       23.9      14.4      18.3      39.0           64.5         2815.      -9.52       -5.6
+##  6 Nicolaus  time3  33.5       23.9      14.4      18.3      39.0           91.5         2815.      -9.52       -5.6
+##  7 Balthasar time1  17.2       23.9      14.4      18.3      39.0           45.3         2815.      -9.52       -5.6
+##  8 Balthasar time2  17.2       23.9      14.4      18.3      39.0           45.3         2815.      -9.52       -5.6
+##  9 Balthasar time3  42.9       23.9      14.4      18.3      39.0          360.          2815.      -9.52       -5.6
+## 10 Claudia   time1  12.8       23.9      14.4      18.3      39.0          124.          2815.      -9.52       -5.6
+## 11 Claudia   time2  20.3       23.9      14.4      18.3      39.0           13.2         2815.      -9.52       -5.6
+## 12 Claudia   time3  33.2       23.9      14.4      18.3      39.0           85.9         2815.      -9.52       -5.6
+## 13 Heike     time1  14.9       23.9      14.4      18.3      39.0           81.6         2815.      -9.52       -5.6
+## 14 Heike     time2  25.3       23.9      14.4      18.3      39.0            1.87        2815.      -9.52       -5.6
+## 15 Heike     time3  58.3       23.9      14.4      18.3      39.0         1181.          2815.      -9.52       -5.6
+## 16 Marion    time1  11.1       23.9      14.4      18.3      39.0          165.          2815.      -9.52       -5.6
+## 17 Marion    time2  12.1       23.9      14.4      18.3      39.0          140.          2815.      -9.52       -5.6
+## 18 Marion    time3  39.1       23.9      14.4      18.3      39.0          230.          2815.      -9.52       -5.6
+##    diff_time3 Diff_time1 Diff_time2 Diff_time3 sum_sq_model
+##         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+##  1       15.1       543.       188.      1371.        2103.
+##  2       15.1       543.       188.      1371.        2103.
+##  3       15.1       543.       188.      1371.        2103.
+##  4       15.1       543.       188.      1371.        2103.
+##  5       15.1       543.       188.      1371.        2103.
+##  6       15.1       543.       188.      1371.        2103.
+##  7       15.1       543.       188.      1371.        2103.
+##  8       15.1       543.       188.      1371.        2103.
+##  9       15.1       543.       188.      1371.        2103.
+## 10       15.1       543.       188.      1371.        2103.
+## 11       15.1       543.       188.      1371.        2103.
+## 12       15.1       543.       188.      1371.        2103.
+## 13       15.1       543.       188.      1371.        2103.
+## 14       15.1       543.       188.      1371.        2103.
+## 15       15.1       543.       188.      1371.        2103.
+## 16       15.1       543.       188.      1371.        2103.
+## 17       15.1       543.       188.      1371.        2103.
+## 18       15.1       543.       188.      1371.        2103.</code></pre>
+<p>And now we need the square sum of the errors (sorry for switching to base R here, I have not found a satisfying way of doing this with <code>dplyr</code>). Again, we want to see how far the individual times deviate from the the respective condition means:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="3-anova.html#cb77-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>error_diff[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time1&quot;</span>] <span class="ot">&lt;-</span> (d<span class="sc">$</span>time[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time1&quot;</span>] <span class="sc">-</span> d<span class="sc">$</span>mean_run1[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time1&quot;</span>])<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## Warning: Unknown or uninitialised column: `error_diff`.</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="3-anova.html#cb79-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>error_diff[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time2&quot;</span>] <span class="ot">&lt;-</span> (d<span class="sc">$</span>time[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time2&quot;</span>] <span class="sc">-</span> d<span class="sc">$</span>mean_run2[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time2&quot;</span>])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb79-2"><a href="3-anova.html#cb79-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>error_diff[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time3&quot;</span>] <span class="ot">&lt;-</span> (d<span class="sc">$</span>time[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time3&quot;</span>] <span class="sc">-</span> d<span class="sc">$</span>mean_run3[d<span class="sc">$</span>when <span class="sc">==</span> <span class="st">&quot;time3&quot;</span>])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb79-3"><a href="3-anova.html#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="3-anova.html#cb79-4" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>sum_sq_error <span class="ot">&lt;-</span> <span class="fu">sum</span>(d<span class="sc">$</span>error_diff)</span></code></pre></div>
+<p>Now let’s check whether the total sum of squares is made up of the sums of squares of the model and the errors:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="3-anova.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(d<span class="sc">$</span>sum_sq_total) <span class="sc">==</span> <span class="fu">mean</span>(d<span class="sc">$</span>sum_sq_model) <span class="sc">+</span> <span class="fu">mean</span>(d<span class="sc">$</span>sum_sq_error)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Next step: degrees of freedom.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="3-anova.html#cb82-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb82-2"><a href="3-anova.html#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb82-3"><a href="3-anova.html#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">df_total =</span> <span class="fu">length</span>(time) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb82-4"><a href="3-anova.html#cb82-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">df_model =</span> <span class="fu">length</span>(<span class="fu">unique</span>(when)) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb82-5"><a href="3-anova.html#cb82-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">df_error =</span> <span class="fu">length</span>(time) <span class="sc">-</span> <span class="fu">length</span>(<span class="fu">unique</span>(when))</span>
+<span id="cb82-6"><a href="3-anova.html#cb82-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb82-7"><a href="3-anova.html#cb82-7" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>## # A tibble: 18 × 21
+##    student   when   time grand_mean mean_run1 mean_run2 mean_run3 grand_mean_diff sum_sq_total diff_time1 diff_time2
+##    &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Raphael   time1  14.3       23.9      14.4      18.3      39.0           92.8         2815.      -9.52       -5.6
+##  2 Raphael   time2  19.2       23.9      14.4      18.3      39.0           22.4         2815.      -9.52       -5.6
+##  3 Raphael   time3  27.3       23.9      14.4      18.3      39.0           11.3         2815.      -9.52       -5.6
+##  4 Nicolaus  time1  16.2       23.9      14.4      18.3      39.0           59.8         2815.      -9.52       -5.6
+##  5 Nicolaus  time2  15.9       23.9      14.4      18.3      39.0           64.5         2815.      -9.52       -5.6
+##  6 Nicolaus  time3  33.5       23.9      14.4      18.3      39.0           91.5         2815.      -9.52       -5.6
+##  7 Balthasar time1  17.2       23.9      14.4      18.3      39.0           45.3         2815.      -9.52       -5.6
+##  8 Balthasar time2  17.2       23.9      14.4      18.3      39.0           45.3         2815.      -9.52       -5.6
+##  9 Balthasar time3  42.9       23.9      14.4      18.3      39.0          360.          2815.      -9.52       -5.6
+## 10 Claudia   time1  12.8       23.9      14.4      18.3      39.0          124.          2815.      -9.52       -5.6
+## 11 Claudia   time2  20.3       23.9      14.4      18.3      39.0           13.2         2815.      -9.52       -5.6
+## 12 Claudia   time3  33.2       23.9      14.4      18.3      39.0           85.9         2815.      -9.52       -5.6
+## 13 Heike     time1  14.9       23.9      14.4      18.3      39.0           81.6         2815.      -9.52       -5.6
+## 14 Heike     time2  25.3       23.9      14.4      18.3      39.0            1.87        2815.      -9.52       -5.6
+## 15 Heike     time3  58.3       23.9      14.4      18.3      39.0         1181.          2815.      -9.52       -5.6
+## 16 Marion    time1  11.1       23.9      14.4      18.3      39.0          165.          2815.      -9.52       -5.6
+## 17 Marion    time2  12.1       23.9      14.4      18.3      39.0          140.          2815.      -9.52       -5.6
+## 18 Marion    time3  39.1       23.9      14.4      18.3      39.0          230.          2815.      -9.52       -5.6
+##    diff_time3 Diff_time1 Diff_time2 Diff_time3 sum_sq_model error_diff sum_sq_error df_total df_model df_error
+##         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;int&gt;
+##  1       15.1       543.       188.      1371.        2103.    0.0136          712.       17        2       15
+##  2       15.1       543.       188.      1371.        2103.    0.751           712.       17        2       15
+##  3       15.1       543.       188.      1371.        2103.  138.              712.       17        2       15
+##  4       15.1       543.       188.      1371.        2103.    3.18            712.       17        2       15
+##  5       15.1       543.       188.      1371.        2103.    5.92            712.       17        2       15
+##  6       15.1       543.       188.      1371.        2103.   30.8             712.       17        2       15
+##  7       15.1       543.       188.      1371.        2103.    7.75            712.       17        2       15
+##  8       15.1       543.       188.      1371.        2103.    1.28            712.       17        2       15
+##  9       15.1       543.       188.      1371.        2103.   14.8             712.       17        2       15
+## 10       15.1       543.       188.      1371.        2103.    2.61            712.       17        2       15
+## 11       15.1       543.       188.      1371.        2103.    3.87            712.       17        2       15
+## 12       15.1       543.       188.      1371.        2103.   34.2             712.       17        2       15
+## 13       15.1       543.       188.      1371.        2103.    0.234           712.       17        2       15
+## 14       15.1       543.       188.      1371.        2103.   48.5             712.       17        2       15
+## 15       15.1       543.       188.      1371.        2103.  371.              712.       17        2       15
+## 16       15.1       543.       188.      1371.        2103.   11.0             712.       17        2       15
+## 17       15.1       543.       188.      1371.        2103.   38.9             712.       17        2       15
+## 18       15.1       543.       188.      1371.        2103.    0.00250         712.       17        2       15</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="3-anova.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sanity check here as well:</span></span>
+<span id="cb84-2"><a href="3-anova.html#cb84-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>df_total <span class="sc">==</span> d<span class="sc">$</span>df_model <span class="sc">+</span> d<span class="sc">$</span>df_error</span></code></pre></div>
+<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<p>And now we get to the meat of the ANOVA: the mean sums of squares</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="3-anova.html#cb86-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb86-2"><a href="3-anova.html#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb86-3"><a href="3-anova.html#cb86-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_sum_squares_model =</span> <span class="fu">mean</span>(sum_sq_model) <span class="sc">/</span> df_model,</span>
+<span id="cb86-4"><a href="3-anova.html#cb86-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_sum_squares_error =</span> <span class="fu">mean</span>(sum_sq_error) <span class="sc">/</span> df_error</span>
+<span id="cb86-5"><a href="3-anova.html#cb86-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb86-6"><a href="3-anova.html#cb86-6" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>## # A tibble: 18 × 23
+##    student   when   time grand_mean mean_run1 mean_run2 mean_run3 grand_mean_diff sum_sq_total diff_time1 diff_time2
+##    &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Raphael   time1  14.3       23.9      14.4      18.3      39.0           92.8         2815.      -9.52       -5.6
+##  2 Raphael   time2  19.2       23.9      14.4      18.3      39.0           22.4         2815.      -9.52       -5.6
+##  3 Raphael   time3  27.3       23.9      14.4      18.3      39.0           11.3         2815.      -9.52       -5.6
+##  4 Nicolaus  time1  16.2       23.9      14.4      18.3      39.0           59.8         2815.      -9.52       -5.6
+##  5 Nicolaus  time2  15.9       23.9      14.4      18.3      39.0           64.5         2815.      -9.52       -5.6
+##  6 Nicolaus  time3  33.5       23.9      14.4      18.3      39.0           91.5         2815.      -9.52       -5.6
+##  7 Balthasar time1  17.2       23.9      14.4      18.3      39.0           45.3         2815.      -9.52       -5.6
+##  8 Balthasar time2  17.2       23.9      14.4      18.3      39.0           45.3         2815.      -9.52       -5.6
+##  9 Balthasar time3  42.9       23.9      14.4      18.3      39.0          360.          2815.      -9.52       -5.6
+## 10 Claudia   time1  12.8       23.9      14.4      18.3      39.0          124.          2815.      -9.52       -5.6
+## 11 Claudia   time2  20.3       23.9      14.4      18.3      39.0           13.2         2815.      -9.52       -5.6
+## 12 Claudia   time3  33.2       23.9      14.4      18.3      39.0           85.9         2815.      -9.52       -5.6
+## 13 Heike     time1  14.9       23.9      14.4      18.3      39.0           81.6         2815.      -9.52       -5.6
+## 14 Heike     time2  25.3       23.9      14.4      18.3      39.0            1.87        2815.      -9.52       -5.6
+## 15 Heike     time3  58.3       23.9      14.4      18.3      39.0         1181.          2815.      -9.52       -5.6
+## 16 Marion    time1  11.1       23.9      14.4      18.3      39.0          165.          2815.      -9.52       -5.6
+## 17 Marion    time2  12.1       23.9      14.4      18.3      39.0          140.          2815.      -9.52       -5.6
+## 18 Marion    time3  39.1       23.9      14.4      18.3      39.0          230.          2815.      -9.52       -5.6
+##    diff_time3 Diff_time1 Diff_time2 Diff_time3 sum_sq_model error_diff sum_sq_error df_total df_model df_error
+##         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;int&gt;
+##  1       15.1       543.       188.      1371.        2103.    0.0136          712.       17        2       15
+##  2       15.1       543.       188.      1371.        2103.    0.751           712.       17        2       15
+##  3       15.1       543.       188.      1371.        2103.  138.              712.       17        2       15
+##  4       15.1       543.       188.      1371.        2103.    3.18            712.       17        2       15
+##  5       15.1       543.       188.      1371.        2103.    5.92            712.       17        2       15
+##  6       15.1       543.       188.      1371.        2103.   30.8             712.       17        2       15
+##  7       15.1       543.       188.      1371.        2103.    7.75            712.       17        2       15
+##  8       15.1       543.       188.      1371.        2103.    1.28            712.       17        2       15
+##  9       15.1       543.       188.      1371.        2103.   14.8             712.       17        2       15
+## 10       15.1       543.       188.      1371.        2103.    2.61            712.       17        2       15
+## 11       15.1       543.       188.      1371.        2103.    3.87            712.       17        2       15
+## 12       15.1       543.       188.      1371.        2103.   34.2             712.       17        2       15
+## 13       15.1       543.       188.      1371.        2103.    0.234           712.       17        2       15
+## 14       15.1       543.       188.      1371.        2103.   48.5             712.       17        2       15
+## 15       15.1       543.       188.      1371.        2103.  371.              712.       17        2       15
+## 16       15.1       543.       188.      1371.        2103.   11.0             712.       17        2       15
+## 17       15.1       543.       188.      1371.        2103.   38.9             712.       17        2       15
+## 18       15.1       543.       188.      1371.        2103.    0.00250         712.       17        2       15
+##    mean_sum_squares_model mean_sum_squares_error
+##                     &lt;dbl&gt;                  &lt;dbl&gt;
+##  1                  1051.                   47.5
+##  2                  1051.                   47.5
+##  3                  1051.                   47.5
+##  4                  1051.                   47.5
+##  5                  1051.                   47.5
+##  6                  1051.                   47.5
+##  7                  1051.                   47.5
+##  8                  1051.                   47.5
+##  9                  1051.                   47.5
+## 10                  1051.                   47.5
+## 11                  1051.                   47.5
+## 12                  1051.                   47.5
+## 13                  1051.                   47.5
+## 14                  1051.                   47.5
+## 15                  1051.                   47.5
+## 16                  1051.                   47.5
+## 17                  1051.                   47.5
+## 18                  1051.                   47.5</code></pre>
+<p>Finally, by diving systematic variance (contributed by our experimental manipulation) by unsystematic variance (contributed by randomness), we get our <span class="math inline">\(F\)</span> value:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="3-anova.html#cb88-1" aria-hidden="true" tabindex="-1"></a>f_value <span class="ot">&lt;-</span> <span class="fu">mean</span>(d<span class="sc">$</span>mean_sum_squares_model) <span class="sc">/</span> <span class="fu">mean</span>(d<span class="sc">$</span>mean_sum_squares_error)</span>
+<span id="cb88-2"><a href="3-anova.html#cb88-2" aria-hidden="true" tabindex="-1"></a>f_value</span></code></pre></div>
+<pre><code>## [1] 22.133813</code></pre>
+<p>And now let’s see whether R comes up with the same results:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="3-anova.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(time <span class="sc">~</span> when, <span class="at">data =</span> d))</span></code></pre></div>
+<pre><code>##             Df  Sum Sq Mean Sq F value     Pr(&gt;F)    
+## when         2 2102.64  1051.3  22.134 0.00003346 ***
+## Residuals   15  712.48    47.5                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="3-anova.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(time <span class="sc">~</span> when, <span class="at">data =</span> d))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = time ~ when, data = d)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -11.75000  -3.09583  -0.03333   1.92083  19.25000 
+## 
+## Coefficients:
+##             Estimate Std. Error t value   Pr(&gt;|t|)    
+## (Intercept)  14.4167     2.8136  5.1239  0.0001247 ***
+## whentime2     3.9167     3.9790  0.9843  0.3405686    
+## whentime3    24.6333     3.9790  6.1908 0.00001728 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.8919 on 15 degrees of freedom
+## Multiple R-squared:  0.74691,    Adjusted R-squared:  0.71317 
+## F-statistic: 22.134 on 2 and 15 DF,  p-value: 0.000033462</code></pre>
+<div class="alert alert-info">
+<p><strong>Question:</strong> Why can we not use the <code>t.test()</code> here?</p>
+</div>
+</div>
+<div id="interpreting-an-anova" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Interpreting an ANOVA<a href="3-anova.html#interpreting-an-anova" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>And now let’s talk about interpretation:</p>
+<p>Here is a situation where we have one independent variable (our model would be of the one-factor kind) but it has 4 levels:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:onefacfourlev"></span>
+<img src="figs/onefacfourlev-1.png" alt="One factorial design (four factor levels)." width="70%" />
+<p class="caption">
+Figure 3.3: One factorial design (four factor levels).
+</p>
+</div>
+<div class="alert alert-info">
+<p><strong>Question:</strong> Suppose that our one-way ANOVA indicates that we have a main effect in the situation above. What does that mean? How would you interpret the main effect?</p>
+</div>
+</div>
+<div id="wrap-up-1" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> Wrap-Up<a href="3-anova.html#wrap-up-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Today we talked about the common core between a number of statistical tests. In particular, we saw that the t-test, the ANOVA, and the LM are equivalent in the simple, one-factor-two-levels cases (without repeated measures).</p>
+<p>So, in fact, while we talked about different tests, you actually learned one statistical approach: line fitting by minimizing variance.</p>
+<p>Then we talked about repeated measures, as a systematic portion of variance that is unrelated to our experimental manipulation. Instead, it is systematically associated with a random portion of our experiments, namely the sampling process.</p>
+<p>Importantly, in psycholinguistics we often have two instances of repeated measures: the participants and the items. We saw a way of dealing with this by computing two ANOVAs. But this is not very satisfying since we would like a model that can deal with both repeated measures components at the same time. We will see one at the end of the class.</p>
+<p>Finally, we saw how to compute a two-way ANOVA, namely a model where we are interested in two factors at the same time (as well as their interaction).</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-thalmann2022presupposition" class="csl-entry">
+Chen, Yuqiu, Maik Thalmann, and Mailin Antomo. 2022. Presupposition triggers and (not-)at-issueness. <span>Insights</span> from language acquisition into the soft-hard distinction. <em>Journal of Pragmatics</em> 199: 21–46.
+</div>
+<div id="ref-singmann2016afex" class="csl-entry">
+Singmann, Henrik, Ben Bolker, Jake Westfall, and Frederik Aust. 2016. <em>Afex: <span>Analysis</span> of factorial experiments</em>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="2-concepts-and-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="4-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": {},
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

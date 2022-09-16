@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Concepts and Background | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</title>
+  <meta name="description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Concepts and Background | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  <meta name="github-repo" content="mkthalmann" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Concepts and Background | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
+  
+  <meta name="twitter:description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="3-anova.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">CAnDA Equinox School School: Introduction to Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>1.1.1</b> R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#statistics"><i class="fa fa-check"></i><b>1.1.2</b> Statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#get-in-touch"><i class="fa fa-check"></i><b>1.2</b> Get in touch</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#session-info"><i class="fa fa-check"></i>Session Info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html"><i class="fa fa-check"></i><b>2</b> Concepts and Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-general-points-about-the-class"><i class="fa fa-check"></i><b>2.1</b> Some general points about the class</a></li>
+<li class="chapter" data-level="2.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#on-inferential-statistics"><i class="fa fa-check"></i><b>2.2</b> On inferential statistics</a></li>
+<li class="chapter" data-level="2.3" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#a-note-on-frequentism"><i class="fa fa-check"></i><b>2.3</b> A note on frequentism</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-central-tendency"><i class="fa fa-check"></i><b>2.3.1</b> Measures of Central Tendency</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#measures-of-dispersion"><i class="fa fa-check"></i><b>2.3.2</b> Measures of Dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#hypotheses"><i class="fa fa-check"></i><b>2.4</b> Hypotheses</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#null-hypothesis"><i class="fa fa-check"></i><b>2.4.1</b> Null Hypothesis</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#alternative-hypothesis"><i class="fa fa-check"></i><b>2.4.2</b> Alternative hypothesis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>2.5</b> Type I and Type II errors</a></li>
+<li class="chapter" data-level="2.6" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#some-terms"><i class="fa fa-check"></i><b>2.6</b> Some terms</a></li>
+<li class="chapter" data-level="2.7" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#the-t-test"><i class="fa fa-check"></i><b>2.7</b> The <span class="math inline">\(t\)</span>-test</a></li>
+<li class="chapter" data-level="2.8" data-path="2-concepts-and-background.html"><a href="2-concepts-and-background.html#wrap-up"><i class="fa fa-check"></i><b>2.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-anova.html"><a href="3-anova.html"><i class="fa fa-check"></i><b>3</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3-anova.html"><a href="3-anova.html#yesterday"><i class="fa fa-check"></i><b>3.1</b> Yesterday</a></li>
+<li class="chapter" data-level="3.2" data-path="3-anova.html"><a href="3-anova.html#how-to-get-to-rome"><i class="fa fa-check"></i><b>3.2</b> How to get to Rome</a></li>
+<li class="chapter" data-level="3.3" data-path="3-anova.html"><a href="3-anova.html#repeated-measures"><i class="fa fa-check"></i><b>3.3</b> Repeated Measures</a></li>
+<li class="chapter" data-level="3.4" data-path="3-anova.html"><a href="3-anova.html#two-way-anova"><i class="fa fa-check"></i><b>3.4</b> Two-Way ANOVA</a></li>
+<li class="chapter" data-level="3.5" data-path="3-anova.html"><a href="3-anova.html#more-repeated-measures"><i class="fa fa-check"></i><b>3.5</b> More repeated measures</a></li>
+<li class="chapter" data-level="3.6" data-path="3-anova.html"><a href="3-anova.html#anova-by-hand"><i class="fa fa-check"></i><b>3.6</b> ANOVA by hand</a></li>
+<li class="chapter" data-level="3.7" data-path="3-anova.html"><a href="3-anova.html#interpreting-an-anova"><i class="fa fa-check"></i><b>3.7</b> Interpreting an ANOVA</a></li>
+<li class="chapter" data-level="3.8" data-path="3-anova.html"><a href="3-anova.html#wrap-up-1"><i class="fa fa-check"></i><b>3.8</b> Wrap-Up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-regression.html"><a href="4-regression.html"><i class="fa fa-check"></i><b>4</b> Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4-regression.html"><a href="4-regression.html#models-and-regression-lines"><i class="fa fa-check"></i><b>4.1</b> Models and regression lines</a></li>
+<li class="chapter" data-level="4.2" data-path="4-regression.html"><a href="4-regression.html#varying-intercepts-slopes-and-errors"><i class="fa fa-check"></i><b>4.2</b> Varying intercepts, slopes, and errors</a></li>
+<li class="chapter" data-level="4.3" data-path="4-regression.html"><a href="4-regression.html#regression-in-r"><i class="fa fa-check"></i><b>4.3</b> Regression in R</a></li>
+<li class="chapter" data-level="4.4" data-path="4-regression.html"><a href="4-regression.html#multiple-regression"><i class="fa fa-check"></i><b>4.4</b> Multiple Regression</a></li>
+<li class="chapter" data-level="4.5" data-path="4-regression.html"><a href="4-regression.html#centering-and-standardization"><i class="fa fa-check"></i><b>4.5</b> Centering and Standardization</a></li>
+<li class="chapter" data-level="4.6" data-path="4-regression.html"><a href="4-regression.html#interpreting-interactions"><i class="fa fa-check"></i><b>4.6</b> Interpreting interactions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html"><i class="fa fa-check"></i><b>5</b> Linear Mixed Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#previously"><i class="fa fa-check"></i><b>5.1</b> Previously …</a></li>
+<li class="chapter" data-level="5.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#before-we-go-on-lets-talk-about-pooling"><i class="fa fa-check"></i><b>5.2</b> Before we go on, let’s talk about pooling</a></li>
+<li class="chapter" data-level="5.3" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#random-effects"><i class="fa fa-check"></i><b>5.3</b> Random Effects</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#lets-have-a-bit-more-of-a-detailed-look"><i class="fa fa-check"></i><b>5.3.1</b> Let’s have a bit more of a detailed look</a></li>
+<li class="chapter" data-level="5.3.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#model-output-comparisons"><i class="fa fa-check"></i><b>5.3.2</b> Model output comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#what-do-i-do-about-my-p-values"><i class="fa fa-check"></i><b>5.4</b> What do I do about my <span class="math inline">\(p\)</span>-values?</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="6-loose-ends.html"><a href="6-loose-ends.html"><i class="fa fa-check"></i><b>6</b> Loose ends</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#long-computation-times"><i class="fa fa-check"></i><b>6.1</b> Long computation times</a></li>
+<li class="chapter" data-level="6.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#convergence-issues"><i class="fa fa-check"></i><b>6.2</b> Convergence Issues</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="6-loose-ends.html"><a href="6-loose-ends.html#optimizers"><i class="fa fa-check"></i><b>6.2.1</b> Optimizers</a></li>
+<li class="chapter" data-level="6.2.2" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reducing-the-random-effects-structure"><i class="fa fa-check"></i><b>6.2.2</b> Reducing the random effects structure</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="6-loose-ends.html"><a href="6-loose-ends.html#investigating-interactions-and-pairwise-comparisons"><i class="fa fa-check"></i><b>6.3</b> Investigating interactions and pairwise comparisons</a></li>
+<li class="chapter" data-level="6.4" data-path="6-loose-ends.html"><a href="6-loose-ends.html#not-recommended-all-pairwise-comparisons"><i class="fa fa-check"></i><b>6.4</b> Not recommended: all pairwise comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="6-loose-ends.html"><a href="6-loose-ends.html#more-emmeans-interactions"><i class="fa fa-check"></i><b>6.5</b> More emmeans: Interactions</a></li>
+<li class="chapter" data-level="6.6" data-path="6-loose-ends.html"><a href="6-loose-ends.html#ordinal-data"><i class="fa fa-check"></i><b>6.6</b> Ordinal data</a></li>
+<li class="chapter" data-level="6.7" data-path="6-loose-ends.html"><a href="6-loose-ends.html#reporting"><i class="fa fa-check"></i><b>6.7</b> Reporting</a></li>
+<li class="chapter" data-level="6.8" data-path="6-loose-ends.html"><a href="6-loose-ends.html#open-questions"><i class="fa fa-check"></i><b>6.8</b> Open questions</a></li>
+<li class="chapter" data-level="6.9" data-path="6-loose-ends.html"><a href="6-loose-ends.html#fin"><i class="fa fa-check"></i><b>6.9</b> Fin!</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="mailto:maik.thalmann@gmail.com?subject=[SummerSchool]%20" target="blank">maik.thalmann@gmail.com</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="concepts-and-background" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Concepts and Background<a href="2-concepts-and-background.html#concepts-and-background" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="some-general-points-about-the-class" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Some general points about the class<a href="2-concepts-and-background.html#some-general-points-about-the-class" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There might be some points we I explain something oddly or in a way that just does not click for you. In this case, please ask. Statistics is a little bit weird sometimes and there is no shame in not getting something the first time—As a case in point: I took my intro to stats twice.</p>
+<p>We will see how far we get each session. It is no problem at all if we do not cover all the material that is on the website for each slot. So, again, please ask any questions you may have.</p>
+<p>All the code is available on the website (with a handy button that pops up to copy it to your clipboard)—except for code for most of the plots. So please do not spend the time to copy the code by hand.</p>
+<p>All the data sets that I use are on github here: <a href="https://github.com/mkthalmann/intro-stats" class="uri">https://github.com/mkthalmann/intro-stats</a> in the folder <code>assets/data/</code>. Please feel free to download them and play around. The code for the plots (and everyting else) can be found in the <code>.Rmd</code> files.</p>
+<p>If you want to make sure you have all the relevant packages you need for the class here, these are the main ones:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="2-concepts-and-background.html#cb10-1" aria-hidden="true" tabindex="-1"></a>pkg <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb10-2"><a href="2-concepts-and-background.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;here&quot;</span>, <span class="co"># better working directory</span></span>
+<span id="cb10-3"><a href="2-concepts-and-background.html#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;tidyverse&quot;</span>, <span class="co"># data wrangling and plotting</span></span>
+<span id="cb10-4"><a href="2-concepts-and-background.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;broom&quot;</span>, <span class="co"># tidy lm summary</span></span>
+<span id="cb10-5"><a href="2-concepts-and-background.html#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;afex&quot;</span>, <span class="co"># ANOVA and linear mixed models</span></span>
+<span id="cb10-6"><a href="2-concepts-and-background.html#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lme4&quot;</span>, <span class="co"># linear mixed models</span></span>
+<span id="cb10-7"><a href="2-concepts-and-background.html#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;parellel&quot;</span> <span class="co"># allows parallel processing</span></span>
+<span id="cb10-8"><a href="2-concepts-and-background.html#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-9"><a href="2-concepts-and-background.html#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(pkg)</span></code></pre></div>
+<p>To load the packages, you can use the <code>library()</code> command with the (unquoted) package name.</p>
+<p>If you ever need a refresher on how a function works, say <code>sum()</code>, you can use the <code>?</code> call:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="2-concepts-and-background.html#cb11-1" aria-hidden="true" tabindex="-1"></a>?sum</span></code></pre></div>
+</div>
+<div id="on-inferential-statistics" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> On inferential statistics<a href="2-concepts-and-background.html#on-inferential-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In essence, what we want to do is this: Find out which portions of variance in the sample are
+systematic (a pattern; introduced by us) and those which are unsystematic (coincidence; essentially
+random from the perspective of our experiment) and then try to relate this to the (unknown)
+population.</p>
+<p>Along the way, we will often see this intuition play out by dividing some measure of an effect (like the mean) by a measure of uncertainty (unsystematic variance, often the standard deviation in some form). To foreshadow a bit, both meansures of effect size – like Cohen’s <span class="math inline">\(d\)</span> – and Pearson’s correlation coefficient <span class="math inline">\(r\)</span> show this signal-to-noise ratio. And if you dive a bit deeper, it pops up all over the place – one such place is the <span class="math inline">\(t\)</span> statistic we use to get a <span class="math inline">\(p\)</span> value for the <span class="math inline">\(t\)</span>-test, see below:</p>
+<p>This is, our intuitive formula,</p>
+<p><span class="math display">\[\mathit{signal-to-noise ratio} = \frac{\mathit{systematic\ variance}}{\mathit{unsystematic\ variance}}\]</span>,</p>
+<p>looks very similar to the one for the <span class="math inline">\(t\)</span> statistic:</p>
+<p><span class="math display">\[t = \frac{\bar{x}_1-\bar{x}_2}{\mathit{SE}}\]</span></p>
+<p>So we take a sample and measure some quantity and then we draw an inference towards the population. Our ingredients for this are always the same: effect size (namely a difference in measurements), variability, and sample size.</p>
+<p>Note that <strong>the population</strong> is not actually easily defined in linguistics. Certainly, we want to talk about speakers of a language or dialect as a (large but finite) population. But there is another answer to the population question, and that has to do with the linguistic material. And as generative system, the population we want to generalize towards is often infinite.</p>
+<p>In fact, despite the centrality of this question and its potential answers, we will postpone this discussion until the very end. The point where we say that speakers and potential sentences (whatevery exactly that means) are a part of our relevant populations will be the point where we will discuss (linear) mixed models, the new workhorse in linguistic experiments and corpus analyses.</p>
+<div class="figure">
+<img src="assets/media/darts.JPG" alt="" />
+<p class="caption">Systematic vs unsystematic variance, from <span class="citation">Sammut and Webb (<a href="#ref-claude2010machine" role="doc-biblioref">2010, 101</a>)</span></p>
+</div>
+</div>
+<div id="a-note-on-frequentism" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> A note on frequentism<a href="2-concepts-and-background.html#a-note-on-frequentism" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Frequentism, the (class of) approach(es) we will follow in this course, interprets probabilities as relative frequencies over lots of samples from a population.</p>
+<p>So, to use old example, a single coin toss does not have a meaningful probability. Rather, in the long run (as the number of samples approach infinity), we expect a fair coin to approach a probability of <span class="math inline">\(.5\)</span> for either result.</p>
+<p>This intuition will pop up all over the place, most prominently with confidence intervals.</p>
+<div id="measures-of-central-tendency" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Measures of Central Tendency<a href="2-concepts-and-background.html#measures-of-central-tendency" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Often, we will work with <strong>means</strong>, a measure of central tendency.</p>
+<p><span class="math display">\[\bar{x}={\frac {1}{n}}\sum _{i=1}^{n}a_{i}={\frac {a_{1}+a_{2}+\cdots +a_{n}}{n}}\]</span></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="2-concepts-and-background.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 5.5</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:means"></span>
+<img src="figs/means-1.png" alt="Means as a location parameter." width="100%" />
+<p class="caption">
+Figure 2.1: Means as a location parameter.
+</p>
+</div>
+<p>Measures of central tendency are the most vital indexes of
+experimental results.</p>
+<p>They indicate where the mass of your measured property is located.</p>
+<p>Though you will work with means most often, we will touch on some others as well.</p>
+<p>The <strong>median</strong> always leads to a bipartition of the data. The partition on a set <span class="math inline">\(A\)</span> is defined as
+having the following properties :</p>
+<blockquote>
+<p>for any two distinct subsets, candidates for cells of a partition of <span class="math inline">\(A\)</span>, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>: <span class="math inline">\(X \cap Y = \emptyset\)</span>, and the union of all partitions must equal <span class="math inline">\(A\)</span>: for two partitions <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, <span class="math inline">\(X \cup Y = A\)</span></p>
+</blockquote>
+<p>To calculate the mean, we just do the following:</p>
+<p><span class="math display">\[\tilde{x}=\begin{cases}
+        x_{\frac{n+1}{2}}                                             &amp; n\text{ odd}   \\
+        \frac{1}{2}\left(x_{\frac{n}{2}} + x_{\frac{n}{2} + 1}\right) &amp; n \text{ even} \\
+    \end{cases}\]</span></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="2-concepts-and-background.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 5.5</code></pre>
+<p>This partition property is illustrated below for a normally-distributed data set:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:medians"></span>
+<img src="figs/medians-1.png" alt="Medians as partitions." width="100%" />
+<p class="caption">
+Figure 2.2: Medians as partitions.
+</p>
+</div>
+<p>The <strong>mode</strong> is not often used today, though it does come up when people talk about bimodal patterns or
+distributions. If you find this kind of result within one level of your experimental manipulation,
+proceed with caution, as the mean is no longer a good fit for data.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="2-concepts-and-background.html#cb16-1" aria-hidden="true" tabindex="-1"></a>mode <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb16-2"><a href="2-concepts-and-background.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  ux <span class="ot">&lt;-</span> <span class="fu">unique</span>(x)</span>
+<span id="cb16-3"><a href="2-concepts-and-background.html#cb16-3" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> <span class="fu">tabulate</span>(<span class="fu">match</span>(x, ux))</span>
+<span id="cb16-4"><a href="2-concepts-and-background.html#cb16-4" aria-hidden="true" tabindex="-1"></a>  ux[tab <span class="sc">==</span> <span class="fu">max</span>(tab)]</span>
+<span id="cb16-5"><a href="2-concepts-and-background.html#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-6"><a href="2-concepts-and-background.html#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mode</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## [1] 7</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:modes"></span>
+<img src="figs/modes-1.png" alt="Modes." width="100%" />
+<p class="caption">
+Figure 2.3: Modes.
+</p>
+</div>
+</div>
+<div id="measures-of-dispersion" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Measures of Dispersion<a href="2-concepts-and-background.html#measures-of-dispersion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Measures of dispersion, different from the location measures we saw before, index the spread of a
+finding, where a low value always indicates more precision/homogeneity.</p>
+<p>Most often, these are used to indicate uncertainty and, hence, non-systematic variance.</p>
+<p>Though we do want to minimize the spread of a data, too little spread is not a good thing either:
+Without any variance at all, most statistical techniques fail outright or become unreliable.</p>
+<p>Too little variance can also indicate that something went wrong. If a fellow linguist told
+you that, in their behavioral experiments, all people from one group produced exactly (or close to)
+the same results, chances are you wouldn’t believe them.</p>
+<p><strong>Sums of squares</strong></p>
+<p>Sums of squares are a way to indicate the general deviation of a set of samples from the (group)
+mean. Though this is not often mentioned in papers, this technique underlies most classical tests in
+statistics.</p>
+<p>When people talk about OLS (Ordinary Least Squares) regression, they are describing a technique
+where a line is fit to the data that minimizes squared differences from the mean.</p>
+<p>Tests of this type are ANOVA, the <span class="math inline">\(t\)</span>-test, and Linear Mixed Models. More
+succinctly, the sum of squared differences is calculated as follows:</p>
+<p><span class="math display">\[\mathit{SumSq} = \sum _{i=1}^{n}(x_i-\bar{x})^2\]</span></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="2-concepts-and-background.html#cb18-1" aria-hidden="true" tabindex="-1"></a>sumsq <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb18-2"><a href="2-concepts-and-background.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb18-3"><a href="2-concepts-and-background.html#cb18-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-4"><a href="2-concepts-and-background.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sumsq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 82.5</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:deviations"></span>
+<img src="figs/deviations-1.png" alt="Mean deviations." width="100%" />
+<p class="caption">
+Figure 2.4: Mean deviations.
+</p>
+</div>
+<p>The solution: Squaring the differences to remove the sign (and by transforming distances from the
+mean into planes):</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sumsofsquares"></span>
+<img src="figs/sumsofsquares-1.png" alt="Sums of squares." width="50%" />
+<p class="caption">
+Figure 2.5: Sums of squares.
+</p>
+</div>
+<p><strong>Variance and standard deviation</strong></p>
+<p>The standard deviation is based on the variance of a sample, and in
+turn, the sum squared differences from the mean. The variance is calculated like so:</p>
+<p><span class="math display">\[s^2= {\frac {\sum _{i=1}^{n}(x_{i}-{\bar{x}})^{2}}{n-1}}\]</span></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="2-concepts-and-background.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 9.1666667</code></pre>
+<p>Because of the squaring of the differences, however, the resulting value for variance in not on the
+measure scale anymore. In fact, it is on a squared version of that. To remedy this, and to get to
+the standard deviation, we simply take the root:</p>
+<p><span class="math display">\[s= \sqrt{s^2} = {\sqrt{\frac {\sum _{i=1}^{n}(x_{i}-{\bar{x}})^{2}}{n-1}}}\]</span></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="2-concepts-and-background.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 3.0276504</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="2-concepts-and-background.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## [1] 3.0276504</code></pre>
+<p><strong>Standard Deviation</strong></p>
+<p>The larger the dispersion, the flatter our resulting curve:</p>
+<div class="figure">
+<img src="assets/media/disp.JPG" alt="" />
+<p class="caption">Dispersion changes affect curvature</p>
+</div>
+<p><strong>Standard Errors and Confidence Intervals</strong></p>
+<p>The standard error of the mean is a measure of the
+dispersion of sample means around the population mean, and decreases as a function of the root of
+<span class="math inline">\(n\)</span>:</p>
+<p><span class="math display">\[s_{\bar{x}} = \frac{s}{\sqrt{n}}\]</span></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="2-concepts-and-background.html#cb26-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb26-2"><a href="2-concepts-and-background.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb26-3"><a href="2-concepts-and-background.html#cb26-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-4"><a href="2-concepts-and-background.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">se</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 0.95742711</code></pre>
+<p>Note that this measure is powerful because it takes the sample size into account. While we saw with, say, the standard deviation features, this is done to create sort of a mean of variance. Here, the use is different: We will obtain smaller standard errors (which will make us more sure about the precision of our measurement) as a function of sample size. Measuring the same variance of two samples, we could use the standard error to relate the two in terms of precision such that the larger sample makes us more confident.</p>
+<p>Confidence intervals for the mean give us a range of values
+around the mean where we expect the ``true’’ (population) mean is located.</p>
+<p>To quantify the level of certainty we’re comfortable with, often 95% is chosen (in analogy to
+<span class="math inline">\(p\)</span>-values). The sample mean plus or minus <span class="math inline">\(1.96\)</span> times its standard error gives us the 95%
+confidence interval:</p>
+<p><span class="math display">\[CI_{95} = \bar{x} \pm SE_{\bar{x}}*1.96\]</span></p>
+<p><strong>But how do you interpret confidence intervals?</strong></p>
+<p>Like so: 95% of 95% confidence intervals contain
+the true (population) parameter you are trying to approximate using your experiment (most generally
+the mean).</p>
+<p>In a parallel fashion, or 90% confidence intervals, out of a 100, 90 will contain the true parameter.</p>
+<p>This also means that 95% confidence intervals will always be wider than 90% ones if they are based
+on the same data: If you can only be wrong 5% of the time, you will be less sure than if you can be
+wrong in a tenth of all cases.</p>
+</div>
+</div>
+<div id="hypotheses" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Hypotheses<a href="2-concepts-and-background.html#hypotheses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="null-hypothesis" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Null Hypothesis<a href="2-concepts-and-background.html#null-hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>People are often confused as to why they should think about a null hypothesis in the first place.</p>
+<p>After all, the only thing we care about is our actual (in statistics parlance alternative)
+hypothesis. One clue to answering this question is below:</p>
+<blockquote>
+<p>The key idea for inferential statistics is as follows: If we know what a “random” distribution
+looks like, we can tell random variation from non-random variation. We will start by supposing
+that the variation observed is random – and then try to prove ourselves wrong. This is called
+``Making the null hypothesis.’’ <span class="citation">Vasishth and Broe (<a href="#ref-vasishth2010foundations" role="doc-biblioref">2010</a>)</span></p>
+</blockquote>
+<p>Another clue is this: <span class="math inline">\(p\)</span>-values do not say anything about the alternative hypothesis at all.</p>
+<center>
+<img src="assets/media/pvalueexplain.png" />
+</center>
+<p>They only inform us about how likely our data are given the assumption that the null hypothesis
+holds.</p>
+<p>Naturally, this is rarely the question we want answered, but it is the only answer that can
+be answered meaningfully using frequentist statistics.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:nullhyp"></span>
+<img src="figs/nullhyp-1.png" alt="Null hypothesis." width="50%" />
+<p class="caption">
+Figure 2.6: Null hypothesis.
+</p>
+</div>
+<p>The null hypothesis thus says that all differences we might observe are non-systematic, or random,
+in nature such that experimental manipulations do not produce predictable results.</p>
+<p>This is the assumption we are trying to falsify using significance tests.</p>
+<p>In other words, we want to show that there does, in fact, exist a systematic, non-random
+relationship between our factors (our manipulation) and the dependent variable (our measurement)
+such that all variance is systematic (at least overwhelmingly so).</p>
+<div class="alert alert-info">
+<p><strong>Questions</strong></p>
+<ul>
+<li>What is the inherent problem of this approach, namely the primacy of the null
+hypothesis within frequentist statistics — and, in turn, the secondary role that the alternative
+hypothesis plays?</li>
+</ul>
+</div>
+</div>
+<div id="alternative-hypothesis" class="section level3 hasAnchor" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Alternative hypothesis<a href="2-concepts-and-background.html#alternative-hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We predict patterns in the population, and using inference statistics we try to find evidence for
+this pattern using samples of that population. And even if our statistics say that the effect we
+found is systematic, it still might not be so (spurious results)</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:althyp"></span>
+<img src="figs/althyp-1.png" alt="Alternative hypothesis." width="50%" />
+<p class="caption">
+Figure 2.7: Alternative hypothesis.
+</p>
+</div>
+<p>Here is an illustration of the two competing hypotheses using distributions, identified by two sample means <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:althyp2"></span>
+<img src="figs/althyp2-1.png" alt="Alternative hypothesis again." width="100%" />
+<p class="caption">
+Figure 2.8: Alternative hypothesis again.
+</p>
+</div>
+<p>And here we have a comparison between the null and the alternative hypothesis:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:althyp3"></span>
+<img src="figs/althyp3-1.png" alt="left: Null hypothesis, right: Alternative hypothesis.." width="100%" />
+<p class="caption">
+Figure 2.9: left: Null hypothesis, right: Alternative hypothesis..
+</p>
+</div>
+</div>
+</div>
+<div id="type-i-and-type-ii-errors" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Type I and Type II errors<a href="2-concepts-and-background.html#type-i-and-type-ii-errors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So, our goal is to discriminate between the null and the alternative hypothesis. Depending on our <span class="math inline">\(p\)</span>-value, we will either accept the null hypothesis (<span class="math inline">\(p &gt; .05\)</span>) or reject it (<span class="math inline">\(p &lt; .05\)</span>).</p>
+<p>But since we’re always aware that we might be wrong—after all, our significance threshold has this possibility built-in by design—there a four possible outcome scenarios:</p>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="36%" />
+<col width="36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>The null hypothesis is …</th>
+<th>true</th>
+<th>false</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>rejected (<span class="math inline">\(p &lt; .05\)</span>)</td>
+<td>Type I error (false positive)</td>
+<td>Correct decision (true positive)</td>
+</tr>
+<tr class="even">
+<td>accepted (<span class="math inline">\(p &gt; .05\)</span>)</td>
+<td>Correct decision (True negative)</td>
+<td>Type II error (false negative)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<center>
+<img src="assets/media/errortypes.jpg" />
+</center>
+<p>A closely related concept to statistical errors is power, which is the probability of detecting an effect that is actually there. Power is determined by three things:</p>
+<ul>
+<li>Significance (higher <span class="math inline">\(\alpha\)</span> = more power)</li>
+<li>Sample size (larger <span class="math inline">\(N\)</span> = more power)</li>
+<li>Effect size (larger effect = more power)</li>
+</ul>
+<p>In principle, when designing an experiment, the only one of these factors you have any control over is the sample size. So be wary of experiments with few items and participants, both when designing your own and when reading a paper.</p>
+<p>In the literature you will see two kinds of power analysis mentioned, <em>a priori</em>, i.e., calculated before the study was carried out, and <em>post hoc</em>, carried out afterwards.</p>
+<p>The second way is seriously flawed and is dependent upon the <span class="math inline">\(p\)</span>-value. So it is not useful at all. Do not do this.</p>
+</div>
+<div id="some-terms" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Some terms<a href="2-concepts-and-background.html#some-terms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When describing (and planning) an experiment, this is ideally done using the following terms:</p>
+<ul>
+<li><strong>Independent Variable</strong>: What you manipulate.</li>
+<li><strong>Dependent Variable</strong>: What you measure.</li>
+</ul>
+<p><strong>Main effects</strong> are the differences that, for example, a <span class="math inline">\(t\)</span>-test is sensitive to: namely a difference
+between condition means.</p>
+<p>Here is a classical situation for a one-factorial design:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:onefactwolev"></span>
+<img src="figs/onefactwolev-1.png" alt="One factorial design (two factor levels)." width="70%" />
+<p class="caption">
+Figure 2.10: One factorial design (two factor levels).
+</p>
+</div>
+</div>
+<div id="the-t-test" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> The <span class="math inline">\(t\)</span>-test<a href="2-concepts-and-background.html#the-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now, let’s actually get to the statistics and apply what we’ve learned so far.</p>
+<p>Below, I have a data set containing (among other information), lung capacities and the smoker status of of a number of people—downloaded <a href="https://www.kaggle.com/datasets/radhakrishna4/lung-capacity">here</a>.</p>
+<p>Say our (alternative) hypothesis is that smokers and non-smokers have a different lung capacity, while the null hypothesis is that there is no difference between the two.</p>
+<p>As always, we have no way of testing the entire population, so we will have to make do with our sample data set and draw an inference towards the state that is likely to hold in the population.</p>
+<p>This is where the <span class="math inline">\(t\)</span>-test comes in.</p>
+<p>(I am neglecting here the one-sample <span class="math inline">\(t\)</span>-test, assuming that you are already familiar, and jumping straight into the two-sample version, which is more useful for our purposes anyhow.)</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="2-concepts-and-background.html#cb28-1" aria-hidden="true" tabindex="-1"></a>lungs <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb28-2"><a href="2-concepts-and-background.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">&quot;assets&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;lungs.txt&quot;</span>),</span>
+<span id="cb28-3"><a href="2-concepts-and-background.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">&quot;|&quot;</span>,</span>
+<span id="cb28-4"><a href="2-concepts-and-background.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dec =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb28-5"><a href="2-concepts-and-background.html#cb28-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-6"><a href="2-concepts-and-background.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb28-7"><a href="2-concepts-and-background.html#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;lung_cap&quot;</span> <span class="ot">=</span> Lungenkapazität,</span>
+<span id="cb28-8"><a href="2-concepts-and-background.html#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;age&quot;</span> <span class="ot">=</span> Alter,</span>
+<span id="cb28-9"><a href="2-concepts-and-background.html#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;height&quot;</span> <span class="ot">=</span> Größe,</span>
+<span id="cb28-10"><a href="2-concepts-and-background.html#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;smoker&quot;</span> <span class="ot">=</span> Raucher,</span>
+<span id="cb28-11"><a href="2-concepts-and-background.html#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;sex&quot;</span> <span class="ot">=</span> Geschlecht,</span>
+<span id="cb28-12"><a href="2-concepts-and-background.html#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;caesarean&quot;</span> <span class="ot">=</span> Kaiserschnitt</span>
+<span id="cb28-13"><a href="2-concepts-and-background.html#cb28-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>We could use means, standard deviations, and the standard errors of the mean to get a sense of the data:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="2-concepts-and-background.html#cb29-1" aria-hidden="true" tabindex="-1"></a>lungs <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="2-concepts-and-background.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(smoker) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="2-concepts-and-background.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb29-4"><a href="2-concepts-and-background.html#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lung_cap_mean =</span> <span class="fu">mean</span>(lung_cap),</span>
+<span id="cb29-5"><a href="2-concepts-and-background.html#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lung_cap_sd =</span> <span class="fu">sd</span>(lung_cap),</span>
+<span id="cb29-6"><a href="2-concepts-and-background.html#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lung_cap_se =</span> lung_cap_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb29-7"><a href="2-concepts-and-background.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">how_many =</span> <span class="fu">n</span>()</span>
+<span id="cb29-8"><a href="2-concepts-and-background.html#cb29-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   smoker lung_cap_mean lung_cap_sd lung_cap_se how_many
+##   &lt;chr&gt;          &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;    &lt;int&gt;
+## 1 no              7.73        2.73       0.121      505
+## 2 yes             8.75        1.86       0.248       56</code></pre>
+<p>But it’s also always good to have a plot:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lungsplot"></span>
+<img src="figs/lungsplot-1.png" alt="Smokers" width="100%" />
+<p class="caption">
+Figure 2.11: Smokers
+</p>
+</div>
+<p>Remember, our hypothesis is that there is a difference in lung capacity with smokers and non-smokers. Thus, our <strong>dependent variable</strong> is the lung capacity of each person in the data set, the <strong>independent variable</strong> is the smoker status. And what we predict is a <strong>main effect</strong> of smokerdom.</p>
+<p>Now, say we have an argumentative friend who says the data in the plot is neither here nor there. He wants a definitive answer. While statistics is certainly not definitive, it is certainly better than nothing. So we do a <span class="math inline">\(t\)</span>-test to compare the lung capacity between the two groups.</p>
+<p>Under the hood (more on that below), the mean difference is calculated (or indicator of systematic variance) and divided by (a version of) the standard errors of each sample, which represent the variation we have no explanation for.</p>
+<p>A larger <span class="math inline">\(t\)</span> value is then an indicator for a strong effect of the experimental manupulation, a small one suggests that most of the variation is not due to the factor of interest.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="2-concepts-and-background.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(</span>
+<span id="cb31-2"><a href="2-concepts-and-background.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  lung_cap <span class="sc">~</span> smoker,</span>
+<span id="cb31-3"><a href="2-concepts-and-background.html#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> lungs,</span>
+<span id="cb31-4"><a href="2-concepts-and-background.html#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">paired =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb31-5"><a href="2-concepts-and-background.html#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb31-6"><a href="2-concepts-and-background.html#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span></span>
+<span id="cb31-7"><a href="2-concepts-and-background.html#cb31-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  lung_cap by smoker
+## t = -2.71912, df = 559, p-value = 0.006749
+## alternative hypothesis: true difference in means between group no and group yes is not equal to 0
+## 95 percent confidence interval:
+##  -1.75127037 -0.28228515
+## sample estimates:
+##  mean in group no mean in group yes 
+##         7.7309901         8.7477679</code></pre>
+<div class="alert alert-info">
+<p><strong>Question</strong>: So, what does this mean?</p>
+</div>
+<p>As an aside: We do not care about the sign of the <span class="math inline">\(t\)</span>-value. This is only a reflex of the ordering of the grouping factor in R. If we change that, the negative sign goes away, but everything else remains the same:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="2-concepts-and-background.html#cb33-1" aria-hidden="true" tabindex="-1"></a>lungs <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="2-concepts-and-background.html#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">smoker =</span> <span class="fu">fct_relevel</span>(smoker, <span class="st">&quot;yes&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="2-concepts-and-background.html#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(</span>
+<span id="cb33-4"><a href="2-concepts-and-background.html#cb33-4" aria-hidden="true" tabindex="-1"></a>    lung_cap <span class="sc">~</span> smoker,</span>
+<span id="cb33-5"><a href="2-concepts-and-background.html#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> .,</span>
+<span id="cb33-6"><a href="2-concepts-and-background.html#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">paired =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-7"><a href="2-concepts-and-background.html#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-8"><a href="2-concepts-and-background.html#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span></span>
+<span id="cb33-9"><a href="2-concepts-and-background.html#cb33-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  lung_cap by smoker
+## t = 2.71912, df = 559, p-value = 0.006749
+## alternative hypothesis: true difference in means between group yes and group no is not equal to 0
+## 95 percent confidence interval:
+##  0.28228515 1.75127037
+## sample estimates:
+## mean in group yes  mean in group no 
+##         8.7477679         7.7309901</code></pre>
+<p>We could report this (to our annoying friend) by saying the following:</p>
+<blockquote>
+<p>The difference in lung capacity between smokers and non-smokers was significant, <span class="math inline">\(t(559) = -2.7, p &lt; .05\)</span>.</p>
+</blockquote>
+<p>This means that, under the assumption that the null hypothesis is true in the population, finding the test statistic that we found in our sample (or a more extreme one) is incredibly unlikely, namely <span class="math inline">\(p = 0.0067\)</span>.</p>
+<p>To reiterate: the <span class="math inline">\(p\)</span>-value does not tell us anything about the alternative hypothesis. It only tells us that our data are very surprising if we expect the true difference to be <span class="math inline">\(0\)</span>.</p>
+<p>We often do some mental gymnastics and use imprecise/wrong formulations, but it is important to remember that a <span class="math inline">\(p\)</span>-value cannot give you a full solution to your problem, it is only tool in your toolbox to argue for something (e.g. that the alternative hypothesis is true).</p>
+<p>Normally we say that a result is statistically significant when the <span class="math inline">\(p\)</span>-value is low enough, namely below the so-called <span class="math inline">\(\alpha\)</span> criterion, generally at 5%. Anything above this threshold is not surprising enough, and we conventionally say that that is not enough to establish statistical significance. But this is an <strong>arbitrary number</strong>—there is nothing inherent to this setting of <span class="math inline">\(\alpha\)</span> that makes it worthy as the make-it-or-break-it line over any other.</p>
+<p>Here’s the <span class="math inline">\(t\)</span>-test formula given on <a href="https://en.wikipedia.org/wiki/Student%27s_t-test">Wikipedia</a> (for equal or unequal sample sizes, similar variances):</p>
+<p><span class="math display">\[t = \frac{\bar{X}_1 - \bar{X}_2}{s_p * \sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\]</span>
+where <span class="math inline">\(s_p\)</span> represents the pooled variances (and thus the random variation we have no explanation for):</p>
+<p><span class="math display">\[s_p = \sqrt{\frac{(n_1 - 1) s^2_{X_1} + (n_2 - 1) s^2_{X_2} }{n_1 + n_2 - 2}}\]</span></p>
+<p>Note that the numerator represents the systematic variation, i.e., the difference between the two means. By dividing the systematic variance by the unsystematic one, we get an indication of how systematic the mean differences actually are.</p>
+<p>And now let’s implement this in R and see whether we can get the same results that we got above using <code>t.test()</code>.</p>
+<div class="alert alert-info">
+<p><strong>Task</strong>: If you guys want to, you could do this on your own. Of course, you have my solution there but if you truly want to understand what’s going on, it might be good</p>
+</div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="2-concepts-and-background.html#cb35-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> lungs <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="2-concepts-and-background.html#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(smoker <span class="sc">==</span> <span class="st">&quot;no&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="2-concepts-and-background.html#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lung_cap)</span>
+<span id="cb35-4"><a href="2-concepts-and-background.html#cb35-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> lungs <span class="sc">%&gt;%</span></span>
+<span id="cb35-5"><a href="2-concepts-and-background.html#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(smoker <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-6"><a href="2-concepts-and-background.html#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lung_cap)</span>
+<span id="cb35-7"><a href="2-concepts-and-background.html#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="2-concepts-and-background.html#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># means</span></span>
+<span id="cb35-9"><a href="2-concepts-and-background.html#cb35-9" aria-hidden="true" tabindex="-1"></a>x_bar_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(x1)</span>
+<span id="cb35-10"><a href="2-concepts-and-background.html#cb35-10" aria-hidden="true" tabindex="-1"></a>x_bar_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(x2)</span>
+<span id="cb35-11"><a href="2-concepts-and-background.html#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="2-concepts-and-background.html#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co"># n_i</span></span>
+<span id="cb35-13"><a href="2-concepts-and-background.html#cb35-13" aria-hidden="true" tabindex="-1"></a>n_1 <span class="ot">&lt;-</span> <span class="fu">length</span>(x1)</span>
+<span id="cb35-14"><a href="2-concepts-and-background.html#cb35-14" aria-hidden="true" tabindex="-1"></a>n_2 <span class="ot">&lt;-</span> <span class="fu">length</span>(x2)</span>
+<span id="cb35-15"><a href="2-concepts-and-background.html#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="2-concepts-and-background.html#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="co"># variances</span></span>
+<span id="cb35-17"><a href="2-concepts-and-background.html#cb35-17" aria-hidden="true" tabindex="-1"></a>s_1_squared <span class="ot">&lt;-</span> <span class="fu">var</span>(x1)</span>
+<span id="cb35-18"><a href="2-concepts-and-background.html#cb35-18" aria-hidden="true" tabindex="-1"></a>s_2_squared <span class="ot">&lt;-</span> <span class="fu">var</span>(x2)</span>
+<span id="cb35-19"><a href="2-concepts-and-background.html#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="2-concepts-and-background.html#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="co"># pooled estimator:</span></span>
+<span id="cb35-21"><a href="2-concepts-and-background.html#cb35-21" aria-hidden="true" tabindex="-1"></a>s_p <span class="ot">&lt;-</span> ((n_1 <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> s_1_squared <span class="sc">+</span> (n_2 <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> s_2_squared) <span class="sc">/</span> (n_1 <span class="sc">+</span> n_2 <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb35-22"><a href="2-concepts-and-background.html#cb35-22" aria-hidden="true" tabindex="-1"></a>s_p <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(s_p)</span>
+<span id="cb35-23"><a href="2-concepts-and-background.html#cb35-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-24"><a href="2-concepts-and-background.html#cb35-24" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the t value</span></span>
+<span id="cb35-25"><a href="2-concepts-and-background.html#cb35-25" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (x_bar_1 <span class="sc">-</span> x_bar_2) <span class="sc">/</span> (s_p <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> n_1 <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> n_2))</span>
+<span id="cb35-26"><a href="2-concepts-and-background.html#cb35-26" aria-hidden="true" tabindex="-1"></a>t</span></code></pre></div>
+<pre><code>## [1] -2.7191178</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="2-concepts-and-background.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># degrees of freedom</span></span>
+<span id="cb37-2"><a href="2-concepts-and-background.html#cb37-2" aria-hidden="true" tabindex="-1"></a>dof <span class="ot">&lt;-</span> n_1 <span class="sc">+</span> n_2 <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb37-3"><a href="2-concepts-and-background.html#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="2-concepts-and-background.html#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># look up the p value in the t distribution using the degrees of freedom (two-tailed)</span></span>
+<span id="cb37-5"><a href="2-concepts-and-background.html#cb37-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(t, dof, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-6"><a href="2-concepts-and-background.html#cb37-6" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<pre><code>## [1] 0.0067490382</code></pre>
+<p>And here is another way of getting the same results, the <code>lm()</code> function:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="2-concepts-and-background.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(lung_cap <span class="sc">~</span> smoker, <span class="at">data =</span> lungs, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  lung_cap by smoker
+## t = -2.71912, df = 559, p-value = 0.006749
+## alternative hypothesis: true difference in means between group no and group yes is not equal to 0
+## 95 percent confidence interval:
+##  -1.75127037 -0.28228515
+## sample estimates:
+##  mean in group no mean in group yes 
+##         7.7309901         8.7477679</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="2-concepts-and-background.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(lung_cap <span class="sc">~</span> smoker, <span class="at">data =</span> lungs))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = lung_cap ~ smoker, data = lungs)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -6.70599 -1.68099  0.09401  1.94401  6.94401 
+## 
+## Coefficients:
+##             Estimate Std. Error t value              Pr(&gt;|t|)    
+## (Intercept)  7.73099    0.11814 65.4372 &lt; 0.00000000000000022 ***
+## smokeryes    1.01678    0.37394  2.7191              0.006749 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.6549 on 559 degrees of freedom
+## Multiple R-squared:  0.013054,   Adjusted R-squared:  0.011288 
+## F-statistic: 7.3936 on 1 and 559 DF,  p-value: 0.006749</code></pre>
+</div>
+<div id="wrap-up" class="section level2 hasAnchor" number="2.8">
+<h2><span class="header-section-number">2.8</span> Wrap-Up<a href="2-concepts-and-background.html#wrap-up" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>That’s it for today. Here’s a small recap of what we looked at:</p>
+<ul>
+<li>We talked about the primary method of inferential statistics: separating out systematic variance (the stuff that we care about) from (in the context of our experimental goal) randomness.</li>
+<li>Then we saw some of the estimators that play a central role in discriminating between the two. To do this, we often use the mean and variance/standard deviation.</li>
+<li>After that we talked about hypotheses and saw that frequentist statistics really only talks about the null hypothesis, even though we only care about the alternative hypothesis.
+<ul>
+<li>remember: the alternative hypothesis should be written down and ideally graphed <strong>before</strong> data collection begins to keep yourself accountable.</li>
+</ul></li>
+<li>Finally we worked through an example data set with the <span class="math inline">\(t\)</span>-test, both with the <code>t.test()</code> function and by hand (the latter again involved the measures of central tendency and of dispersion), and tried to interpret the <span class="math inline">\(p\)</span>-value both returned.</li>
+</ul>
+<p>In tomorrow’s class we will continue on our stats journey and talk about more complex designs.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-claude2010machine" class="csl-entry">
+Sammut, Claude, and Geoffrey I. Webb, ed. 2010. <em>Encyclopedia of machine learning</em>. Boston, MA: Springer. <a href="https://doi.org/10.1007/978-0-387-30164-8">https://doi.org/10.1007/978-0-387-30164-8</a>.
+</div>
+<div id="ref-vasishth2010foundations" class="csl-entry">
+Vasishth, Shravan, and Michael Broe. 2010. <em>The foundations of statistics: <span>A</span> simulation-based approach</em>. Berlin: Springer Science &amp; Business Media.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="3-anova.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": {},
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

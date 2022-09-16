@@ -1,0 +1,32 @@
+\documentclass{article}
+\include{preview}
+\usepackage[pdftex,active,tightpage]{preview}
+\usepackage{amsmath}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\tikzset{font=\sffamily}
+
+\usepgfplotslibrary{fillbetween} % needed for the alpha beta plot
+\usetikzlibrary{intersections,decorations.markings, decorations.text, plotmarks, shapes, fadings, 3d}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+\pgfmathdeclarefunction{skew1}{0}{%
+	\pgfmathparse{-x*exp(x)}%
+}
+\pgfmathdeclarefunction{skew2}{0}{%
+	\pgfmathparse{abs(x)*exp(-x)}%
+}
+
+\definecolor{mygreen}{RGB}{6, 107, 138}
+\definecolor{myred}{RGB}{138, 6, 74}
+%% INSERT YOUR OWN CODE HERE 
+\begin{document}
+\begin{preview}
+%% TIKZ_CODE %%
+\end{preview}
+\end{document}

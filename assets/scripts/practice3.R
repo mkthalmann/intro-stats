@@ -74,3 +74,84 @@ summary(mod_interaction_sum)
 d_psp %>%
     group_by(trigger_cat, issue) %>%
     summarise(n = n())
+
+
+
+
+
+
+# here are some visualizations for the lines that the above models fitted
+# I need to load the data again to recode some variables
+
+d_psp <- read_csv(here("assets", "data", "psp-data.csv")) %>%
+    filter(trigger_cat != "appo", stage != "Children") %>%
+    mutate(
+        issue = if_else(issue == "non-at-issue", 0, 1),
+        trigger_cat = if_else(trigger_cat == "hard", 1, 0),
+    )
+
+# no interaction
+psp_both <- lm(judgment ~ 1 + issue + trigger_cat, data = d_psp)
+summary(psp_both)
+
+equation1 <- function(x) {
+    coef(psp_both)[2] * x + coef(psp_both)[1]
+}
+equation2 <- function(x) {
+    coef(psp_both)[2] * x + coef(psp_both)[1] + coef(psp_both)[3]
+}
+
+d_psp %>%
+    mutate(issue = factor(issue)) %>%
+    ggplot(aes(
+        x = trigger_cat,
+        y = judgment,
+        pch = issue,
+        color = issue
+    )) +
+    stat_function(
+        fun = equation1,
+        geom = "line",
+        size = 1
+    ) +
+    stat_function(
+        fun = equation2,
+        geom = "line",
+        size = 1
+    ) +
+    guides(pch = "none") +
+    stat_summary(fun = mean, geom = "point", size = 4) +
+    stat_summary(fun.data = mean_se, geom = "errorbar", width = .01) +
+    scale_x_continuous(breaks = c(0, 1), labels = c("Soft Trigger", "Hard Trigger")) +
+    scale_color_discrete(labels = c("non-at-issue", "at-issue")) +
+    scale_y_continuous(limits = c(0, NA)) +
+    labs(
+        x = "Trigger Category",
+        y = "Judgment \u00B1 SE"
+    )
+
+
+# yes interaction
+psp_int <- lm(judgment ~ 1 + issue * trigger_cat, data = d_psp)
+summary(psp_int)
+
+
+d_psp %>%
+    mutate(issue = factor(issue)) %>%
+    ggplot(aes(
+        x = trigger_cat,
+        y = judgment,
+        pch = issue,
+        color = issue
+    )) +
+    guides(pch = "none") +
+    stat_summary(fun = mean, geom = "point", size = 4) +
+    stat_summary(fun.data = mean_se, geom = "errorbar", width = .01) +
+    scale_x_continuous(breaks = c(0, 1), labels = c("Soft Trigger", "Hard Trigger")) +
+    scale_color_discrete(labels = c("non-at-issue", "at-issue")) +
+    scale_y_continuous(limits = c(0, NA)) +
+    labs(
+        x = "Trigger Category",
+        y = "Judgment \u00B1 SE"
+    ) +
+    geom_smooth(method = "lm", se = FALSE)

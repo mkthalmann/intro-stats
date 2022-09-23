@@ -49,7 +49,7 @@ d_psp_short <- sample_n(d_psp, length(d_psp$id) / 4)
 # does not converge and is singular
 afex_lmm_fails <- lmer(
     judgment ~ stage * issue * trigger_cat + (issue * trigger_cat | id) +
-        (issue + stage| itemid),
+        (issue + stage | itemid),
     data = d_psp_short,
     )
 ```
@@ -64,7 +64,7 @@ Luckily, sometimes other approaches work.
 To estimate the random intercepts and slopes, an optimizer function is used. `afex` lists the following:
 
 ```{r allopts, echo=FALSE}
-c("bobyqa", "Nelder_Mead", "optimx", "nloptwrap","nmkbw")
+c("bobyqa", "Nelder_Mead", "optimx", "nloptwrap", "nmkbw")
 ```
 
 Sometimes, a different optimizer can help with convergence issues, but it is quite cumbersome to go through all of them together. `afex` includes the `all_fit` option for this reason (as well as a separate function, which I ignore here).
@@ -74,34 +74,24 @@ Let's see what happens here:
 ```{r all_fit}
 # needs to be loaded explicitly to give us access to two more optimizing algorithms
 library(optimx)
+psp_lm <- lmer(
+    judgment ~ stage * issue * trigger_cat +
+        (issue + trigger_cat | id) + (issue | itemid),
+    data = d_psp
+    )
 
-# re-enable the cluster
-nc <- detectCores()
-cl <- makeCluster(rep("localhost", nc))
-
-psp_lmm_all <- mixed(
-    judgment ~ stage * issue * trigger_cat + (issue + trigger_cat | id) +
-        (issue | itemid),
-    data = d_psp,
-    method = "LRT",
-    expand_re = TRUE,
-    REML = FALSE,
-    check_contrasts = TRUE,
-    all_fit = TRUE, # this is new!
-    cl = cl
-)
-
-stopCluster(cl)
-
-# check the best optimizer
-attr(psp_lmm_all, "all_fit_selected")
-attr(psp_lmm_all, "all_fit_logLik")
+psp_lm_all <- allFit(
+    psp_lm,
+    maxfun = 1e6,
+    parallel = "multicore",
+    ncpus = detectCores()
+    )
 ```
 
-And here we can check for convergence:
+And here we can check for convergence. You are looking for optimizers where it says "NULL". These are the ones without issues.
 
 ```{r all_fit_check}
-psp_lmm_all_ok <- psp_lmm_all[sapply(psp_lmm_all, is, "merMod")]
+psp_lmm_all_ok <- psp_lm_all[sapply(psp_lm_all, is, "merMod")]
 lapply(psp_lmm_all_ok, function(x) x@optinfo$conv$lme4$messages)
 ```
 
@@ -302,7 +292,7 @@ Above we only looked at specific contrasts, but, you might say now, why don't we
 I recommend against testing all possible pairwise comparisons, but I include how to do it here for illustrative purposes:
 
 ```{r allpairs}
-pairs(ref_id, adjust = "holm") 
+pairs(ref_id, adjust = "holm")
 ```
 
 <div class="alert alert-info"> **Questions:** Can you think of some reasons why I do not recommend this kind of analysis?

@@ -200,10 +200,10 @@ summary(students_mult)
 Let's plot the data and see what the lines look like. Below I explicitly extract the coefficients from the lm object for illustrative purposes:
 
 ```{r studentsmultplot}
-equation1 = function(x) {
+equation1 <- function(x) {
     coef(students_mult)[2] * x + coef(students_mult)[1]
 }
-equation2 = function(x) {
+equation2 <- function(x) {
     coef(students_mult)[2] * x + coef(students_mult)[1] + coef(students_mult)[3]
 }
 

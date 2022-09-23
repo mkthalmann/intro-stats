@@ -10,6 +10,8 @@ All the code is available on the website (with a handy button that pops up to co
 
 All the data sets that I use are on github here: https://github.com/mkthalmann/intro-stats in the folder `assets/data/`. Please feel free to download them and play around. The code for the plots (and everyting else) can be found in the `.Rmd` files.
 
+The code for our practice sessions can be found on GitHub as well: `assets/scripts/`.
+
 If you want to make sure you have all the relevant packages you need for the class here, these are the main ones:
 
 ```{r packages, eval=FALSE}

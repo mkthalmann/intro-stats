@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Concepts and Background | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics</title>
   <meta name="description" content="This book introduces inferential statistics using R and is based on a class I taught at the University of Göttingen for the Corpus Annotation and Data Analysis equinox school in September 2022." />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Concepts and Background | Corpus Annotation and Data Analysis Equinox School: Introduction to Statistics" />
   <meta property="og:type" content="book" />
@@ -260,16 +260,16 @@ div.csl-indent {
 <p>We will see how far we get each session. It is no problem at all if we do not cover all the material that is on the website for each slot. So, again, please ask any questions you may have.</p>
 <p>All the code is available on the website (with a handy button that pops up to copy it to your clipboard)—except for code for most of the plots. So please do not spend the time to copy the code by hand.</p>
 <p>All the data sets that I use are on github here: <a href="https://github.com/mkthalmann/intro-stats" class="uri">https://github.com/mkthalmann/intro-stats</a> in the folder <code>assets/data/</code>. Please feel free to download them and play around. The code for the plots (and everyting else) can be found in the <code>.Rmd</code> files.</p>
+<p>The code for our practice sessions can be found on GitHub as well: <code>assets/scripts/</code>.</p>
 <p>If you want to make sure you have all the relevant packages you need for the class here, these are the main ones:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="2-concepts-and-background.html#cb10-1" aria-hidden="true" tabindex="-1"></a>pkg <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb10-2"><a href="2-concepts-and-background.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;here&quot;</span>, <span class="co"># better working directory</span></span>
 <span id="cb10-3"><a href="2-concepts-and-background.html#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;tidyverse&quot;</span>, <span class="co"># data wrangling and plotting</span></span>
 <span id="cb10-4"><a href="2-concepts-and-background.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;broom&quot;</span>, <span class="co"># tidy lm summary</span></span>
 <span id="cb10-5"><a href="2-concepts-and-background.html#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;afex&quot;</span>, <span class="co"># ANOVA and linear mixed models</span></span>
-<span id="cb10-6"><a href="2-concepts-and-background.html#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lme4&quot;</span>, <span class="co"># linear mixed models</span></span>
-<span id="cb10-7"><a href="2-concepts-and-background.html#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;parellel&quot;</span> <span class="co"># allows parallel processing</span></span>
-<span id="cb10-8"><a href="2-concepts-and-background.html#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-9"><a href="2-concepts-and-background.html#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(pkg)</span></code></pre></div>
+<span id="cb10-6"><a href="2-concepts-and-background.html#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lme4&quot;</span> <span class="co"># linear mixed models</span></span>
+<span id="cb10-7"><a href="2-concepts-and-background.html#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-8"><a href="2-concepts-and-background.html#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(pkg)</span></code></pre></div>
 <p>To load the packages, you can use the <code>library()</code> command with the (unquoted) package name.</p>
 <p>If you ever need a refresher on how a function works, say <code>sum()</code>, you can use the <code>?</code> call:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="2-concepts-and-background.html#cb11-1" aria-hidden="true" tabindex="-1"></a>?sum</span></code></pre></div>

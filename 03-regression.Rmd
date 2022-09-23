@@ -8,7 +8,7 @@ We talked about this briefly yesterday, today we should dive into the theory a l
 
 As you may remember from school, we can describe a line as follows, where $b_0$ is the intercept, $b_1$ the slope, and $e$ is the error term: 
 
-$$y = b_0 + b_1 + x + e$$
+$$y = b_0 + b_1x + e$$
 
 But let us take a step back first. Say this is our data:
 

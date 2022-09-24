@@ -215,6 +215,7 @@ div.csl-indent {
 <li class="chapter" data-level="5.3.2" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#model-output-comparisons"><i class="fa fa-check"></i><b>5.3.2</b> Model output comparisons</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#what-do-i-do-about-my-p-values"><i class="fa fa-check"></i><b>5.4</b> What do I do about my <span class="math inline">\(p\)</span>-values?</a></li>
+<li class="chapter" data-level="5.5" data-path="5-linear-mixed-models.html"><a href="5-linear-mixed-models.html#model-plots"><i class="fa fa-check"></i><b>5.5</b> Model plots</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="6-loose-ends.html"><a href="6-loose-ends.html"><i class="fa fa-check"></i><b>6</b> Loose ends</a>
 <ul>
@@ -851,6 +852,49 @@ div.csl-indent {
 ## stage:issue:trigger_cat 24 34.5869      2   0.000000030870781952 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="model-plots" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Model plots<a href="5-linear-mixed-models.html#model-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Yesterday, we plotted the coefficients that our different models predicted by adding lines to our data. Earlier today, we also plotted the by-participant random effects. As a final step, let us look at the fixed effects for one of the linear mixed models.</p>
+<p>To make everything a little bit easier, I will revert back to a subset of the data. This way, you can also compare the lines to the ones we saw yesterday.</p>
+<pre><code>## Contrasts set to contr.sum for the following variables: id, itemid</code></pre>
+<pre><code>## Numerical variables NOT centered on 0: issue, trigger_cat
+## If in interactions, interpretation of lower order (e.g., main) effects difficult.</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: judgment ~ issue + trigger_cat + (issue + trigger_cat | id) +      (issue | itemid)
+##    Data: data
+## 
+## REML criterion at convergence: 1852.3
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.59794 -0.55997  0.08329  0.56800  3.02450 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr         
+##  id       (Intercept) 0.40416  0.63574               
+##           issue       0.13944  0.37342  -0.497       
+##           trigger_cat 0.29028  0.53878  -0.833  0.501
+##  itemid   (Intercept) 0.18556  0.43076               
+##           issue       0.98122  0.99056  -0.818       
+##  Residual             0.74859  0.86521               
+## Number of obs: 657, groups:  id, 33; itemid, 20
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value              Pr(&gt;|t|)    
+## (Intercept)  4.69103    0.16819 19.48028 27.8912 &lt; 0.00000000000000022 ***
+## issue       -1.54770    0.24265 20.84445 -6.3783           0.000002621 ***
+## trigger_cat -0.51881    0.16327 28.97605 -3.1775              0.003516 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) issue 
+## issue       -0.580       
+## trigger_cat -0.639  0.096</code></pre>
+<pre><code>## (Intercept)       issue trigger_cat 
+##  4.69103315 -1.54770221 -0.51880977</code></pre>
+<p><img src="figs/fixefplot-1.png" width="100%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

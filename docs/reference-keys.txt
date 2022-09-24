@@ -58,6 +58,7 @@ random-effects
 lets-have-a-bit-more-of-a-detailed-look
 model-output-comparisons
 what-do-i-do-about-my-p-values
+model-plots
 loose-ends
 long-computation-times
 convergence-issues

@@ -67,3 +67,23 @@ Some people argue for parsimonious models: @matuschek2017type.
 Others prefer the most maximal random effects structure: @barr2013randomeffects.
 
 The most common way in the field currently seems to be the second one, but I am not so sure this is right.
+
+## Differences between linear and generalized linear models
+
+**Linear models (LM)** describe a linear relationship between the response variable and the predictors. The linear relationship is found in the raw data. The residuals are captured via the epsilon in the model model formula.
+
+$$y_i = \beta_0 + \beta_1x_i + \epsilon$$
+
+The probability distribution of the response variable is assumed to be the normal distribution.
+
+Assumes variance homogeneity.
+
+**Generalized linear models (GLN)** describe a relationship between the mean of the response variable and the predictors. The linear approximation of the mean is established via a link function ($f$ below) -- logistic regression used log-odds, Poisson regression uses natural log. Since only conditional means are modelled, there is no error term: 
+
+$$f(\mu_{y|x}) = \beta_0 + \beta_1x_i$$
+
+The probability distribution of the response variable varies by the kind of family: Poisson, binomial. etc.
+
+Variance homogeneity is impossible for Poisson regression, it is always heteroscedastic: Since the Poisson distribution depends only on the a single parameter, as the mean increases, so does the variance. 
+
+Because of the single parameter that the poisson distribution estimates, its assumption is that the mean and the variance of the response are equal. If this is not the case, then the model is overdispersed, and should not be used to calculate significance, as it underestimates the standard errors and thus becomes anticonservative. Alternative models in these situations are the quasipoisson model, where the standard errors are articificially inflated to correct for the assumption violation or the negative binomial model, which has an additional parameter. But note that negative binomial models assume that mean and variance are not equal, so they shoul not be used when the assumptions of the Poisson regression are met.

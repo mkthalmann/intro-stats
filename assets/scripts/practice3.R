@@ -6,6 +6,7 @@ library(tidyverse)
 library(afex)
 library(lme4)
 library(broom)
+library(ggeffects)
 
 # load the data
 d_psp_full <- read_csv(
@@ -130,6 +131,10 @@ d_psp %>%
         y = "Judgment \u00B1 SE"
     )
 
+# here's an alternative way of plotting this
+mydf_both <- ggpredict(psp_both, terms = c("issue", "trigger_cat"))
+plot(mydf_both, add.data = TRUE)
+
 
 # yes interaction
 psp_int <- lm(judgment ~ 1 + issue * trigger_cat, data = d_psp)
@@ -155,3 +160,6 @@ d_psp %>%
         y = "Judgment \u00B1 SE"
     ) +
     geom_smooth(method = "lm", se = FALSE)
+
+mydf_int <- ggpredict(psp_int, terms = c("issue", "trigger_cat"))
+plot(mydf_int, add.data = TRUE)

@@ -1,0 +1,155 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{lmodern}
+\usepackage{graphicx}
+
+\begin{document}
+
+Random intercept model, integrated mean:
+
+$$
+\begin{aligned}
+  \operatorname{judgment}_{i}  &\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{issue}_{\operatorname{non-at-}}), \sigma^2 \right) \\
+    \alpha_{j}  &\sim N \left(\mu_{\alpha_{j}}, \sigma^2_{\alpha_{j}} \right)
+    \text{, for id j = 1,} \dots \text{,J}
+\end{aligned}
+$$
+
+Random intercept model, separate mean, treatment coding:
+
+$$
+\begin{aligned}
+  \operatorname{judgment}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
+    \mu &=\alpha_{j[i]} + \beta_{1}(\operatorname{issue}_{\operatorname{non-at-}}) \\
+    \alpha_{j}  &\sim N \left(\mu_{\alpha_{j}}, \sigma^2_{\alpha_{j}} \right)
+    \text{, for id j = 1,} \dots \text{,J}
+\end{aligned}
+$$
+
+Random intercept model, separate mean, sum coding:
+
+$$
+\begin{aligned}
+  \operatorname{judgment}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
+    \mu &=\alpha_{j[i]} + \beta_{1}(\operatorname{issue}_{\operatorname{1}}) \\
+    \alpha_{j}  &\sim N \left(\mu_{\alpha_{j}}, \sigma^2_{\alpha_{j}} \right)
+    \text{, for id j = 1,} \dots \text{,J}
+\end{aligned}
+$$
+
+By-item and by-participant random intercepts:
+
+$$
+\begin{aligned}
+  \operatorname{judgment}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
+    \mu &=\alpha_{j[i],k[i]} \\
+    \alpha_{j}  &\sim N \left(\gamma_{0}^{\alpha} + \gamma_{1}^{\alpha}(\operatorname{issue}_{\operatorname{1}}), \sigma^2_{\alpha_{j}} \right)
+    \text{, for item j = 1,} \dots \text{,J} \\
+    \alpha_{k}  &\sim N \left(\mu_{\alpha_{k}}, \sigma^2_{\alpha_{k}} \right)
+    \text{, for id k = 1,} \dots \text{,K}
+\end{aligned}
+$$
+
+
+By-participants random intercepts and random slopes (at-issueness):
+
+$$
+\begin{aligned}
+  \operatorname{judgment}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
+    \mu &=\alpha_{j[i]} + \beta_{1j[i]}(\operatorname{issue}_{\operatorname{1}}) \\    
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\alpha_{j} \\
+      &\beta_{1j}
+    \end{aligned}
+  \end{array}
+\right)
+  &\sim N \left(
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\mu_{\alpha_{j}} \\
+      &\mu_{\beta_{1j}}
+    \end{aligned}
+  \end{array}
+\right)
+, 
+\left(
+  \begin{array}{cc}
+     \sigma^2_{\alpha_{j}} & \rho_{\alpha_{j}\beta_{1j}} \\ 
+     \rho_{\beta_{1j}\alpha_{j}} & \sigma^2_{\beta_{1j}}
+  \end{array}
+\right)
+ \right)
+    \text{, for id j = 1,} \dots \text{,J}
+\end{aligned}
+$$
+
+By-participant random intercepts and issue-slopes $+$ by-item random intercepts and issue-slopes:
+
+$$
+\begin{aligned}
+  \operatorname{judgment}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
+    \mu &=\alpha_{j[i],k[i]} \\    
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\alpha_{j} \\
+      &\gamma_{1j}
+    \end{aligned}
+  \end{array}
+\right)
+  &\sim N \left(
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\gamma_{0}^{\alpha} + \gamma_{1k[i]}^{\alpha}(\operatorname{issue}_{\operatorname{1}}) \\
+      &\mu_{\gamma_{1j}}
+    \end{aligned}
+  \end{array}
+\right)
+, 
+\left(
+  \begin{array}{cc}
+     \sigma^2_{\alpha_{j}} & \rho_{\alpha_{j}\gamma_{1j}} \\ 
+     \rho_{\gamma_{1j}\alpha_{j}} & \sigma^2_{\gamma_{1j}}
+  \end{array}
+\right)
+ \right)
+    \text{, for item j = 1,} \dots \text{,J} \\    
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\alpha_{k} \\
+      &\gamma_{1k}
+    \end{aligned}
+  \end{array}
+\right)
+  &\sim N \left(
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\mu_{\alpha_{k}} \\
+      &\mu_{\gamma_{1k}}
+    \end{aligned}
+  \end{array}
+\right)
+, 
+\left(
+  \begin{array}{cc}
+     \sigma^2_{\alpha_{k}} & \rho_{\alpha_{k}\gamma_{1k}} \\ 
+     \rho_{\gamma_{1k}\alpha_{k}} & \sigma^2_{\gamma_{1k}}
+  \end{array}
+\right)
+ \right)
+    \text{, for id k = 1,} \dots \text{,K}
+\end{aligned}
+$$
+
+\newpage
+
+\includegraphics[width=.9\linewidth]{fixed-random-equations.pdf}
+
+\end{document}

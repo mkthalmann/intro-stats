@@ -87,3 +87,94 @@ The probability distribution of the response variable varies by the kind of fami
 Variance homogeneity is impossible for Poisson regression, it is always heteroscedastic: Since the Poisson distribution depends only on the a single parameter, as the mean increases, so does the variance. 
 
 Because of the single parameter that the poisson distribution estimates, its assumption is that the mean and the variance of the response are equal. If this is not the case, then the model is overdispersed, and should not be used to calculate significance, as it underestimates the standard errors and thus becomes anticonservative. Alternative models in these situations are the quasipoisson model, where the standard errors are articificially inflated to correct for the assumption violation or the negative binomial model, which has an additional parameter. But note that negative binomial models assume that mean and variance are not equal, so they shoul not be used when the assumptions of the Poisson regression are met.
+
+
+## What are random effects?
+
+Across participants (and items) the average adjustment required to account for differences will be zero: Some will be faster, and some will be slower. This is the nature of random effects.
+This is why in the model output of a linear mixed model, you will never see an estimate (a mean) for the random effects: They are always zero. But they do have some variance, which is reported. (Together will the residuals, these also a random effect with mean zero and some unknown variance estimated by the model)
+
+Fixed effects, of course, are completely different and will have both estimated mean and variance.
+
+
+## Probability
+
+A probability problem can usually be broken down into a few basic steps:
+
+a. The description of the sample space, that is, the set of possible outcomes of a given experiment.
+b. The (possibly indirect) specification of the probability law (the probability of each event).
+b. The calculation of probabilities and conditional probabilities of various events of interest.
+
+The probabilities of events must satisfy the nonnegativity, additivity, and normalization axioms. In the important special case where the set of possible outcomes is finite, one can just specify the probability of each outcome and obtain the probability of any event by adding the probabilities of the elements of the events.
+
+Given a probability law, were are often interested in conditional probabilities, which allow us to reason based on partial information about the outcome of the experiment. We can view conditional probabilities as probability laws of a special type, under which only outcomes contained in the conditioning event can have positive conditional probability. 
+
+### Axioms
+
+- **Nonnegativity**: $P(A) >= 0$, for every event $A$
+- **Additivity**: If $A$ and $B$ are two disjoint events, then the probability of their union satisfies: $P(A \cup B) = P(A) + P(B)$.
+- **Normalization**: The probability of the entire sample space $\sigma$ is equal to $1$, that is, $P(\sigma) = 1.$
+
+Additional properties of probability law, which can be derived from the axioms above, is that the probability of the empty event is $0$, $P(\emptyset) = 0$.
+
+Here are some more:
+
+- If $A \subset B$, then $P(A) <= P(B)$
+- $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+- $P(A \cup B) <= P(A) + P(B)$
+- $P(A \cup B \cup C) = P(A) + P(B \ A) + P(C \ B \ A )$
+
+### Conditional Probability
+
+$P(A | B) = \frac{\text{number of elements of } A \cap B}{\text{number of elements of }B}$
+
+more generally:
+
+$P(A | B) = \frac{P(A \cap B)}{P(B)}$
+
+### Toal Probability Theorem
+
+Let $A_1, \ldots{}, A_n$ be disjoint events that form a partition of the sample space and assume that $P(A_i) > 0$, for all $i$. Then, for any event $B$, we have
+
+$$ P(B) = P(A_1 \cap B) + \ldots + P(A_n \cap B)
+ = P(A_1)P(B|A_1) + \ldots + P(A_n)P(B | A_n).
+$$
+
+### Bayes' Rule
+
+Let $A_1. A_2, \ldots, A_n$ be disjoint events that form a partition of the sample space, and assume that $P(A_i) > 0$, for all $i$. Then, for any event $B$ such that $P(B) > 0$, we have
+
+$$
+P(A_i | B) = \frac{P(A_i)P(B | A_i)}{P(B)}
+
+= \frac{P(A_i)P(B | A_i)}{ = P(A_1)P(B|A_1) + \ldots + P(A_n)P(B | A_n)}
+$$
+
+In inference, we refer to P(A_i | B) as the posterior probability of event $A_i$ (for $A_i$ as causal events of some effect event $B$). The prior probability of $A_i$ is $P(A_i)$.
+
+Note: Independence between $A$ and $B$ exists if the following holds: $P(A | B) = P(A)$. An alternative definition is this: $P(A \cap B) = P(A)P(B)$. This definition is nice because it also works when $P(B) = 0$. The first definition is simply undefined in that case.
+
+### The Counting Principle
+
+Consider a process that consists of $r$ stages. Suppose that:
+
+a. There are $n_1$ possible results at this first stage.
+b. Foe every possible result at the first stage, there are $n_2$ possible results at the second stage.
+b. More generally, the any sequence of possible results at the first $i-1$ stages, there are $n_i$ possible results at the $i$th stage. Then, the total number of possible results of the $r$-stage process is: $n_1n_2\ldots{}n_r$
+
+### Summary of Countin Results
+
+- **Permutations** of $n$ objects: $n!$
+- $k$-**Permutations** of $n$ objects: $n!/(n-k)!$
+- Combinations of $k$ out of $n$ objects: $$\left(
+    \begin{array}{c}
+        n\\
+        k\\
+    \end{array}\right) = \frac{n!}{k!(n-k)!}$$.
+- **Partitions** of $n$ objects into $r$ groups, with the $i$th group having $n_i$ objects:
+
+ $$\left(
+    \begin{array}{c}
+        n\\
+        n_1,n_2,\ldots{},n_i\\
+    \end{array}\right) = \frac{n!}{n_1!n_2!\ldots{}n_r!}$$.

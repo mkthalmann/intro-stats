@@ -12,3 +12,4 @@
 assets/scripts/theme.R
 summer-school-inference_cache
 !*.JPG
+*.log

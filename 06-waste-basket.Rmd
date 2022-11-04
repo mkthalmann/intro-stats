@@ -99,6 +99,8 @@ Fixed effects, of course, are completely different and will have both estimated 
 
 ## Probability
 
+All from @bertsekas2008introduction
+
 A probability problem can usually be broken down into a few basic steps:
 
 a. The description of the sample space, that is, the set of possible outcomes of a given experiment.

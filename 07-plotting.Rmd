@@ -1,0 +1,178 @@
+# Plotting
+
+Let's explore how to plot data in R.
+
+Contrary to the impression you might have---people almost never talk about plots and focus entirely on the statistics---for the majority of readers of your papers or members in your audience, visualizing your data is the most crucial step.
+
+In what is to come we will work with the most important plotting framework in R: `ggplot2`.
+
+In addition to being quite easy to learn (simple plots can be made with as little as two lines of R code), it is also very flexible when it comes to more complex visualizations. In addition, it is super popular and the de facto standard for plotting in R (as well as the inspiration for a lot of plotting solutions in Python and friends).
+
+In what is to come we will have a look at two kinds of plots.
+- descriptive plots: These are the ones you will encounter most often. They summarize your data and give your audience an impression of the results of your data collection efforts.
+- inferential plots. These plots are used to describe the inferential statistics that were run on the data. These are little bit more rare, but they are gaining traction, especially in fields whith large amounts of data.
+
+We will spend considerably more time on the first type. This has several reasons:
+- descriptive plots are simply more important, see above.
+- inferential plots are a little bit harder to do and require a deeper understanding of the statistical processes behind the models that were run on the data.
+- there are a lot of ready-made solutions for inferential plots, some of which we will see later on.
+
+## The basics
+
+Here's some data. This is from an experiment I carried out with two colleagues of mine. 
+
+```{r}
+library(here)
+library(tidyverse)
+
+d <- read_csv("https://raw.githubusercontent.com/mkthalmann/intro-stats/master/assets/data/psp-data.csv")
+d
+```
+
+In ggplot2, plots always begin the same way: We need to describe the aesthetics, i.e., the main features of the plot. Generally these will be the x-axis and y-axis columns in your data, but sometimes also color attributes and so on.
+
+Let's start small.
+
+```{r}
+d %>%
+    ggplot(aes(x = gender, y = age))
+```
+
+So, we specified the aesthetics, but we are not seeing anything besides the axes. Why? Because we need to tell ggplot what kind of a plot we would like.
+
+Let's first do a so-called scatterplot, where each data point is a dot on the plot. In ggplot2 speak, we need to add a point geometry.
+
+To add more elements to our plot, we simply add a `+` and add the new command on a new line:
+
+```{r}
+d %>%
+    ggplot(aes(x = gender, y = age)) +
+    geom_point()
+```
+
+However, what if there is more than one person for a gender-age combination in our data set? With the scatterplot, we would not notice this.
+
+But there is a way of remedying this, so-called jitterplots.
+
+Let's add the geometry for this:
+
+```{r}
+d %>%
+    ggplot(aes(x = gender, y = age)) +
+    geom_jitter()
+```
+
+Now, how about some color? As you might remember, we do this via the aesthetics of the plot:
+
+```{r}
+d %>%
+    ggplot(aes(x = gender, y = age, color = stage)) +
+    geom_jitter()
+```
+
+But there are more things we could change looks-wise. Let's also change the point shape based on age group
+
+```{r}
+d %>%
+    ggplot(aes(x = gender, y = age, color = stage, pch = stage)) +
+    geom_jitter()
+```
+
+Let's assume that we are happy with this plot. There are still a couple of issues that we should fix.
+
+First, there's the labels. Up until now, ggplot2 just took the names of our columns, which is often not what we want. We can fix all of this using the `labs()` command:
+
+```{r}
+d %>%
+    ggplot(aes(x = gender, y = age, color = stage, pch = stage)) +
+    geom_jitter() +
+    labs(
+        x = "Self-identified Gender",
+        y = "Age in Years",
+        pch = "Age Group",
+        color = "Age Group"
+    )
+```
+
+Next, I want to show you some other geometries, but to do this, we will look at another data set. We will return to the other one shortly:
+
+```{r}
+# this dataset is included in ggplot
+head(diamonds)
+```
+
+Let's create a plot we $y$ is the price of the diamonds, and $x$ their size:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, y = price)) +
+    geom_jitter()
+```
+
+Okay, now for a new geometry:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, y = price)) +
+    geom_line()
+```
+
+Let's add some color:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, y = price, color = color)) +
+    geom_line()
+```
+
+It might be easier to tell what's going on if the lines were a little bit transparent:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, y = price, color = color)) +
+    geom_line(alpha = .5)
+```
+
+Better, not not quite good enough. How about having a separate plot for each color?
+
+In ggplot2, we can do this via the `facet_wrap()` command:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, y = price, color = color)) +
+    geom_line() +
+    facet_wrap(~ color)
+```
+
+How about we create a plain-and-simple histogram now? These are fairly common:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat)) +
+    geom_histogram()
+```
+
+Some color differentiation, please:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, fill = color)) +
+    geom_histogram()
+```
+
+We can also put the bars next to each other:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, fill = color)) +
+    geom_histogram(position = position_dodge())
+```
+
+How about we add a facetting command again, but this time we use it for a variable we do not have in our plot yet:
+
+```{r}
+diamonds %>%
+    ggplot(aes(x = carat, fill = color)) +
+    geom_histogram(position = position_dodge()) +
+    facet_wrap(~ cut)
+```

@@ -180,3 +180,90 @@ b. More generally, the any sequence of possible results at the first $i-1$ stage
         n\\
         n_1,n_2,\ldots{},n_i\\
     \end{array}\right) = \frac{n!}{n_1!n_2!\ldots{}n_r!}$$.
+
+## Generalized Linear Models in Plots
+
+Need a link function because they're not continuous but discrete. For $Bernoulli$/$Binomial$ models, we thus use log-odds as a link function:
+
+$$
+Bernoulli(\theta)
+$$
+
+$$
+log(\frac{\theta}{1-\theta})
+$$
+
+Here is an example of what this does graphically, but see also `qlogit(x)` for the logit function and `plogit(x)` for the inverse logit function.
+
+```{r logodds}
+x <- seq(0.001, 0.99, by = 0.001)
+y <- log(x / (1 - x))
+
+tibble(theta = x, eta = y) %>%
+    ggplot(aes(x = theta, y = eta)) +
+    geom_line() +
+    annotate(
+        "text",
+        x = .3,
+        y = 4,
+        label = expression(paste(eta, "=", g(theta))),
+        parse = TRUE,
+        size = 8
+    ) +
+    labs(
+        title = "Logit link",
+        x = "\u03b8",
+        y = "\u03b7"
+    )
+```
+
+```{r loggoddsinv}
+tibble(theta = x, eta = y) %>%
+    ggplot(aes(x = eta, y = theta)) +
+    geom_line() +
+    annotate(
+        "text",
+        x = -4,
+        y = .8,
+        label = expression(paste(theta, "=", g^-1 ~ (eta))),
+        parse = TRUE,
+        size = 8
+    ) +
+    labs(
+        title = "Inverse logit link",
+        x = "\u03b7",
+        y = "\u03b8"
+    )
+```
+
+## Pretty vs. ugly plots
+
+![Dr. Nyssa Silbiger](https://twitter.com/NSilbiger/status/1642006283103662080?s=20):
+
+> my students crushed their good plot/bad plot assignment and really took making the worst plots possible to heart.
+
+```{r embedtweet}
+# devtools::install_github("gadenbuie/tweetrmd")
+
+# necessary if your output type is not html (as far as I can tell)
+# devtools::install_github("rstudio/webshot2")
+
+# this is a webshot2 requirement
+# install.packages("magick")
+
+library(twittrmd)
+include_tweet("https://twitter.com/NSilbiger/status/1642006294520561666?s=20")
+```
+
+## allfit
+
+```{r}
+fit <- lmer(judgment ~ stage * issue * trigger_cat + (1 | id) + (1 | item),
+    data = d, REML = TRUE
+)
+# fit with all available optimizers, make sure that 'dfoptim' and 'optimx'
+# are installed
+multi_fit <- allFit(fit)
+# show results
+summary(multi_fit)$fixef
+```

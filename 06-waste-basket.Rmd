@@ -267,3 +267,11 @@ multi_fit <- allFit(fit)
 # show results
 summary(multi_fit)$fixef
 ```
+
+## Reporting statistics: effect sizes
+
+![Henrik Singmann (2023)](https://twitter.com/henriksingmann/status/1687675111455780864?s=46)
+
+![Effect Sizes](assets/media/effectsizes.jpg)
+
+@wilkinson1999methods

@@ -176,3 +176,5 @@ diamonds %>%
     geom_histogram(position = position_dodge()) +
     facet_wrap(~ cut)
 ```
+
+Some general guidelines on data viz: https://royal-statistical-society.github.io/datavisguide/docs/
